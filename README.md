@@ -4,16 +4,18 @@
 
 
 ## Info
+Die Spielidee ist es ein zweidimensionales Jump and Run im Mario ähnlichen Stil zu erstellen. Wobei man im Verlauf des Spiels die einzelnen Zeitalter der 
+Menschheit durchläuft. Das Spiel startet in der Steinzeit und endet in der Zukunft, wobei der Charakter verschiedene Gegenstände nutzt, um die Level zu 
+bestehen. 
+
+
+## Gruppe
+
 - Jonathan Schlidt @jonathan.schlidt
 - Moritz Ullrich @moritz.ullrich
 - Mohamed Elslakawy @mohamed.elslakawy
 - Rahaman Walter Dongmepi Wendji @rahaman.dongmepi
 - Martin Boschmann @martin.boschmann
-
-
-## Gruppe
-
-- N.N @nn
 
 ### Rollen 
 
