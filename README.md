@@ -3,7 +3,11 @@
 
 
 ## Info
-- TBD
+- Jonathan Schlidt @jonathan.schlidt
+- Moritz Ullrich @moritz.ullrich
+- Mohamed Elslakawy @mohamed.elslakawy
+- Rahaman Walter Dongmepi Wendji @rahaman.dongmepi
+- Martin Boschmann @martin.boschmann
 
 
 ## Gruppe
