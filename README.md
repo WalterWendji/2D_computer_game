@@ -19,7 +19,7 @@ bestehen.
 
 ### Rollen 
 
-- Product Owner: @rahaman.dongmepi
+- Product Owner: Rahaman Walter Dongmepi Wendji @rahaman.dongmepi
 - TBD
 
 
