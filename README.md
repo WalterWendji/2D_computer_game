@@ -19,7 +19,7 @@ bestehen.
 
 ### Rollen 
 
-- Product Owner: N.N @nn
+- Product Owner: @rahaman.dongmepi
 - TBD
 
 
