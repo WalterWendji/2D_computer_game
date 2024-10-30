@@ -35,7 +35,8 @@ steps:
   compile-and-analyze:
     image: thowl/monogame:1.3
     environment:
-      - SONAR_HOST=https://sonar.aes.th-owl.de
+    #- SONAR_HOST=https://sonar.aes.th-owl.de
+      - SONAR_HOST=http://localhost:9000
     commands:
       - dotnet restore
       - dotnet sonarscanner begin /k:$PROJECT_KEY /d:sonar.host.url=$SONAR_HOST /d:sonar.token=$SONAR_TOKEN /v:$CI_COMMIT_BRANCH
