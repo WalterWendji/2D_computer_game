@@ -1,6 +1,6 @@
 using System;
 
-namespace CODE_OF_STORY;
+namespace CODE_OF_STORY.Core;
 
 /* Implements playback of 
 the animation stored by Animation.

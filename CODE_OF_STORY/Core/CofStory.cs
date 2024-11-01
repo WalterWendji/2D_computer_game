@@ -1,17 +1,19 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CODE_OF_STORY.Managers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace CODE_OF_STORY;
+namespace CODE_OF_STORY.Core;
 
 /* Implements major game components 
 such as content and level loading, 
 HUD management and display, and game 
-object updating. */
+object updating. That is also the "Game1" class. */
 public class CofStory : Game
 {
-    private GraphicsDeviceManager _graphics;
+    private static GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+    private GameStateManager gameStateManager;
 
     public CofStory()
     {
@@ -22,16 +24,18 @@ public class CofStory : Game
 
     protected override void Initialize()
     {
-        // TODO: Add your initialization logic here
-
+        _graphics.PreferredBackBufferWidth = Data.screenW;
+        _graphics.PreferredBackBufferHeight = Data.screenH;
+        _graphics.ApplyChanges();
+        gameStateManager = new GameStateManager();
         base.Initialize();
     }
 
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+        gameStateManager.LoadContent(Content);
 
-        // TODO: use this.Content to load your game content here
     }
 
     protected override void Update(GameTime gameTime)
@@ -39,7 +43,7 @@ public class CofStory : Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        // TODO: Add your update logic here
+        gameStateManager.Update(gameTime);
 
         base.Update(gameTime);
     }
@@ -48,7 +52,9 @@ public class CofStory : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        // TODO: Add your drawing code here
+        _spriteBatch.Begin();
+        gameStateManager.Draw(_spriteBatch);
+        _spriteBatch.End();
 
         base.Draw(gameTime);
     }

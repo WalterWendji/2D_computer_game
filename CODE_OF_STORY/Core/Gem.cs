@@ -1,6 +1,6 @@
 using System;
 
-namespace CODE_OF_STORY;
+namespace CODE_OF_STORY.Core;
 
 /* Implements a floating gem in the game.
  Gems are collectable by the player, 
