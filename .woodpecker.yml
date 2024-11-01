@@ -24,8 +24,9 @@ steps:
   compile:
     image: thowl/monogame:1.3
     commands:
-      - dotnet restore
+      - dotnet restore $${GAME_PROJECT}.sln
       - dotnet build --configuration Debug
+    secrets: [ game_project ]
     when:
         - branch:
             exclude: [main, release]
@@ -38,7 +39,7 @@ steps:
     environment:
       - SONAR_HOST=https://sonar.aes.th-owl.de
     commands:
-      - dotnet restore
+      - dotnet restore $${GAME_PROJECT}.sln
       - dotnet sonarscanner begin /k:$PROJECT_KEY /d:sonar.scanner.skipJreProvisioning=true /d:sonar.host.url=$SONAR_HOST /d:sonar.token=$SONAR_TOKEN /v:$CI_COMMIT_BRANCH
       - dotnet build --configuration Release
       - dotnet sonarscanner end /d:sonar.token=$SONAR_TOKEN
