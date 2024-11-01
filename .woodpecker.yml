@@ -43,7 +43,7 @@ steps:
       - dotnet sonarscanner begin /k:$PROJECT_KEY /d:sonar.scanner.skipJreProvisioning=true /d:sonar.host.url=$SONAR_HOST /d:sonar.token=$SONAR_TOKEN /v:$CI_COMMIT_BRANCH
       - dotnet build --configuration Release
       - dotnet sonarscanner end /d:sonar.token=$SONAR_TOKEN
-    secrets: [ project_key, sonar_token]
+    secrets: [ project_key, sonar_token, game_project ]
     when:
       - branch: [main, release]
         event: [push, tag, manual]
