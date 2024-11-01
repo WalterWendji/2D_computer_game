@@ -1,9 +1,10 @@
 [![status-badge](https://ci.aes.th-owl.de/api/badges/9/status.svg)](https://ci.aes.th-owl.de/repos/9)
-[![Quality Gate Status](https://sonar.aes.th-owl.de/api/project_badges/measure?project=Sopra24%3AGruppe-2&metric=alert_status&token=sqb_cb5ea70fdc42e96527d9b31af679ef2eb793dde7)](https://sonar.aes.th-owl.de/dashboard?id=Sopra24%3AGruppe-2)
-[![Maintainability Rating](https://sonar.aes.th-owl.de/api/project_badges/measure?project=Sopra24%3AGruppe-2&metric=sqale_rating&token=sqb_cb5ea70fdc42e96527d9b31af679ef2eb793dde7)](https://sonar.aes.th-owl.de/dashboard?id=Sopra24%3AGruppe-2)
-[![Security Rating](https://sonar.aes.th-owl.de/api/project_badges/measure?project=Sopra24%3AGruppe-2&metric=security_rating&token=sqb_cb5ea70fdc42e96527d9b31af679ef2eb793dde7)](https://sonar.aes.th-owl.de/dashboard?id=Sopra24%3AGruppe-2)
-[![Lines of Code](https://sonar.aes.th-owl.de/api/project_badges/measure?project=Sopra24%3AGruppe-2&metric=ncloc&token=sqb_cb5ea70fdc42e96527d9b31af679ef2eb793dde7)](https://sonar.aes.th-owl.de/dashboard?id=Sopra24%3AGruppe-2)
-[![Duplicated Lines (%)](https://sonar.aes.th-owl.de/api/project_badges/measure?project=Sopra24%3AGruppe-2&metric=duplicated_lines_density&token=sqb_cb5ea70fdc42e96527d9b31af679ef2eb793dde7)](https://sonar.aes.th-owl.de/dashboard?id=Sopra24%3AGruppe-2)
+[![Quality Gate Status](https://sonar.aes.th-owl.de/api/project_badges/measure?project=Sopra24%3AGruppe-2&metric=alert_status&token=sqb_cd4fd163e62ac73edcea9a2cd68c1d5071c8fcda)](https://sonar.aes.th-owl.de/dashboard?id=Sopra24%3AGruppe-2)
+[![Maintainability Rating](https://sonar.aes.th-owl.de/api/project_badges/measure?project=Sopra24%3AGruppe-2&metric=sqale_rating&token=sqb_cd4fd163e62ac73edcea9a2cd68c1d5071c8fcda)](https://sonar.aes.th-owl.de/dashboard?id=Sopra24%3AGruppe-2)
+[![Security Rating](https://sonar.aes.th-owl.de/api/project_badges/measure?project=Sopra24%3AGruppe-2&metric=security_rating&token=sqb_cd4fd163e62ac73edcea9a2cd68c1d5071c8fcda)](https://sonar.aes.th-owl.de/dashboard?id=Sopra24%3AGruppe-2)
+[![Lines of Code](https://sonar.aes.th-owl.de/api/project_badges/measure?project=Sopra24%3AGruppe-2&metric=ncloc&token=sqb_cd4fd163e62ac73edcea9a2cd68c1d5071c8fcda)](https://sonar.aes.th-owl.de/dashboard?id=Sopra24%3AGruppe-2)
+[![Duplicated Lines (%)](https://sonar.aes.th-owl.de/api/project_badges/measure?project=Sopra24%3AGruppe-2&metric=duplicated_lines_density&token=sqb_cd4fd163e62ac73edcea9a2cd68c1d5071c8fcda)](https://sonar.aes.th-owl.de/dashboard?id=Sopra24%3AGruppe-2)
+[![Code Smells](https://sonar.aes.th-owl.de/api/project_badges/measure?project=Sopra24%3AGruppe-2&metric=code_smells&token=sqb_cd4fd163e62ac73edcea9a2cd68c1d5071c8fcda)](https://sonar.aes.th-owl.de/dashboard?id=Sopra24%3AGruppe-2)
 
 # Projekt: 2D Abenteuerspiel
 
