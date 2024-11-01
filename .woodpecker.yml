@@ -52,9 +52,9 @@ steps:
   deploy:
     image: thowl/monogame:1.3
     commands:
-        - dotnet publish --runtime win-x64 --configuration Release --self-contained=false
+        - dotnet publish --runtime win-x64 --configuration Release --self-contained=false $${GAME_PROJECT}
         - mkdir dist
-        - 7z a dist/$${GAME_PROJECT}_win-x64.zip $${GAME_PROJECT}/bin/Release/net6.0/win-x64/publish/*
+        - 7z a dist/$${GAME_PROJECT}_win.zip $${GAME_PROJECT}/bin/Release/net6.0/win-x64/publish/*
         - echo "ready for deployment:"
         - ls dist/*
     secrets: [ game_project ]
