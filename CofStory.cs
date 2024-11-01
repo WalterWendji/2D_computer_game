@@ -2,8 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Gruppe_2;
+namespace CODE_OF_STORY;
 
+/* Implements major game components 
+such as content and level loading, 
+HUD management and display, and game 
+object updating. */
 public class CofStory : Game
 {
     private GraphicsDeviceManager _graphics;

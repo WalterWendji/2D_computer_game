@@ -1,2 +1,2 @@
-﻿using var game = new Gruppe_2.CofStory();
+﻿using var game = new CODE_OF_STORY.CofStory();
 game.Run();
