@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace CODE_OF_STORY
+namespace CODE_OF_STORY.Core
 {
     public class Game1 : Game
     {
