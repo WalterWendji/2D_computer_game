@@ -14,7 +14,8 @@ public class CofStory : Game
     private static GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private GameStateManager gameStateManager;
-
+    private Player player;
+    private Texture2D playerTexture;
     public CofStory()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -36,12 +37,19 @@ public class CofStory : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         gameStateManager.LoadContent(Content);
 
+        playerTexture = Content.Load<Texture2D>("Player_Level1/Warrior_1/Run");
+        player = new Player(playerTexture, new Vector2(100, 100));
+
     }
 
     protected override void Update(GameTime gameTime)
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
+        if (player != null)
+            {
+                player.Update(gameTime);
+            }
 
         gameStateManager.Update(gameTime);
 
@@ -55,6 +63,11 @@ public class CofStory : Game
         _spriteBatch.Begin();
         gameStateManager.Draw(_spriteBatch);
         _spriteBatch.End();
+
+        _spriteBatch.Begin();
+        player.Draw(_spriteBatch);
+        _spriteBatch.End();
+
 
         base.Draw(gameTime);
     }

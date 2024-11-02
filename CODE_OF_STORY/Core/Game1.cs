@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CODE_OF_STORY.Core;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
