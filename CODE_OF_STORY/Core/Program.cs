@@ -1,2 +1,2 @@
-﻿using var game = new CODE_OF_STORY.Core.CofStory();
+﻿using var game = new CODE_OF_STORY.Core.Game1();
 game.Run();

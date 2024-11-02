@@ -1,53 +1,74 @@
-﻿using CODE_OF_STORY.Core;
+﻿using CODE_OF_STORY.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace CODE_OF_STORY.Core
+namespace CODE_OF_STORY.Core;
+
+/* Implements major game components 
+such as content and level loading, 
+HUD management and display, and game 
+object updating. That is also the "Game1" class. */
+public class Game1 : Game
 {
-    public class Game1 : Game
+    private static GraphicsDeviceManager _graphics;
+    private SpriteBatch _spriteBatch;
+    private GameStateManager gameStateManager;
+    private Player player;
+    private Texture2D playerTexture;
+    public Game1()
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        _graphics = new GraphicsDeviceManager(this);
+        Content.RootDirectory = "Content";
+        IsMouseVisible = true;
+    }
 
-        public Game1()
-        {
-            _graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-            IsMouseVisible = true;
-        }
+    protected override void Initialize()
+    {
+        _graphics.PreferredBackBufferWidth = Data.screenW;
+        _graphics.PreferredBackBufferHeight = Data.screenH;
+        _graphics.ApplyChanges();
+        gameStateManager = new GameStateManager();
+        base.Initialize();
+    }
 
-        protected override void Initialize()
-        {
-            // TODO: Add your initialization logic here
+    protected override void LoadContent()
+    {
+        _spriteBatch = new SpriteBatch(GraphicsDevice);
+        gameStateManager.LoadContent(Content);
 
-            base.Initialize();
-        }
+        playerTexture = Content.Load<Texture2D>("Player_Level1/Warrior_1/Run");
+        player = new Player(playerTexture, new Vector2(100, 100));
 
-        protected override void LoadContent()
-        {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+    }
 
-            // TODO: use this.Content to load your game content here
-        }
+    protected override void Update(GameTime gameTime)
+    {
+        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            Exit();
+        if (player != null)
+            {
+                player.Update(gameTime);
+            }
 
-        protected override void Update(GameTime gameTime)
-        {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+        gameStateManager.Update(gameTime);
 
-            // TODO: Add your update logic here
+        base.Update(gameTime);
+    }
 
-            base.Update(gameTime);
-        }
+    protected override void Draw(GameTime gameTime)
+    {
+        GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+        _spriteBatch.Begin();
+        gameStateManager.Draw(_spriteBatch);
+        _spriteBatch.End();
 
-            // TODO: Add your drawing code here
+        _spriteBatch.Begin();
+        player.Draw(_spriteBatch);
+        _spriteBatch.End();
 
-            base.Draw(gameTime);
-        }
+
+        base.Draw(gameTime);
     }
 }
