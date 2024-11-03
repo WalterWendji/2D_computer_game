@@ -40,6 +40,7 @@ public class Game1 : Game
 
 
         playerTexture = Content.Load<Texture2D>("Player_Level1/Warrior_1/Run");
+        player = new Player(playerTexture, new Vector2(100, 100));
 
     }
 
@@ -47,16 +48,14 @@ public class Game1 : Game
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
-  
-        player.Update(gameTime);
 
-        if  (Data.Exit)
+        if (Data.Exit)
             Exit();
-        
+
         if (player != null)
-            {
-                player.Update(gameTime);
-            }
+        {
+            player.Update(gameTime);
+        }
 
         gameStateManager.Update(gameTime);
 
@@ -69,11 +68,6 @@ public class Game1 : Game
 
         _spriteBatch.Begin();
         gameStateManager.Draw(_spriteBatch);
-        _spriteBatch.End();
-
-        _spriteBatch.Begin();
-        //gameStateManager.Draw(_spriteBatch);
-        player.Draw(_spriteBatch);
         _spriteBatch.End();
 
         base.Draw(gameTime);
