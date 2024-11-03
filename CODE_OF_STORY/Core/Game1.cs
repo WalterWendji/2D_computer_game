@@ -15,7 +15,6 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
     private GameStateManager gameStateManager;
     private Player player;
-    private Texture2D playerTexture;
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -37,8 +36,12 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         gameStateManager.LoadContent(Content);
 
-        playerTexture = Content.Load<Texture2D>("Player_Level1/Warrior_1/Run");
-        player = new Player(playerTexture, new Vector2(100, 100));
+        Texture2D runTexture = Content.Load<Texture2D>("Player_Level1/Warrior_1/Run");
+        Texture2D idleTexture = Content.Load<Texture2D>("Player_Level1/Warrior_1/Idle");
+
+        player = new Player(runTexture, idleTexture, new Vector2(100, 600));
+
+        
 
     }
 
@@ -46,10 +49,8 @@ public class Game1 : Game
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
-        if (player != null)
-            {
-                player.Update(gameTime);
-            }
+            
+        player.Update(gameTime);
 
         gameStateManager.Update(gameTime);
 
@@ -59,10 +60,6 @@ public class Game1 : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
-
-        _spriteBatch.Begin();
-        gameStateManager.Draw(_spriteBatch);
-        _spriteBatch.End();
 
         _spriteBatch.Begin();
         player.Draw(_spriteBatch);
