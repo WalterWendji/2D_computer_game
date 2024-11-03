@@ -15,6 +15,7 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
     private GameStateManager gameStateManager;
     private Player player;
+
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -41,17 +42,18 @@ public class Game1 : Game
 
         player = new Player(runTexture, idleTexture, new Vector2(100, 600));
 
-        
-
     }
 
     protected override void Update(GameTime gameTime)
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
-            
+  
         player.Update(gameTime);
 
+        if  (Data.Exit)
+            Exit();
+        
         gameStateManager.Update(gameTime);
 
         base.Update(gameTime);
@@ -62,9 +64,9 @@ public class Game1 : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         _spriteBatch.Begin();
+        //gameStateManager.Draw(_spriteBatch);
         player.Draw(_spriteBatch);
         _spriteBatch.End();
-
 
         base.Draw(gameTime);
     }
