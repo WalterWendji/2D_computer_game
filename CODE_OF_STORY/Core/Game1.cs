@@ -14,7 +14,6 @@ public class Game1 : Game
     private static GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private GameStateManager gameStateManager;
-    private Player player;
 
     public Game1()
     {
@@ -37,20 +36,12 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         gameStateManager.LoadContent(Content);
 
-        Texture2D runTexture = Content.Load<Texture2D>("Player_Level1/Warrior_1/Run");
-        Texture2D idleTexture = Content.Load<Texture2D>("Player_Level1/Warrior_1/Idle");
-
-        player = new Player(runTexture, idleTexture, new Vector2(100, 600));
-
     }
 
     protected override void Update(GameTime gameTime)
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
-
-        if (player != null)
-            player.Update(gameTime);
 
         if (Data.Exit)
             Exit();
@@ -67,11 +58,6 @@ public class Game1 : Game
         _spriteBatch.Begin();
         gameStateManager.Draw(_spriteBatch);
         _spriteBatch.End();
-
-        _spriteBatch.Begin();
-        player.Draw(_spriteBatch);
-        _spriteBatch.End();
-
 
         base.Draw(gameTime);
     }
