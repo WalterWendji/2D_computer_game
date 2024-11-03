@@ -48,12 +48,13 @@ public class Game1 : Game
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
-  
-        player.Update(gameTime);
 
-        if  (Data.Exit)
+        if (player != null)
+            player.Update(gameTime);
+
+        if (Data.Exit)
             Exit();
-        
+
         gameStateManager.Update(gameTime);
 
         base.Update(gameTime);
@@ -64,9 +65,13 @@ public class Game1 : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         _spriteBatch.Begin();
-        //gameStateManager.Draw(_spriteBatch);
+        gameStateManager.Draw(_spriteBatch);
+        _spriteBatch.End();
+
+        _spriteBatch.Begin();
         player.Draw(_spriteBatch);
         _spriteBatch.End();
+
 
         base.Draw(gameTime);
     }
