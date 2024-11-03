@@ -13,6 +13,7 @@ public class Player
 {
     private AnimationPlayer runAnimation;
     private AnimationPlayer idleAnimation;
+    private bool facingRight;
     private Texture2D idleTexture;
     //laufen var
     private Vector2 position;
@@ -45,11 +46,13 @@ public class Player
         if (state.IsKeyDown(Keys.A))
         { 
             position.X -= speed * deltaTime;
+            facingRight = false;
             isMoving = true;
         }  
         else if(state.IsKeyDown(Keys.D))
         {    
             position.X += speed * deltaTime;
+            facingRight = true;
             isMoving = true;
         }
     
@@ -91,13 +94,14 @@ public class Player
 
     public void Draw(SpriteBatch spriteBatch)
     {
+        SpriteEffects flipEffect = facingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
         if(isMoving)
         {
-            runAnimation.Draw(spriteBatch, position);
+            runAnimation.Draw(spriteBatch, position, flipEffect);
         }
         else
         {
-            idleAnimation.Draw(spriteBatch, position);
+            idleAnimation.Draw(spriteBatch, position, flipEffect);
         }
         //spriteBatch.Draw(texture, position, Color.White);
     }

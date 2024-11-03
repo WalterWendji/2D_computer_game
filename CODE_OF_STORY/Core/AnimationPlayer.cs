@@ -39,9 +39,9 @@ public class AnimationPlayer
         }
     }
 
-    public void Draw(SpriteBatch spriteBatch, Vector2 position)
+    public void Draw(SpriteBatch spriteBatch, Vector2 position, SpriteEffects effects)
     {
         Rectangle sourceRectangle = new Rectangle(frameWidth * currentFrame, 0, frameWidth, frameHeight);
-        spriteBatch.Draw(spriteSheet, position, sourceRectangle, Color.White);
+        spriteBatch.Draw(spriteSheet, position, sourceRectangle, Color.White, 0f, Vector2.Zero, 1f, effects, 0f);
     }
 }
