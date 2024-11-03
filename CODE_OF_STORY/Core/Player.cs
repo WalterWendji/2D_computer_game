@@ -11,27 +11,15 @@ namespace CODE_OF_STORY.Core;
 Used to load, draw, and update the character. */
 public class Player
 {
-    private AnimationPlayer runAnimation;
-    private AnimationPlayer idleAnimation;
-    private Texture2D idleTexture;
-    //laufen var
+    private Texture2D texture;
     private Vector2 position;
     private float speed;
-    public bool isMoving { get; private set;}
-    //sprung var
-    private bool isJumping;
-    private float jumpSpeed = 0f;
-    private float jumpPower = 300f;
-    private float gravity = 500f;
-    private float groundLevel;
-    public Player(Texture2D runTexture, Texture2D idleTexture, Vector2 position)
+
+    public Player(Texture2D texture, Vector2 position)
     {
-        this.idleTexture = idleTexture;
-        runAnimation = new AnimationPlayer(runTexture, frameCount: 6, animationSpeed: 0.1f);
-        idleAnimation = new AnimationPlayer(idleTexture, frameCount: 6, animationSpeed: 0.1f);
+        this.texture = texture;
         this.position = position;
         this.speed = 200f;
-        this.groundLevel = position.Y;
     }
 
     public void Update(GameTime gameTime)
@@ -40,47 +28,14 @@ public class Player
         MouseState mouseState = Mouse.GetState();
         float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        isMoving = false;
-
         if (state.IsKeyDown(Keys.A))
-        { 
             position.X -= speed * deltaTime;
-            isMoving = true;
-        }  
-        else if(state.IsKeyDown(Keys.D))
-        {    
+            System.Diagnostics.Debug.WriteLine("Bewegt nach links");
+        if (state.IsKeyDown(Keys.D))
             position.X += speed * deltaTime;
-            isMoving = true;
-        }
-    
-        if(isMoving)
-        {
-            runAnimation.Update(gameTime);
-        }
-        else
-        {
-            idleAnimation.Update(gameTime);
-        }
-        
-        if (state.IsKeyDown(Keys.Space) && !isJumping)
-        {
-            isJumping = true;
-            jumpSpeed = -jumpPower;
-        }
-
-        if(isJumping)
-        {
-            jumpSpeed += gravity * deltaTime;
-            position.Y += jumpSpeed * deltaTime;
-
-            if(position.Y >= groundLevel)
-            {
-                position.Y = groundLevel;
-                isJumping = false;
-                jumpSpeed = 0f;
-            }
-        }
-        /*if (state.IsKeyDown(Keys.F))
+        /*if (state.IsKeyDown(Keys.Space))
+            springen
+        if (state.IsKeyDown(Keys.F))
             interagieren
         if (state.IsKeyDown(Keys.Q))
             Waffewechseln
@@ -91,14 +46,6 @@ public class Player
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        if(isMoving)
-        {
-            runAnimation.Draw(spriteBatch, position);
-        }
-        else
-        {
-            idleAnimation.Draw(spriteBatch, position);
-        }
-        //spriteBatch.Draw(texture, position, Color.White);
+        spriteBatch.Draw(texture, position, Color.White);
     }
 }
