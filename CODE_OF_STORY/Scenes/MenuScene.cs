@@ -10,7 +10,6 @@ namespace CODE_OF_STORY.Scenes;
 
 internal class MenuScene : Component
 {
-
     private string[] buttonNames = { "Play_Button", "Continue_Button", "Load_Button", "Settings_Button", "Exit_Button" };
     private string[] buttonNamesColored = { "Play_col_Button", "Continue_col_Button", "Ld_col_Button", "Settings_col_Button", "Exit_col_Button" };
     private Texture2D[] btns;
@@ -41,9 +40,6 @@ internal class MenuScene : Component
         int screenWidth = viewport.Width;
         int screenHeight = viewport.Height;
        
-        //int x = viewport.Width/2;
-        //int y = viewport.Height/2;
-        const int INCREMENT_VALUE = 100;
         for (int i = 0; i < btns.Length; i++)
         {
             
@@ -80,21 +76,6 @@ internal class MenuScene : Component
             Data.currentState = Data.Scenes.Settings;
         else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[4]))
             Data.Exit = true;
-    }
-
-    public void CalculateButtonPositons()
-    {
-        int buttonHeight = btns[0]?.Height ?? 0;
-        int totalHeight = buttonHeight * btns.Length;
-        // int screenWidth = GraphicsDevice.Viewport.Width;
-        //int screenHeight = GraphicsDevice.Viewport.Height;
-
-        /* for (int i = 0; i < btns.Length; i++)
-        {
-            int x = (screenWidth - btns[i].Width) / 2;
-            int y = (screenHeight - totalHeight) / 2 + i * buttonHeight;
-            btnPositions[i] = new Vector2(x, y);
-        } */
     }
 
     internal override void Draw(SpriteBatch spriteBatch)
