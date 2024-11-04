@@ -78,7 +78,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Buttons/ColoredButtons/Exit _col_Button.png
+/build:Buttons/ColoredButtons/Exit _col_Button.png;Buttons/ColoredButtons/Exit_col_Button.png
 
 #begin Buttons/ColoredButtons/Ld _col_Button.png
 /importer:TextureImporter
@@ -90,7 +90,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Buttons/ColoredButtons/Ld _col_Button.png
+/build:Buttons/ColoredButtons/Ld _col_Button.png;Buttons/ColoredButtons/Ld_col_Button.png
 
 #begin Buttons/ColoredButtons/Menu_col_Button.png
 /importer:TextureImporter
