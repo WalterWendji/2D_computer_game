@@ -12,7 +12,7 @@ internal class MenuScene : Component
 {
 
     private string[] buttonNames = { "Play_Button", "Continue_Button", "Load_Button", "Settings_Button", "Exit_Button" };
-    private string[] buttonNamesColored ={"Play_col_Button", "Continue_col_Button", "Resume_col_Button", "Settings_col_Button", "Resume_col_Button"};
+    private string[] buttonNamesColored ={"Play_col_Button", "Continue_col_Button", "Ld_col_Button", "Settings_col_Button", "Exit_col_Button"};
     private Texture2D[] btns;
     private Texture2D[] btnsColored;
     private Rectangle[] btnRects;
