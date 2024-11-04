@@ -11,7 +11,7 @@ HUD management and display, and game
 object updating. That is also the "Game1" class. */
 public class Game1 : Game
 {
-    private static GraphicsDeviceManager _graphics;
+    public static GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private GameStateManager gameStateManager;
 
