@@ -15,12 +15,14 @@ internal partial class GameStateManager : Component
     private NewGameScene newGameScene = new NewGameScene();
     private LoadScene loadScene= new LoadScene();
     private SettingsScene settingsScene= new SettingsScene();
+    private GatewaysScene gatewaysScene= new GatewaysScene();
     internal override void LoadContent(ContentManager Content)
     {
         menueScene.LoadContent(Content);
         newGameScene.LoadContent(Content);
         loadScene.LoadContent(Content);
         settingsScene.LoadContent(Content);
+        gatewaysScene.LoadContent(Content);
     }
 
     internal override void Update(GameTime gameTime)
@@ -37,6 +39,9 @@ internal partial class GameStateManager : Component
                 loadScene.Update(gameTime);
                 break;
             case Data.Scenes.Settings:
+                break;
+            case Data.Scenes.Gateways:
+                gatewaysScene.Update(gameTime);
                 break;
         }
     }
@@ -56,6 +61,9 @@ internal partial class GameStateManager : Component
                 break;
             case Data.Scenes.Settings:
                 settingsScene.Draw(spriteBatch);
+                break;
+            case Data.Scenes.Gateways:
+                gatewaysScene.Draw(spriteBatch);
                 break;
         }
     }

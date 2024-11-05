@@ -69,7 +69,7 @@ internal class MenuScene : Component
         currentMouseStateRectangle = new Rectangle(currentMouseState.X, currentMouseState.Y, 1, 1);
 
         if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[0]))
-            Data.currentState = Data.Scenes.NewGame;
+            Data.currentState = Data.Scenes.Gateways;
         else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[2]))
             Data.currentState = Data.Scenes.Load;
         else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[3]))
