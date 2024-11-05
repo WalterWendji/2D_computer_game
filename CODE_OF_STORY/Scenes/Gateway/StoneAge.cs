@@ -11,7 +11,6 @@ internal class StoneAge : Component
     private Player player;
     private Enemy enemy;
     private Gem gem;
-    
 
     internal override void LoadContent(ContentManager Content)
     {
@@ -34,14 +33,18 @@ internal class StoneAge : Component
             gem.Update(gameTime);
             enemy.Update(gameTime, player.Position);
         }
-            
-        
+
+
 
     }
     internal override void Draw(SpriteBatch spriteBatch)
     {
-        player.Draw(spriteBatch);
-        gem.Draw(spriteBatch);
-        enemy.Draw(spriteBatch);
+        if (player != null)
+        {
+            player.Draw(spriteBatch);
+            gem.Draw(spriteBatch);
+            enemy.Draw(spriteBatch);
+        }
+
     }
 }
