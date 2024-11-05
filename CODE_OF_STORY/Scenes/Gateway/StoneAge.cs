@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CODE_OF_STORY.Scenes;
+namespace CODE_OF_STORY.Scenes.Gateway;
 
-internal class NewGameScene : Component
+internal class StoneAge : Component
 {
     private Player player;
     private Enemy enemy;
@@ -29,9 +29,12 @@ internal class NewGameScene : Component
     internal override void Update(GameTime gameTime)
     {
         if (player != null)
+        {
             player.Update(gameTime);
             gem.Update(gameTime);
             enemy.Update(gameTime, player.Position);
+        }
+            
         
 
     }
