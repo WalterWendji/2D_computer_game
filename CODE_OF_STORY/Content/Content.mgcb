@@ -344,7 +344,7 @@
 /processorParam:TextureFormat=Color
 /build:Items/bg_desertM.png
 
-#begin Items/Gems/plate1.png
+#begin Items/Gems/plate.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -354,7 +354,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Items/Gems/plate1.png
+/build:Items/Gems/plate.png
+
+#begin Items/Gems/plate32x8.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Items/Gems/plate32x8.png
 
 #begin Player_Level1/Warrior_1/Attack_1.png
 /importer:TextureImporter
