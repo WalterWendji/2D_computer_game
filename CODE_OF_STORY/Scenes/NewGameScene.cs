@@ -9,6 +9,7 @@ namespace CODE_OF_STORY.Scenes;
 internal class NewGameScene : Component
 {
     private Player player;
+    private Enemy enemy;
     private Gem gem;
     
 
@@ -16,9 +17,11 @@ internal class NewGameScene : Component
     {
         Texture2D runTexture = Content.Load<Texture2D>("Player_Level1/Warrior_1/Run");
         Texture2D idleTexture = Content.Load<Texture2D>("Player_Level1/Warrior_1/Idle");
+        Texture2D enRunTexture = Content.Load<Texture2D>("Player_Level1/Warrior_2/Run");
         Texture2D gemTexture = Content.Load<Texture2D>("Items/Gems/plate32x8");
 
         player = new Player(runTexture, idleTexture, new Vector2(100, 600));
+        enemy = new Enemy(enRunTexture, new Vector2(400, 600), new Vector2(700, 600), 100f);
         gem = new Gem(gemTexture, new Vector2(300, 600));
 
     }
@@ -28,10 +31,14 @@ internal class NewGameScene : Component
         if (player != null)
             player.Update(gameTime);
             gem.Update(gameTime);
+            enemy.Update(gameTime, player.Position);
+        
+
     }
     internal override void Draw(SpriteBatch spriteBatch)
     {
         player.Draw(spriteBatch);
         gem.Draw(spriteBatch);
+        enemy.Draw(spriteBatch);
     }
 }

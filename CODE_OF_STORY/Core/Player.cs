@@ -25,6 +25,12 @@ public class Player
     private float jumpPower = 300f;
     private float gravity = 500f;
     private float groundLevel;
+
+    //zugriff aus die aktuelle position für enemy
+    public Vector2 Position
+    {
+        get { return position;}
+    }
     public Player(Texture2D runTexture, Texture2D idleTexture, Vector2 position)
     {
         this.idleTexture = idleTexture;
