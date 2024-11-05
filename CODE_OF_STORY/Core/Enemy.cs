@@ -63,7 +63,8 @@ public class Enemy
             }
         }
 
-        while(sightRect.Contains(playerPosition))
+        //was soll passieren wenn der gegner den spieler sieht
+        if(sightRect.Contains(playerPosition))
         {
                 speed = 300f;
         }
