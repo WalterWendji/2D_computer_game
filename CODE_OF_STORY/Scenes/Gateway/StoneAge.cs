@@ -27,11 +27,15 @@ internal class StoneAge : Component
 
     internal override void Update(GameTime gameTime)
     {
-        if (player != null)
+        if (player != null && gem != null && enemy != null)
         {
             player.Update(gameTime);
             gem.Update(gameTime);
             enemy.Update(gameTime, player.Position);
+        }
+        else
+        {
+            Console.WriteLine("The player or gem or enemy is null");
         }
 
 

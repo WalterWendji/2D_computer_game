@@ -41,6 +41,7 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         gameStateManager.LoadContent(Content);
+        gatewaysManager.LoadContent(Content);
 
     }
 
