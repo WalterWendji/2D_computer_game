@@ -21,7 +21,7 @@ internal class NewGameScene : Component
         Texture2D gemTexture = Content.Load<Texture2D>("Items/Gems/plate32x8");
 
         player = new Player(runTexture, idleTexture, new Vector2(100, 600));
-        enemy = new Enemy(enRunTexture, new Vector2(400, 600), new Vector2(700, 600), 100f);
+        enemy = new EnemyCharge(enRunTexture, new Vector2(400, 600), new Vector2(700, 600), 100f, 100f, 100, 300f);
         gem = new Gem(gemTexture, new Vector2(300, 600));
 
     }

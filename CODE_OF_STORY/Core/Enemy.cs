@@ -1,5 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
+
 
 //using System.Numerics;
 using Microsoft.Xna.Framework;
@@ -9,21 +11,22 @@ namespace CODE_OF_STORY.Core;
 
 /* Implements an enemy in the game. 
 Used to load, draw, and update an enemy. */
-public class Enemy
+public abstract class Enemy
 {
+    protected int health;
     //bewegung
-    private AnimationPlayer enRunAnimation;
-    private Texture2D enRunTexture;
-    private Vector2 position;
-    private float speed;
-    private Vector2 patrolStart;
-    private Vector2 patrolEnd;
-    private bool movingRight = true;
+    protected AnimationPlayer enRunAnimation;
+    protected Texture2D enRunTexture;
+    protected Vector2 position;
+    protected float speed;
+    protected Vector2 patrolStart;
+    protected Vector2 patrolEnd;
+    protected bool movingRight = true;
     //sicht
-    private float sightRange = 100f;
-    private Rectangle sightRect;
+    protected float sightRange;
+    protected Rectangle sightRect;
 
-    public Enemy(Texture2D enRuntexture, Vector2 startposition, Vector2 patrolEnd, float sightRange)
+    public Enemy(Texture2D enRuntexture, Vector2 startposition, Vector2 patrolEnd, float sightRange, int health)
     {
         this.enRunTexture = enRuntexture;
         enRunAnimation = new AnimationPlayer(enRunTexture, frameCount: 6, animationSpeed: 0.1f);
@@ -31,11 +34,12 @@ public class Enemy
         this.patrolStart = startposition;
         this.patrolEnd = patrolEnd;
         this.speed = 150f;
+        this.health = health;
         this.movingRight = true;
         this.sightRange = sightRange;
     }
 
-    public void Update(GameTime gameTime, Vector2 playerPosition)
+    public virtual void Update(GameTime gameTime, Vector2 playerPosition)
     {
         float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -64,20 +68,12 @@ public class Enemy
         }
 
         //was soll passieren wenn der gegner den spieler sieht
-        if(sightRect.Contains(playerPosition))
-        {
-                speed = 300f;
-        }
+        
 
         enRunAnimation.Update(gameTime);
     }
 
 
-    public void Draw(SpriteBatch spriteBatch)
-    {
-        SpriteEffects flipEffect = movingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-        
-        enRunAnimation.Draw(spriteBatch, position, flipEffect);
-        
-    }
+    public abstract void Draw(SpriteBatch spriteBatch);
+    
 }
