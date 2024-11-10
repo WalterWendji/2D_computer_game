@@ -3,6 +3,8 @@ using CODE_OF_STORY.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using static CODE_OF_STORY.Core.Data;
 
 namespace CODE_OF_STORY.Scenes.Gateway;
 
@@ -11,6 +13,12 @@ internal class StoneAge : Component
     private Player player;
     private Enemy enemy;
     private Gem gem;
+    private PausePopupMenu pausePopupMenu;
+
+    public StoneAge()
+    {
+        pausePopupMenu = new PausePopupMenu();
+    }
 
     internal override void LoadContent(ContentManager Content)
     {
@@ -23,32 +31,57 @@ internal class StoneAge : Component
         enemy = new EnemyCharge(enRunTexture, new Vector2(400, 600), new Vector2(700, 600), 100f, 100f, 100, 300f);
         gem = new Gem(gemTexture, new Vector2(300, 600));
 
+        pausePopupMenu.LoadContent(Content);
+
     }
 
     internal override void Update(GameTime gameTime)
     {
-        if (player != null && gem != null && enemy != null)
+        pausePopupMenu.Update(gameTime);
+
+        if (currentGameState == GameState.Playing)
         {
-            player.Update(gameTime);
-            gem.Update(gameTime);
-            enemy.Update(gameTime, player.Position);
-        }
-        else
-        {
-            Console.WriteLine("The player or gem or enemy is null");
+            if (player != null && gem != null && enemy != null)
+            {
+                player.Update(gameTime);
+                gem.Update(gameTime);
+                enemy.Update(gameTime, player.Position);
+            }
+            else
+            {
+                Console.WriteLine("The player or gem or enemy is null");
+            }
         }
 
-
+        if (Keyboard.GetState().IsKeyDown(Keys.P) || Keyboard.GetState().IsKeyDown(Keys.Escape))
+        {
+            if (currentGameState == GameState.Playing)
+            {
+                currentGameState = GameState.Paused;
+            }
+            else if (currentGameState == GameState.Paused)
+            {
+                currentGameState = GameState.Playing;
+            }
+        }
 
     }
     internal override void Draw(SpriteBatch spriteBatch)
     {
-        if (player != null)
+        if (currentGameState == GameState.Playing)
         {
-            player.Draw(spriteBatch);
-            gem.Draw(spriteBatch);
-            enemy.Draw(spriteBatch);
+            if (player != null)
+            {
+                player.Draw(spriteBatch);
+                gem.Draw(spriteBatch);
+                enemy.Draw(spriteBatch);
+            }
         }
+        else if (currentGameState == GameState.Paused)
+        {
+            pausePopupMenu.Draw(spriteBatch);
+        }
+
 
     }
 }

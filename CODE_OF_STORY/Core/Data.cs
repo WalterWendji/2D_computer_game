@@ -10,4 +10,7 @@ public static class Data
 
     public enum Scenes {Menu, NewGame, Load, Settings, Gateways, StoneAge, MiddleAge, ModernAge, Future}
     public static Scenes currentState { get; set; } 
+
+    public enum GameState {Playing, Paused, PopupMenu}
+    public static GameState currentGameState { get; set; } = GameState.Playing;
 }
