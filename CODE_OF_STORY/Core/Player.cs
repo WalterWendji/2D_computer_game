@@ -23,7 +23,6 @@ public class Player
     public bool isMoving { get; private set;}
     //attack var
     private bool isAttacking;
-    private bool playOnce;
     //sprung var
     private bool isJumping;
     private float jumpSpeed = 0f;
@@ -41,12 +40,11 @@ public class Player
         this.idleTexture = idleTexture;
         runAnimation = new AnimationPlayer(runTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
         idleAnimation = new AnimationPlayer(idleTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
-        jumpAnimation = new AnimationPlayer(jumpTexture, frameCount: 2, animationSpeed: 0.3f, playOnce: false);
+        jumpAnimation = new AnimationPlayer(jumpTexture, frameCount: 2, animationSpeed: 0.5f, playOnce: false);
         attackAnimation = new AnimationPlayer(attackTexture, frameCount: 4, animationSpeed: 0.2f, playOnce: true);
         this.position = position;
         this.speed = 200f;
         this.groundLevel = position.Y;
-        this.playOnce = false;
     }
 
     public void Update(GameTime gameTime)
@@ -109,7 +107,6 @@ public class Player
         if (mouseState.LeftButton == ButtonState.Pressed && !isAttacking)
         {
             isAttacking = true;
-            playOnce = true;
             attackAnimation.Reset();
         }
 
@@ -120,7 +117,6 @@ public class Player
             if(attackAnimation.IsFinished)
             {
                 isAttacking = false;
-                playOnce = false;
             }
         }
 
