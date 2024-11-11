@@ -14,12 +14,16 @@ public class Player
     private AnimationPlayer runAnimation;
     private AnimationPlayer idleAnimation;
     private AnimationPlayer jumpAnimation;
+    private AnimationPlayer attackAnimation;
     private bool facingRight;
     private Texture2D idleTexture;
     //laufen var
     private Vector2 position;
     private float speed;
     public bool isMoving { get; private set;}
+    //attack var
+    private bool isAttacking;
+    private bool playOnce;
     //sprung var
     private bool isJumping;
     private float jumpSpeed = 0f;
@@ -32,15 +36,17 @@ public class Player
     {
         get { return position;}
     }
-    public Player(Texture2D runTexture, Texture2D idleTexture,Texture2D jumpTexture, Vector2 position)
+    public Player(Texture2D runTexture, Texture2D idleTexture,Texture2D jumpTexture,Texture2D attackTexture, Vector2 position)
     {
         this.idleTexture = idleTexture;
-        runAnimation = new AnimationPlayer(runTexture, frameCount: 6, animationSpeed: 0.1f);
-        idleAnimation = new AnimationPlayer(idleTexture, frameCount: 6, animationSpeed: 0.1f);
-        jumpAnimation = new AnimationPlayer(jumpTexture, frameCount: 2, animationSpeed: 0.3f);
+        runAnimation = new AnimationPlayer(runTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
+        idleAnimation = new AnimationPlayer(idleTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
+        jumpAnimation = new AnimationPlayer(jumpTexture, frameCount: 2, animationSpeed: 0.3f, playOnce: false);
+        attackAnimation = new AnimationPlayer(attackTexture, frameCount: 4, animationSpeed: 0.2f, playOnce: true);
         this.position = position;
         this.speed = 200f;
         this.groundLevel = position.Y;
+        this.playOnce = false;
     }
 
     public void Update(GameTime gameTime)
@@ -99,15 +105,36 @@ public class Player
             interagieren
         if (state.IsKeyDown(Keys.Q))
             Waffewechseln
-        if (mouseState.LeftButton == ButtonState.Pressed)
-            angreifen
-        */
+            */
+        if (mouseState.LeftButton == ButtonState.Pressed && !isAttacking)
+        {
+            isAttacking = true;
+            playOnce = true;
+            attackAnimation.Reset();
+        }
+
+        
+        if(isAttacking)
+        {
+            attackAnimation.Update(gameTime);
+            if(attackAnimation.IsFinished)
+            {
+                isAttacking = false;
+                playOnce = false;
+            }
+        }
+
+        
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
         SpriteEffects flipEffect = facingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-        if(isJumping)
+        if(isAttacking)
+        {
+            attackAnimation.Draw(spriteBatch, position, flipEffect);
+        }
+        else if(isJumping)
         {
             jumpAnimation.Draw(spriteBatch, position, flipEffect);
         }

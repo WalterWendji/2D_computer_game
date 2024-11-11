@@ -16,8 +16,10 @@ public class AnimationPlayer
     private int totalFrames;
     private float frameTime;
     private float timer;
+    private bool playOnce;
+    public bool IsFinished {get; private set; } = false;
 
-    public AnimationPlayer(Texture2D texture, int frameCount, float animationSpeed)
+    public AnimationPlayer(Texture2D texture, int frameCount, float animationSpeed, bool playOnce)
     {
         spriteSheet = texture;
         frameWidth = texture.Width / frameCount;
@@ -26,15 +28,41 @@ public class AnimationPlayer
         frameTime = animationSpeed;
         currentFrame = 0;
         timer = 0f;
+        IsFinished = false;
+        this.playOnce = playOnce;
     }
 
+    public void Reset()
+    {
+        currentFrame = 0;
+        timer = 0f;
+        IsFinished = false;
+    }
     public void Update(GameTime gameTime)
     {
+        if(playOnce && IsFinished) return;
+
         timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
         if(timer >= frameTime)
         {
-            currentFrame = (currentFrame + 1) % totalFrames;
+            /*currentFrame = (currentFrame + 1) % totalFrames;
+            timer = 0f;*/
+            currentFrame++;
+            
+            if(currentFrame >= totalFrames)
+            {
+                if(playOnce)
+                {
+                    currentFrame = totalFrames - 1;
+                    IsFinished = true;
+                }
+            
+                else
+                {
+                    currentFrame = 0;
+                }
+            }
             timer = 0f;
         }
     }

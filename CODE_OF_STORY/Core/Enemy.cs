@@ -29,7 +29,7 @@ public abstract class Enemy
     public Enemy(Texture2D enRuntexture, Vector2 startposition, Vector2 patrolEnd, float sightRange, int health)
     {
         this.enRunTexture = enRuntexture;
-        enRunAnimation = new AnimationPlayer(enRunTexture, frameCount: 6, animationSpeed: 0.1f);
+        enRunAnimation = new AnimationPlayer(enRunTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
         this.position = startposition;
         this.patrolStart = startposition;
         this.patrolEnd = patrolEnd;
