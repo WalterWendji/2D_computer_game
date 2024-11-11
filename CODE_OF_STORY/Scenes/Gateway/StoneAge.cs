@@ -77,8 +77,6 @@ internal class StoneAge : Component
             {
                 this.popUpMenuFired = false;
             }
-
-
         }
 
     }

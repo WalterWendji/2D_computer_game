@@ -16,6 +16,15 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
     private GameStateManager gameStateManager;
     private GatewaysManager gatewaysManager;
+    public static MouseState currentMouseState, oldMouseState;
+    public static Rectangle currentMouseStateRectangle;
+    public static int xPosition;
+    public static int yPosition;
+    public static Texture2D backButton;
+    public static Texture2D backButtonColored;
+    public static Rectangle backButtonRect;
+    public static Rectangle backButtonRectColored;
+    private Vector2 backButtonPosition;
 
     public Game1()
     {
@@ -40,13 +49,30 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+
         gameStateManager.LoadContent(Content);
         gatewaysManager.LoadContent(Content);
 
+        Viewport viewport = _graphics.GraphicsDevice.Viewport;
+
+        backButtonPosition = new Vector2(viewport.Width-(viewport.Width-10), viewport.Height-60);
+        
+        xPosition = (int)backButtonPosition.X;
+        yPosition = (int)backButtonPosition.Y;
+
+        backButton = Content.Load<Texture2D>("Buttons/Back_Square_Button");
+        backButtonColored = Content.Load<Texture2D>("Buttons/ColoredButtons/Back_col_Square_Button");
+
+        backButtonRect = new Rectangle(xPosition, yPosition, backButton.Width/4, backButton.Height/4);
+        backButtonRectColored = new Rectangle(xPosition ,yPosition, backButtonColored.Width/4, backButtonColored.Height/4);
     }
 
     protected override void Update(GameTime gameTime)
     {
+        oldMouseState = currentMouseState;
+        currentMouseState = Mouse.GetState();
+        currentMouseStateRectangle = new Rectangle(currentMouseState.X, currentMouseState.Y, 1, 1);
+        
         if (Data.Exit)
             Exit();
 

@@ -17,8 +17,7 @@ internal class MenuScene : Component
     private Rectangle[] btnRects;
     private Texture2D menuBackground;
     private Rectangle BgRectangle;
-    private MouseState currentMouseState, oldMouseState;
-    private Rectangle currentMouseStateRectangle;
+   
     private int buttonHeight;
     private int totalHeight;
     private int xPosition;
@@ -64,17 +63,15 @@ internal class MenuScene : Component
 
     internal override void Update(GameTime gameTime)
     {
-        oldMouseState = currentMouseState;
-        currentMouseState = Mouse.GetState();
-        currentMouseStateRectangle = new Rectangle(currentMouseState.X, currentMouseState.Y, 1, 1);
+        
 
-        if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[0]))
+        if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[0]))
             Data.currentState = Data.Scenes.Gateways;
-        else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[2]))
+        else if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[2]))
             Data.currentState = Data.Scenes.Load;
-        else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[3]))
+        else if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[3]))
             Data.currentState = Data.Scenes.Settings;
-        else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[4]))
+        else if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[4]))
             Data.Exit = true;
     }
 
@@ -86,7 +83,7 @@ internal class MenuScene : Component
             spriteBatch.Draw(btns[i], btnRects[i], Color.White);
 
             //Hovering effect to the button.
-            if (currentMouseStateRectangle.Intersects(btnRects[i]))
+            if (Game1.currentMouseStateRectangle.Intersects(btnRects[i]))
             {
                 spriteBatch.Draw(btnsColored[i], btnRects[i], Color.White);
             }

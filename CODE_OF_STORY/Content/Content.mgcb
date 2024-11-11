@@ -32,6 +32,18 @@
 /processorParam:TextureFormat=Color
 /build:Buttons/Back_Button.png
 
+#begin Buttons/Back_Square_Button.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Buttons/Back_Square_Button.png
+
 #begin Buttons/ColoredButtons/Back_col_Button.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -43,6 +55,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Buttons/ColoredButtons/Back_col_Button.png
+
+#begin Buttons/ColoredButtons/Back_col_Square_Button.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Buttons/ColoredButtons/Back_col_Square_Button.png
 
 #begin Buttons/ColoredButtons/Continue_col_Button.png
 /importer:TextureImporter
@@ -79,6 +103,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Buttons/ColoredButtons/Exit _col_Button.png;Buttons/ColoredButtons/Exit_col_Button.png
+
+#begin Buttons/ColoredButtons/Home_col_Square_Button.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Buttons/ColoredButtons/Home_col_Square_Button.png
 
 #begin Buttons/ColoredButtons/Ld _col_Button.png
 /importer:TextureImporter
@@ -223,6 +259,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Buttons/Exit_Button.png
+
+#begin Buttons/Home_Square_Button.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Buttons/Home_Square_Button.png
 
 #begin Buttons/Load_Button.png
 /importer:TextureImporter

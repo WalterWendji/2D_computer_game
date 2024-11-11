@@ -34,6 +34,7 @@ internal partial class GameStateManager : Component
                 loadScene.Update(gameTime);
                 break;
             case Data.Scenes.Settings:
+                settingsScene.Update(gameTime);
                 break;
             case Data.Scenes.Gateways:
                 gatewaysScene.Update(gameTime);
