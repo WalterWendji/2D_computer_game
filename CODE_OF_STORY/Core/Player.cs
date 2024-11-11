@@ -13,6 +13,7 @@ public class Player
 {
     private AnimationPlayer runAnimation;
     private AnimationPlayer idleAnimation;
+    private AnimationPlayer jumpAnimation;
     private bool facingRight;
     private Texture2D idleTexture;
     //laufen var
@@ -31,11 +32,12 @@ public class Player
     {
         get { return position;}
     }
-    public Player(Texture2D runTexture, Texture2D idleTexture, Vector2 position)
+    public Player(Texture2D runTexture, Texture2D idleTexture,Texture2D jumpTexture, Vector2 position)
     {
         this.idleTexture = idleTexture;
         runAnimation = new AnimationPlayer(runTexture, frameCount: 6, animationSpeed: 0.1f);
         idleAnimation = new AnimationPlayer(idleTexture, frameCount: 6, animationSpeed: 0.1f);
+        jumpAnimation = new AnimationPlayer(jumpTexture, frameCount: 2, animationSpeed: 0.3f);
         this.position = position;
         this.speed = 200f;
         this.groundLevel = position.Y;
@@ -61,8 +63,11 @@ public class Player
             facingRight = true;
             isMoving = true;
         }
-    
-        if(isMoving)
+        if(isJumping)
+        {
+            jumpAnimation.Update(gameTime);
+        }
+        else if(isMoving)
         {
             runAnimation.Update(gameTime);
         }
@@ -81,6 +86,7 @@ public class Player
         {
             jumpSpeed += gravity * deltaTime;
             position.Y += jumpSpeed * deltaTime;
+            
 
             if(position.Y >= groundLevel)
             {
@@ -101,7 +107,11 @@ public class Player
     public void Draw(SpriteBatch spriteBatch)
     {
         SpriteEffects flipEffect = facingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-        if(isMoving)
+        if(isJumping)
+        {
+            jumpAnimation.Draw(spriteBatch, position, flipEffect);
+        }
+        else if(isMoving && !isJumping)
         {
             runAnimation.Draw(spriteBatch, position, flipEffect);
         }
@@ -109,6 +119,7 @@ public class Player
         {
             idleAnimation.Draw(spriteBatch, position, flipEffect);
         }
+        
         //spriteBatch.Draw(texture, position, Color.White);
     }
 }
