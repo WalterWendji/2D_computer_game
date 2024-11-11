@@ -15,6 +15,8 @@ internal class StoneAge : Component
     private Gem gem;
     private PausePopupMenu pausePopupMenu;
 
+    private bool popUpMenuFired = false;
+
     public StoneAge()
     {
         pausePopupMenu = new PausePopupMenu();
@@ -53,16 +55,28 @@ internal class StoneAge : Component
             }
         }
 
-        if (Keyboard.GetState().IsKeyDown(Keys.P) || Keyboard.GetState().IsKeyDown(Keys.Escape))
+        // check button state
+        if (!this.popUpMenuFired) { 
+            if (Keyboard.GetState().IsKeyDown(Keys.P) || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                this.popUpMenuFired = true;
+                if (currentGameState == GameState.Playing)
+                {
+                    currentGameState = GameState.Paused;
+                }
+                else if (currentGameState == GameState.Paused)
+                {
+                    currentGameState = GameState.Playing;
+                }
+            }
+        } else
         {
-            if (currentGameState == GameState.Playing)
+            if (Keyboard.GetState().IsKeyUp(Keys.P) && Keyboard.GetState().IsKeyUp(Keys.Escape))
             {
-                currentGameState = GameState.Paused;
+                this.popUpMenuFired = false;
             }
-            else if (currentGameState == GameState.Paused)
-            {
-                currentGameState = GameState.Playing;
-            }
+
+
         }
 
     }
