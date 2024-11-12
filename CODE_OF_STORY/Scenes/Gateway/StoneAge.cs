@@ -28,11 +28,13 @@ internal class StoneAge : Component
         Texture2D idleTexture = Content.Load<Texture2D>("Player_Level1/Warrior_1/Idle");
         Texture2D jumpAnimation = Content.Load<Texture2D>("Player_Level1/Warrior_1/Jump2");
         Texture2D attackAnimation = Content.Load<Texture2D>("Player_Level1/Warrior_1/Attack_1");
+
+        Texture2D enAttackTexture = Content.Load<Texture2D>("Player_Level1/Warrior_2/Run+Attack");
         Texture2D enRunTexture = Content.Load<Texture2D>("Player_Level1/Warrior_2/Run");
         Texture2D gemTexture = Content.Load<Texture2D>("Items/Gems/plate32x8");
 
-        player = new Player(runTexture, idleTexture, jumpAnimation, attackAnimation, new Vector2(100, 600));
-        enemy = new EnemyCharge(enRunTexture, new Vector2(400, 600), new Vector2(700, 600), 100f, 100f, 100, 300f);
+        player = new Player(runTexture, idleTexture, jumpAnimation, attackAnimation, new Vector2(100, 600), 100);
+        enemy = new EnemyCharge(enRunTexture, enAttackTexture, new Vector2(400, 600), new Vector2(700, 600), 100f, 100f, 100, 300f);
         gem = new Gem(gemTexture, new Vector2(300, 600));
 
         pausePopupMenu.LoadContent(Content);
@@ -50,7 +52,8 @@ internal class StoneAge : Component
                 player.Update(gameTime);
                 player.AttackEnemy(enemy);
                 gem.Update(gameTime);
-                enemy.Update(gameTime, player.Position);
+                enemy.Update(gameTime, player);
+                enemy.AttackPlayer(player);
             }
             else
             {

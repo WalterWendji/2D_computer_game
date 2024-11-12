@@ -24,7 +24,8 @@ public class Player
     //fighting var
     private bool isAttacking;
     private bool hasDealtDamage = false;
-    private int health;
+    private int health = 100;
+    public bool isAlive => health > 0;
     //sprung var
     private bool isJumping;
     private float jumpSpeed = 0f;
@@ -37,7 +38,7 @@ public class Player
     {
         get { return position;}
     }
-    public Player(Texture2D runTexture, Texture2D idleTexture,Texture2D jumpTexture,Texture2D attackTexture, Vector2 position)
+    public Player(Texture2D runTexture, Texture2D idleTexture,Texture2D jumpTexture,Texture2D attackTexture, Vector2 position, int initialHealth)
     {
         this.idleTexture = idleTexture;
         runAnimation = new AnimationPlayer(runTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
@@ -47,9 +48,21 @@ public class Player
         this.position = position;
         this.speed = 200f;
         this.groundLevel = position.Y;
-        this.health = 100;
+        this.health = initialHealth;
     }
 
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        if(health <= 0)
+        {
+            health = 0;//todesanimation und entfernen
+        }
+        else
+        {
+            //schadensanimation
+        }
+    }
     public void AttackEnemy(Enemy enemy)
     {
         if(isAttacking && !hasDealtDamage &&IsEnemyInRange(enemy))
@@ -146,28 +159,33 @@ public class Player
                 hasDealtDamage = false;
             }
         }
-
-        
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
         SpriteEffects flipEffect = facingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-        if(isAttacking)
+        if(isAlive)
         {
-            attackAnimation.Draw(spriteBatch, position, flipEffect);
-        }
-        else if(isJumping)
-        {
-            jumpAnimation.Draw(spriteBatch, position, flipEffect);
-        }
-        else if(isMoving && !isJumping)
-        {
-            runAnimation.Draw(spriteBatch, position, flipEffect);
+            if(isAttacking)
+            {
+                attackAnimation.Draw(spriteBatch, position, flipEffect);
+            }
+            else if(isJumping)
+            {
+                jumpAnimation.Draw(spriteBatch, position, flipEffect);
+            }
+            else if(isMoving && !isJumping)
+            {
+                runAnimation.Draw(spriteBatch, position, flipEffect);
+            }
+            else
+            {
+                idleAnimation.Draw(spriteBatch, position, flipEffect);
+            }
         }
         else
         {
-            idleAnimation.Draw(spriteBatch, position, flipEffect);
+            //todesanimation
         }
         
         //spriteBatch.Draw(texture, position, Color.White);

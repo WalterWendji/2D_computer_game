@@ -16,10 +16,14 @@ public abstract class Enemy
     //fighting var
     protected int health = 100;
     public bool isAlive => health > 0;
+    protected bool isAttacking;
     public Vector2 Position => position;
+    private bool hasDealtDamage = false;
     //bewegung
     protected AnimationPlayer enRunAnimation;
+    protected AnimationPlayer enAttackAnimation;
     protected Texture2D enRunTexture;
+    protected Texture2D enAttackTexture;
     protected Vector2 position;
     protected float speed;
     protected Vector2 patrolStart;
@@ -29,10 +33,11 @@ public abstract class Enemy
     protected float sightRange;
     protected Rectangle sightRect;
 
-    public Enemy(Texture2D enRuntexture, Vector2 startposition, Vector2 patrolEnd, float sightRange, int initialhealth)
+    public Enemy(Texture2D enRunTexture, Texture2D enAttackTexture, Vector2 startposition, Vector2 patrolEnd, float sightRange, int initialhealth)
     {
-        this.enRunTexture = enRuntexture;
+        this.enRunTexture = enRunTexture;
         enRunAnimation = new AnimationPlayer(enRunTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
+        enAttackAnimation = new AnimationPlayer(enAttackTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
         this.position = startposition;
         this.patrolStart = startposition;
         this.patrolEnd = patrolEnd;
@@ -55,7 +60,30 @@ public abstract class Enemy
         }
     }
 
-    public virtual void Update(GameTime gameTime, Vector2 playerPosition)
+    public void AttackPlayer(Player player)
+    {
+        if(isAttacking && !hasDealtDamage && IsPlayerInRange(player))
+        {
+            player.TakeDamage(1);
+            hasDealtDamage = true;
+        }
+    }
+
+
+    public bool IsPlayerInRange(Player player)
+    {
+        float attackRange = 50f;
+        if(movingRight)
+        {
+            return(player.Position.X > position.X && player.Position.X <= position.X + attackRange);
+        }
+        else
+        {
+             return(player.Position.X < position.X && player.Position.X >= position.X - attackRange);
+        }
+    }
+
+    public virtual void Update(GameTime gameTime, Player player)
     {
         float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -80,6 +108,29 @@ public abstract class Enemy
             {
                 position.X = patrolStart.X;
                 movingRight = true;
+            }
+        }
+
+        if(IsPlayerInRange(player))
+        {
+            isAttacking = true;
+            hasDealtDamage = false;
+        }
+        else
+        {
+            isAttacking = false;
+            hasDealtDamage = false;
+        }
+
+        if(isAttacking)
+        {
+            enAttackAnimation.Update(gameTime);
+            AttackPlayer(player);
+            if(enAttackAnimation.IsFinished)
+            {
+                isAttacking = false;
+                hasDealtDamage = false;
+                enAttackAnimation.Reset();
             }
         }
 
