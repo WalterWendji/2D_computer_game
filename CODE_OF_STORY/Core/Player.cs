@@ -21,8 +21,10 @@ public class Player
     private Vector2 position;
     private float speed;
     public bool isMoving { get; private set;}
-    //attack var
+    //fighting var
     private bool isAttacking;
+    private bool hasDealtDamage = false;
+    private int health;
     //sprung var
     private bool isJumping;
     private float jumpSpeed = 0f;
@@ -45,8 +47,31 @@ public class Player
         this.position = position;
         this.speed = 200f;
         this.groundLevel = position.Y;
+        this.health = 100;
     }
 
+    public void AttackEnemy(Enemy enemy)
+    {
+        if(isAttacking && !hasDealtDamage &&IsEnemyInRange(enemy))
+        {
+            enemy.TakeDamage(10);
+            hasDealtDamage = true;
+        }
+    }
+
+
+    private bool IsEnemyInRange(Enemy enemy)
+    {
+        float attackRange = 50f;
+        if(facingRight)
+        {
+            return(enemy.Position.X > position.X && enemy.Position.X <= position.X + attackRange);
+        }
+        else
+        {
+             return(enemy.Position.X < position.X && enemy.Position.X >= position.X - attackRange);
+        }
+    }
     public void Update(GameTime gameTime)
     {
         KeyboardState state = Keyboard.GetState();
@@ -107,6 +132,7 @@ public class Player
         if (mouseState.LeftButton == ButtonState.Pressed && !isAttacking)
         {
             isAttacking = true;
+            hasDealtDamage = false;
             attackAnimation.Reset();
         }
 
@@ -117,6 +143,7 @@ public class Player
             if(attackAnimation.IsFinished)
             {
                 isAttacking = false;
+                hasDealtDamage = false;
             }
         }
 

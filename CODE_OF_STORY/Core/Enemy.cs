@@ -13,7 +13,10 @@ namespace CODE_OF_STORY.Core;
 Used to load, draw, and update an enemy. */
 public abstract class Enemy
 {
-    protected int health;
+    //fighting var
+    protected int health = 100;
+    public bool isAlive => health > 0;
+    public Vector2 Position => position;
     //bewegung
     protected AnimationPlayer enRunAnimation;
     protected Texture2D enRunTexture;
@@ -26,7 +29,7 @@ public abstract class Enemy
     protected float sightRange;
     protected Rectangle sightRect;
 
-    public Enemy(Texture2D enRuntexture, Vector2 startposition, Vector2 patrolEnd, float sightRange, int health)
+    public Enemy(Texture2D enRuntexture, Vector2 startposition, Vector2 patrolEnd, float sightRange, int initialhealth)
     {
         this.enRunTexture = enRuntexture;
         enRunAnimation = new AnimationPlayer(enRunTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
@@ -34,9 +37,22 @@ public abstract class Enemy
         this.patrolStart = startposition;
         this.patrolEnd = patrolEnd;
         this.speed = 150f;
-        this.health = health;
+        this.health = initialhealth;
         this.movingRight = true;
         this.sightRange = sightRange;
+    }
+
+    public virtual void TakeDamage(int damage)
+    {
+        health -= damage;
+        if(health <= 0)
+        {
+            health = 0;//todesanimation und entfernen
+        }
+        else
+        {
+            //schadensanimation
+        }
     }
 
     public virtual void Update(GameTime gameTime, Vector2 playerPosition)

@@ -48,6 +48,7 @@ internal class StoneAge : Component
             if (player != null && gem != null && enemy != null)
             {
                 player.Update(gameTime);
+                player.AttackEnemy(enemy);
                 gem.Update(gameTime);
                 enemy.Update(gameTime, player.Position);
             }
