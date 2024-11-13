@@ -24,6 +24,7 @@ public class Player
     //fighting var
     private bool isAttacking;
     private bool hasDealtDamage = false;
+    public bool damageTaken;
     private int health = 100;
     public bool isAlive => health > 0;
     //sprung var
@@ -65,10 +66,11 @@ public class Player
     }
     public void AttackEnemy(Enemy enemy)
     {
-        if(isAttacking && !hasDealtDamage &&IsEnemyInRange(enemy))
+        if(isAttacking && !hasDealtDamage && IsEnemyInRange(enemy))
         {
             enemy.TakeDamage(10);
             hasDealtDamage = true;
+            enemy.damageTaken = true;
         }
     }
 
@@ -177,6 +179,10 @@ public class Player
             else if(isMoving && !isJumping)
             {
                 runAnimation.Draw(spriteBatch, position, flipEffect);
+            }
+            else if(damageTaken)
+            {
+
             }
             else
             {

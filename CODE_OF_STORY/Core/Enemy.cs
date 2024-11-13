@@ -1,8 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
-
-
+using System.Threading.Tasks;
 //using System.Numerics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,13 +16,16 @@ public abstract class Enemy
     protected int health = 100;
     public bool isAlive => health > 0;
     protected bool isAttacking;
+    public bool damageTaken;
     public Vector2 Position => position;
     private bool hasDealtDamage = false;
     //bewegung
     protected AnimationPlayer enRunAnimation;
     protected AnimationPlayer enAttackAnimation;
+    protected AnimationPlayer enDamageAnimation;
     protected Texture2D enRunTexture;
     protected Texture2D enAttackTexture;
+    protected Texture2D enDamageTexture;
     protected Vector2 position;
     protected float speed;
     protected Vector2 patrolStart;
@@ -33,11 +35,12 @@ public abstract class Enemy
     protected float sightRange;
     protected Rectangle sightRect;
 
-    public Enemy(Texture2D enRunTexture, Texture2D enAttackTexture, Vector2 startposition, Vector2 patrolEnd, float sightRange, int initialhealth)
+    public Enemy(Texture2D enRunTexture, Texture2D enAttackTexture, Texture2D enDamageTexture, Vector2 startposition, Vector2 patrolEnd, float sightRange, int initialhealth)
     {
         this.enRunTexture = enRunTexture;
         enRunAnimation = new AnimationPlayer(enRunTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
         enAttackAnimation = new AnimationPlayer(enAttackTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
+        enDamageAnimation = new AnimationPlayer(enDamageTexture, frameCount: 2, animationSpeed: 0.1f, playOnce: true);
         this.position = startposition;
         this.patrolStart = startposition;
         this.patrolEnd = patrolEnd;
@@ -64,7 +67,7 @@ public abstract class Enemy
     {
         if(isAttacking && !hasDealtDamage && IsPlayerInRange(player))
         {
-            player.TakeDamage(1);
+            player.TakeDamage(10);
             hasDealtDamage = true;
         }
     }
@@ -83,7 +86,7 @@ public abstract class Enemy
         }
     }
 
-    public virtual void Update(GameTime gameTime, Player player)
+    public virtual async void Update(GameTime gameTime, Player player)
     {
         float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -114,7 +117,6 @@ public abstract class Enemy
         if(IsPlayerInRange(player))
         {
             isAttacking = true;
-            hasDealtDamage = false;
         }
         else
         {
@@ -128,9 +130,9 @@ public abstract class Enemy
             AttackPlayer(player);
             if(enAttackAnimation.IsFinished)
             {
-                isAttacking = false;
-                hasDealtDamage = false;
+                await Task.Delay(200);
                 enAttackAnimation.Reset();
+                hasDealtDamage = false;
             }
         }
 
