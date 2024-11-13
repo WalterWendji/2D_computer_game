@@ -10,18 +10,21 @@ public class EnemyCharge : Enemy
 {
     private float chargeSpeed;
 
-    public EnemyCharge(Texture2D enRunTexture, Texture2D enAttackTexture, Texture2D enDamageTexture, Vector2 startPosition, Vector2 patrolEnd, float speed, float sightRange, int health, float chargeSpeed)
-        : base(enRunTexture, enAttackTexture, enDamageTexture, startPosition, patrolEnd, sightRange, health)
+    public EnemyCharge(Texture2D enRunTexture, Texture2D enAttackTexture, Texture2D enDamageTexture,Texture2D enDeathTexture,
+                         Vector2 startPosition, Vector2 patrolEnd, float speed, float sightRange, int health, float chargeSpeed)
+        : base(enRunTexture, enAttackTexture, enDamageTexture, enDeathTexture, startPosition, patrolEnd, sightRange, health)
     {
         this.enRunTexture = enRunTexture;
         this.enAttackTexture = enAttackTexture;
         this.enDamageTexture = enDamageTexture;
+        this.enDeathTexture = enDeathTexture;
     }  
 
     public override void Update(GameTime gameTime, Player player) 
     {
         base.Update(gameTime, player);
-
+        if(isAlive)
+        {
         if(sightRect.Contains(player.Position))
         {
             chargeSpeed = 300f;
@@ -31,7 +34,11 @@ public class EnemyCharge : Enemy
         {
             speed = 100f;
         }
-        
+        }
+        else
+        {
+            speed = 0f;
+        }
     } 
 
     public override async void Draw(SpriteBatch spriteBatch)
@@ -53,6 +60,10 @@ public class EnemyCharge : Enemy
             {
                 enRunAnimation.Draw(spriteBatch, position, flipEffect);
             }
+        }
+        else
+        {
+            enDeathAnimation.Draw(spriteBatch, position, flipEffect);
         }
     }
 }
