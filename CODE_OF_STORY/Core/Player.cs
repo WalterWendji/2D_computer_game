@@ -1,4 +1,6 @@
 using System;
+using System.Threading.Tasks;
+
 //using System.Numerics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,6 +18,7 @@ public class Player
     private AnimationPlayer jumpAnimation;
     private AnimationPlayer attackAnimation;
     private AnimationPlayer deathAnimation;
+    private AnimationPlayer damageAnimation;
     private bool facingRight;
     private Texture2D idleTexture;
     //laufen var
@@ -40,7 +43,8 @@ public class Player
     {
         get { return position;}
     }
-    public Player(Texture2D runTexture, Texture2D idleTexture, Texture2D jumpTexture,Texture2D attackTexture, Texture2D deathTexture, Vector2 position, int initialHealth)
+    public Player(Texture2D runTexture, Texture2D idleTexture, Texture2D jumpTexture,Texture2D attackTexture, Texture2D deathTexture, Texture2D damageTexture,
+                     Vector2 position, int initialHealth)
     {
         this.idleTexture = idleTexture;
         runAnimation = new AnimationPlayer(runTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
@@ -48,13 +52,14 @@ public class Player
         jumpAnimation = new AnimationPlayer(jumpTexture, frameCount: 2, animationSpeed: 0.5f, playOnce: false);
         attackAnimation = new AnimationPlayer(attackTexture, frameCount: 4, animationSpeed: 0.2f, playOnce: true);
         deathAnimation = new AnimationPlayer(deathTexture, frameCount: 4, animationSpeed: 0.2f, playOnce: true);
+        damageAnimation = new AnimationPlayer(damageTexture, frameCount: 2, animationSpeed: 0.2f, playOnce: true);
         this.position = position;
         this.speed = 200f;
         this.groundLevel = position.Y;
         this.health = initialHealth;
     }
 
-    public void TakeDamage(int damage)
+    public async void TakeDamage(int damage)
     {
         health -= damage;
         if(health <= 0)
@@ -63,8 +68,10 @@ public class Player
         }
         else
         {
-            //schadensanimation
+           damageTaken=true;
+           await Task.Delay(200);
         }
+        damageTaken=false;
     }
     public void AttackEnemy(Enemy enemy)
     {
@@ -91,6 +98,8 @@ public class Player
     }
     public void Update(GameTime gameTime)
     {
+        if(isAlive)
+        {
         KeyboardState state = Keyboard.GetState();
         MouseState mouseState = Mouse.GetState();
         float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -163,7 +172,13 @@ public class Player
                 hasDealtDamage = false;
             }
         }
-        if(!isAlive)
+
+        if(damageTaken)
+        {
+            damageAnimation.Update(gameTime);
+        }
+        }
+        else
         {
             deathAnimation.Update(gameTime);
         }
@@ -182,13 +197,13 @@ public class Player
             {
                 jumpAnimation.Draw(spriteBatch, position, flipEffect);
             }
-            else if(isMoving && !isJumping)
+            else if(isMoving && !isJumping && !damageTaken)
             {
                 runAnimation.Draw(spriteBatch, position, flipEffect);
             }
             else if(damageTaken)
             {
-
+                damageAnimation.Draw(spriteBatch, position, flipEffect);
             }
             else
             {
