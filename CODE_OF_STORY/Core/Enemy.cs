@@ -2,6 +2,8 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using CODE_OF_STORY.Scenes.Gateway;
+
 //using System.Numerics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -34,7 +36,7 @@ public abstract class Enemy
     protected Vector2 patrolEnd;
     protected bool movingRight = true;
     //sicht
-    protected float sightRange;
+    public float sightRange;
     protected Rectangle sightRect;
 
     public Enemy(Texture2D enRunTexture, Texture2D enAttackTexture, Texture2D enDamageTexture, Texture2D enDeathTexture, Vector2 startposition, Vector2 patrolEnd, float sightRange, int initialhealth)
@@ -56,7 +58,7 @@ public abstract class Enemy
     public virtual void TakeDamage(int damage)
     {
         health -= damage;
-        if(health <= 0)
+        if (health <= 0)
         {
             health = 0;//todesanimation und entfernen
         }
@@ -66,9 +68,18 @@ public abstract class Enemy
         }
     }
 
+    public void ResetEnemy()
+    {
+        patrolStart = StoneAge.enemyStartPosition;
+        position = StoneAge.enemyStartPosition;
+        speed = 150f;
+        sightRange = 100f;
+        health = 100;
+        patrolEnd = StoneAge.enemyEndPosition;
+    }
     public void AttackPlayer(Player player)
     {
-        if(isAttacking && !hasDealtDamage && IsPlayerInRange(player))
+        if (isAttacking && !hasDealtDamage && IsPlayerInRange(player))
         {
             player.TakeDamage(10);
             hasDealtDamage = true;
@@ -79,77 +90,77 @@ public abstract class Enemy
     public bool IsPlayerInRange(Player player)
     {
         float attackRange = 50f;
-        if(movingRight)
+        if (movingRight)
         {
-            return(player.Position.X > position.X && player.Position.X <= position.X + attackRange);
+            return (player.Position.X > position.X && player.Position.X <= position.X + attackRange);
         }
         else
         {
-             return(player.Position.X < position.X && player.Position.X >= position.X - attackRange);
+            return (player.Position.X < position.X && player.Position.X >= position.X - attackRange);
         }
     }
 
     public virtual async void Update(GameTime gameTime, Player player)
     {
-        if(isAlive)
+        if (isAlive)
         {
-        float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-        if(movingRight)
-        {
-            position.X += speed * deltaTime;
-            sightRect = new Rectangle((int)position.X, (int)position.Y, (int)sightRange, 64);
-
-            if(position.X >= patrolEnd.X)
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (movingRight)
             {
-                position.X = patrolEnd.X;
-                
-                movingRight = false;
+                position.X += speed * deltaTime;
+                sightRect = new Rectangle((int)position.X, (int)position.Y, (int)sightRange, 64);
+
+                if (position.X >= patrolEnd.X)
+                {
+                    position.X = patrolEnd.X;
+
+                    movingRight = false;
+                }
             }
-        }
-        else
-        {
-            position.X -= speed * deltaTime;
-            sightRect = new Rectangle((int)position.X - (int)sightRange, (int)position.Y, (int)sightRange, 64);
-
-            if(position.X <= patrolStart.X)
+            else
             {
-                position.X = patrolStart.X;
-                movingRight = true;
+                position.X -= speed * deltaTime;
+                sightRect = new Rectangle((int)position.X - (int)sightRange, (int)position.Y, (int)sightRange, 64);
+
+                if (position.X <= patrolStart.X)
+                {
+                    position.X = patrolStart.X;
+                    movingRight = true;
+                }
             }
-        }
 
-        if(IsPlayerInRange(player))
-        {
-            isAttacking = true;
-        }
-        else
-        {
-            isAttacking = false;
-            hasDealtDamage = false;
-        }
-
-        if(isAttacking)
-        {
-            enAttackAnimation.Update(gameTime);
-            AttackPlayer(player);
-            if(enAttackAnimation.IsFinished)
+            if (IsPlayerInRange(player))
             {
-                await Task.Delay(200);
-                enAttackAnimation.Reset();
+                isAttacking = true;
+            }
+            else
+            {
+                isAttacking = false;
                 hasDealtDamage = false;
             }
-        }
-        //was soll passieren wenn der gegner den spieler sieht
-        
-        enRunAnimation.Update(gameTime);
+
+            if (isAttacking)
+            {
+                enAttackAnimation.Update(gameTime);
+                AttackPlayer(player);
+                if (enAttackAnimation.IsFinished)
+                {
+                    await Task.Delay(200);
+                    enAttackAnimation.Reset();
+                    hasDealtDamage = false;
+                }
+            }
+            //was soll passieren wenn der gegner den spieler sieht
+
+            enRunAnimation.Update(gameTime);
         }
         else
         {
-          enDeathAnimation.Update(gameTime);  
+            enDeathAnimation.Update(gameTime);
         }
     }
 
 
     public abstract void Draw(SpriteBatch spriteBatch);
-    
+
 }

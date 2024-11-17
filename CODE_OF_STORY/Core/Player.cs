@@ -1,5 +1,7 @@
 using System;
 using System.Threading.Tasks;
+using CODE_OF_STORY.Scenes.Gateway;
+
 
 //using System.Numerics;
 using Microsoft.Xna.Framework;
@@ -24,26 +26,27 @@ public class Player
     //laufen var
     private Vector2 position;
     private float speed;
-    public bool isMoving { get; private set;}
+    public bool isMoving { get; private set; }
     //fighting var
     private bool isAttacking;
     private bool hasDealtDamage = false;
     public bool damageTaken;
     private int health = 100;
     public bool isAlive => health > 0;
+    public static bool checkIsAlive; 
     //sprung var
     private bool isJumping;
     private float jumpSpeed = 0f;
     private float jumpPower = 300f;
     private float gravity = 500f;
-    private float groundLevel;
+    public float groundLevel;
 
     //zugriff aus die aktuelle position für enemy
     public Vector2 Position
     {
-        get { return position;}
+        get { return position; }
     }
-    public Player(Texture2D runTexture, Texture2D idleTexture, Texture2D jumpTexture,Texture2D attackTexture, Texture2D deathTexture, Texture2D damageTexture,
+    public Player(Texture2D runTexture, Texture2D idleTexture, Texture2D jumpTexture, Texture2D attackTexture, Texture2D deathTexture, Texture2D damageTexture,
                      Vector2 position, int initialHealth)
     {
         this.idleTexture = idleTexture;
@@ -57,25 +60,35 @@ public class Player
         this.speed = 200f;
         this.groundLevel = position.Y;
         this.health = initialHealth;
+        checkIsAlive = isAlive;
+    }
+
+    public void ResetPlayer()
+    {
+        position = StoneAge.playerStartPosition;
+        speed = 200f;
+        groundLevel = position.Y;
+        health = 100;
+        checkIsAlive = isAlive;
     }
 
     public async void TakeDamage(int damage)
     {
         health -= damage;
-        if(health <= 0)
+        if (health <= 0)
         {
             health = 0;//todesanimation und entfernen
         }
         else
         {
-           damageTaken=true;
-           await Task.Delay(200);
+            damageTaken = true;
+            await Task.Delay(200);
         }
-        damageTaken=false;
+        damageTaken = false;
     }
     public void AttackEnemy(Enemy enemy)
     {
-        if(isAttacking && !hasDealtDamage && IsEnemyInRange(enemy))
+        if (isAttacking && !hasDealtDamage && IsEnemyInRange(enemy))
         {
             enemy.TakeDamage(10);
             hasDealtDamage = true;
@@ -87,121 +100,122 @@ public class Player
     private bool IsEnemyInRange(Enemy enemy)
     {
         float attackRange = 50f;
-        if(facingRight)
+        if (facingRight)
         {
-            return(enemy.Position.X > position.X && enemy.Position.X <= position.X + attackRange);
+            return (enemy.Position.X > position.X && enemy.Position.X <= position.X + attackRange);
         }
         else
         {
-             return(enemy.Position.X < position.X && enemy.Position.X >= position.X - attackRange);
+            return (enemy.Position.X < position.X && enemy.Position.X >= position.X - attackRange);
         }
     }
     public void Update(GameTime gameTime)
     {
-        if(isAlive)
+        if (isAlive)
         {
-        KeyboardState state = Keyboard.GetState();
-        MouseState mouseState = Mouse.GetState();
-        float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            KeyboardState state = Keyboard.GetState();
+            MouseState mouseState = Mouse.GetState();
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        isMoving = false;
+            isMoving = false;
 
-        if (state.IsKeyDown(Keys.A))
-        { 
-            position.X -= speed * deltaTime;
-            facingRight = false;
-            isMoving = true;
-        }  
-        else if(state.IsKeyDown(Keys.D))
-        {    
-            position.X += speed * deltaTime;
-            facingRight = true;
-            isMoving = true;
-        }
-        if(isJumping)
-        {
-            jumpAnimation.Update(gameTime);
-        }
-        else if(isMoving)
-        {
-            runAnimation.Update(gameTime);
-        }
-        else
-        {
-            idleAnimation.Update(gameTime);
-        }
-        
-        if (state.IsKeyDown(Keys.Space) && !isJumping)
-        {
-            isJumping = true;
-            jumpSpeed = -jumpPower;
-        }
-
-        if(isJumping)
-        {
-            jumpSpeed += gravity * deltaTime;
-            position.Y += jumpSpeed * deltaTime;
-            
-
-            if(position.Y >= groundLevel)
+            if (state.IsKeyDown(Keys.A))
             {
-                position.Y = groundLevel;
-                isJumping = false;
-                jumpSpeed = 0f;
+                position.X -= speed * deltaTime;
+                facingRight = false;
+                isMoving = true;
             }
-        }
-        /*if (state.IsKeyDown(Keys.F))
-            interagieren
-        if (state.IsKeyDown(Keys.Q))
-            Waffewechseln
-            */
-        if (mouseState.LeftButton == ButtonState.Pressed && !isAttacking)
-        {
-            isAttacking = true;
-            hasDealtDamage = false;
-            attackAnimation.Reset();
-        }
-
-        
-        if(isAttacking)
-        {
-            attackAnimation.Update(gameTime);
-            if(attackAnimation.IsFinished)
+            else if (state.IsKeyDown(Keys.D))
             {
-                isAttacking = false;
+                position.X += speed * deltaTime;
+                facingRight = true;
+                isMoving = true;
+            }
+            if (isJumping)
+            {
+                jumpAnimation.Update(gameTime);
+            }
+            else if (isMoving)
+            {
+                runAnimation.Update(gameTime);
+            }
+            else
+            {
+                idleAnimation.Update(gameTime);
+            }
+
+            if (state.IsKeyDown(Keys.Space) && !isJumping)
+            {
+                isJumping = true;
+                jumpSpeed = -jumpPower;
+            }
+
+            if (isJumping)
+            {
+                jumpSpeed += gravity * deltaTime;
+                position.Y += jumpSpeed * deltaTime;
+
+
+                if (position.Y >= groundLevel)
+                {
+                    position.Y = groundLevel;
+                    isJumping = false;
+                    jumpSpeed = 0f;
+                }
+            }
+            /*if (state.IsKeyDown(Keys.F))
+                interagieren
+            if (state.IsKeyDown(Keys.Q))
+                Waffewechseln
+                */
+            if (mouseState.LeftButton == ButtonState.Pressed && !isAttacking)
+            {
+                isAttacking = true;
                 hasDealtDamage = false;
+                attackAnimation.Reset();
             }
-        }
 
-        if(damageTaken)
-        {
-            damageAnimation.Update(gameTime);
-        }
+
+            if (isAttacking)
+            {
+                attackAnimation.Update(gameTime);
+                if (attackAnimation.IsFinished)
+                {
+                    isAttacking = false;
+                    hasDealtDamage = false;
+                }
+            }
+
+            if (damageTaken)
+            {
+                damageAnimation.Update(gameTime);
+            }
         }
         else
         {
             deathAnimation.Update(gameTime);
+            checkIsAlive = false;
         }
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
         SpriteEffects flipEffect = facingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-        if(isAlive)
+        if (isAlive)
         {
-            if(isAttacking)
+            if (isAttacking)
             {
                 attackAnimation.Draw(spriteBatch, position, flipEffect);
             }
-            else if(isJumping)
+            else if (isJumping)
             {
                 jumpAnimation.Draw(spriteBatch, position, flipEffect);
             }
-            else if(isMoving && !isJumping && !damageTaken)
+            else if (isMoving && !isJumping && !damageTaken)
             {
                 runAnimation.Draw(spriteBatch, position, flipEffect);
             }
-            else if(damageTaken)
+            else if (damageTaken)
             {
                 damageAnimation.Draw(spriteBatch, position, flipEffect);
             }
@@ -214,7 +228,7 @@ public class Player
         {
             deathAnimation.Draw(spriteBatch, position, flipEffect);
         }
-        
+
         //spriteBatch.Draw(texture, position, Color.White);
     }
 }

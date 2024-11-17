@@ -4,14 +4,15 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using static CODE_OF_STORY.Core.Data;
 
 namespace CODE_OF_STORY.Core;
 
-internal class PausePopupMenu: Component
+internal class PausePopupMenu : Component
 {
-    private string[] buttonNames = {"Continue_Button", "Menu_Button", "Settings_Button", "Exit_Button"};
-    private string[] buttonNameColored = {"Continue_col_Button", "Menu_col_Button", "Settings_col_Button", "Exit_col_Button"};
-    
+    private string[] buttonNames = { "Continue_Button", "Newgame_Button", "Menu_Button", "Settings_Button", "Exit_Button" };
+    private string[] buttonNameColored = { "Continue_col_Button", "New_Game_col_Button", "Menu_col_Button", "Settings_col_Button", "Exit_col_Button" };
+
     private Texture2D homeButton;
     private Texture2D homeButtonColored;
     private Rectangle homeButtonRect;
@@ -29,7 +30,7 @@ internal class PausePopupMenu: Component
     private int totalHeight;
     private int xPosition;
     private int yPosition;
-
+    public static bool isClicked;
 
 
     public PausePopupMenu()
@@ -37,6 +38,7 @@ internal class PausePopupMenu: Component
         buttons = new Texture2D[buttonNames.Length];
         btnColored = new Texture2D[buttonNameColored.Length];
         btnRects = new Rectangle[buttonNames.Length];
+        isClicked = false;
     }
 
     internal override void LoadContent(ContentManager Content)
@@ -48,28 +50,28 @@ internal class PausePopupMenu: Component
 
         homeButton = Content.Load<Texture2D>("Buttons/Home_Square_Button");
         homeButtonColored = Content.Load<Texture2D>("Buttons/ColoredButtons/Home_col_Square_Button");
-        homeButtonPosition = new Vector2(viewport.Width-60, viewport.Height-(viewport.Height-20));
+        homeButtonPosition = new Vector2(viewport.Width - 60, viewport.Height - (viewport.Height - 20));
 
         xPositionHomeButton = (int)homeButtonPosition.X;
         yPositionHomeButton = (int)homeButtonPosition.Y;
 
-        homeButtonRect = new Rectangle(xPositionHomeButton, yPositionHomeButton, homeButton.Width/4, homeButton.Height/4);
-        homeButtonColoredRect = new Rectangle(xPositionHomeButton, yPositionHomeButton, homeButtonColored.Width/4, homeButtonColored.Height/4);
-        
+        homeButtonRect = new Rectangle(xPositionHomeButton, yPositionHomeButton, homeButton.Width / 4, homeButton.Height / 4);
+        homeButtonColoredRect = new Rectangle(xPositionHomeButton, yPositionHomeButton, homeButtonColored.Width / 4, homeButtonColored.Height / 4);
+
         for (int i = 0; i < buttons.Length; i++)
         {
             buttons[i] = Content.Load<Texture2D>($"Buttons/{buttonNames[i]}");
-            buttonHeight = buttons[0].Height/4;
+            buttonHeight = buttons[0].Height / 4;
             totalHeight = buttonHeight * buttons.Length;
-            xPosition = (screenWidth - (buttons[i].Width/4)) / 2;
+            xPosition = (screenWidth - (buttons[i].Width / 4)) / 2;
             yPosition = (screenHeight - totalHeight) / 2 + i * (buttonHeight + 60);
             btnRects[i] = new Rectangle(xPosition, yPosition, buttons[i].Width / 4, buttons[i].Height / 4);
         }
         for (int i = 0; i < btnColored.Length; i++)
         {
             btnColored[i] = Content.Load<Texture2D>($"Buttons/ColoredButtons/{buttonNameColored[i]}");
-            buttonHeight = btnColored[0].Height/4;
-            totalHeight = buttonHeight * btnColored.Length*2;
+            buttonHeight = btnColored[0].Height / 4;
+            totalHeight = buttonHeight * btnColored.Length * 2;
             xPosition = (screenWidth - (btnColored[i].Width / 4)) / 2;
             yPosition = (screenHeight - totalHeight) / 2 + i * (buttonHeight + 60);
             btnRects[i] = new Rectangle(xPosition, yPosition, btnColored[i].Width / 4, btnColored[i].Height / 4);
@@ -78,28 +80,35 @@ internal class PausePopupMenu: Component
 
     internal override void Update(GameTime gameTime)
     {
-        
+
         if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[0]))
             Data.currentGameState = Data.GameState.Playing;
-        else if(Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[1]))
-            Data.currentState = Data.Scenes.Menu;
+        else if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[1]))
+        {
+            isClicked = true;
+            currentGameState = GameState.Playing;
+            Data.currentState = Data.Scenes.StoneAge;
+        }       
         else if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[2]))
-            Data.currentState = Data.Scenes.Settings;
+            Data.currentState = Data.Scenes.Menu;
         else if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[3]))
+            Data.currentState = Data.Scenes.Settings;
+        else if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[4]))
             Data.Exit = true;
-        else if(Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(homeButtonRect))
+        else if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(homeButtonRect))
             Data.currentState = Data.Scenes.Gateways;
+
     }
     internal override void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(homeButton, homeButtonRect, Color.White);
         if (Game1.currentMouseStateRectangle.Intersects(homeButtonRect))
-            spriteBatch.Draw(homeButtonColored,homeButtonColoredRect, Color.White);
+            spriteBatch.Draw(homeButtonColored, homeButtonColoredRect, Color.White);
 
-        for (int i = 0; i<buttons.Length; i++)
+        for (int i = 0; i < buttons.Length; i++)
         {
             spriteBatch.Draw(buttons[i], btnRects[i], Color.White);
-            
+
             if (Game1.currentMouseStateRectangle.Intersects(btnRects[i]))
                 spriteBatch.Draw(btnColored[i], btnRects[i], Color.White);
 

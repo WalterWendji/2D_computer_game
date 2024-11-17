@@ -1,5 +1,6 @@
 using System;
 using CODE_OF_STORY.Core;
+using CODE_OF_STORY.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,14 +14,32 @@ internal class StoneAge : Component
     private Player player;
     private Enemy enemy;
     private Gem gem;
+
+    public static Vector2 playerStartPosition;
+    public static Vector2 enemyStartPosition;
+    public static Vector2 enemyEndPosition;
+    private Vector2 gemStartPosition;
+
     private PausePopupMenu pausePopupMenu;
 
-    private bool popUpMenuFired = false;
+    private bool popUpMenuTriggerd;
+    private bool popUpMenuFired;
+    private double deathTimer;
+    private const double DeathDelay = 2.0; //2 seconds delay
 
     public StoneAge()
     {
+        playerStartPosition = new Vector2(100, 600);
+        enemyStartPosition = new Vector2(400, 600);
+        enemyEndPosition = new Vector2(700, 600);
+        gemStartPosition = new Vector2(300, 600);
+
         pausePopupMenu = new PausePopupMenu();
+
+        popUpMenuTriggerd = false;
+        popUpMenuFired = false;
     }
+
 
     internal override void LoadContent(ContentManager Content)
     {
@@ -38,60 +57,82 @@ internal class StoneAge : Component
 
         Texture2D gemTexture = Content.Load<Texture2D>("Items/Gems/plate32x8");
 
-        player = new Player(runTexture, idleTexture, jumpAnimation, attackAnimation, deathAnimation, damageAnimation, new Vector2(100, 600), 100);
-        enemy = new EnemyCharge(enRunTexture, enAttackTexture, enDamageTexture, enDeathTexture, new Vector2(400, 600), new Vector2(700, 600), 100f, 100f, 100, 300f);
+        player = new Player(runTexture, idleTexture, jumpAnimation, attackAnimation, deathAnimation, damageAnimation, playerStartPosition, 100);
+        enemy = new EnemyCharge(enRunTexture, enAttackTexture, enDamageTexture, enDeathTexture, enemyStartPosition, enemyEndPosition, 100f, 100f, 100, 300f);
         gem = new Gem(gemTexture, new Vector2(300, 600));
 
         pausePopupMenu.LoadContent(Content);
 
     }
 
+    public void Reset()
+    {
+        popUpMenuTriggerd = false;
+        player.ResetPlayer();
+
+        enemy.ResetEnemy();
+        gem.position = gemStartPosition;
+
+    }
     internal override void Update(GameTime gameTime)
     {
         pausePopupMenu.Update(gameTime);
 
-        if (currentGameState == GameState.Playing)
+        if (player != null && gem != null && enemy != null)
         {
-            if (player != null && gem != null && enemy != null)
-            {
-                player.Update(gameTime);
-                player.AttackEnemy(enemy);
-                gem.Update(gameTime);
-                enemy.Update(gameTime, player);
-                enemy.AttackPlayer(player);
-            }
-            else
-            {
-                Console.WriteLine("The player or gem or enemy is null");
-            }
+            player.Update(gameTime);
+            player.AttackEnemy(enemy);
+            gem.Update(gameTime);
+            enemy.Update(gameTime, player);
+            enemy.AttackPlayer(player);
+        }
+        else
+        {
+            Console.WriteLine("The player or gem or enemy is null");
         }
 
         // check button state
-        if (!this.popUpMenuFired) { 
+        if (!this.popUpMenuFired)
+        {
             if (Keyboard.GetState().IsKeyDown(Keys.P) || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 this.popUpMenuFired = true;
                 if (currentGameState == GameState.Playing)
                 {
+                    popUpMenuTriggerd = true;
                     currentGameState = GameState.Paused;
                 }
                 else if (currentGameState == GameState.Paused)
                 {
+                    popUpMenuTriggerd = false;
                     currentGameState = GameState.Playing;
                 }
             }
-        } else
+            if (!player.isAlive && !popUpMenuTriggerd)
+            {
+                deathTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                if (deathTimer >= DeathDelay)
+                {
+                    currentGameState = GameState.Paused;
+                    popUpMenuTriggerd = true;
+                    deathTimer = 0;
+                }
+
+            }
+        }
+        else
         {
             if (Keyboard.GetState().IsKeyUp(Keys.P) && Keyboard.GetState().IsKeyUp(Keys.Escape))
             {
                 this.popUpMenuFired = false;
+                popUpMenuTriggerd = false;
             }
         }
 
     }
     internal override void Draw(SpriteBatch spriteBatch)
     {
-        if (currentGameState == GameState.Playing)
+        if (currentGameState == GameState.Playing || !popUpMenuTriggerd)
         {
             if (player != null)
             {
@@ -100,9 +141,10 @@ internal class StoneAge : Component
                 enemy.Draw(spriteBatch);
             }
         }
-        else if (currentGameState == GameState.Paused)
+        if (!player.isAlive && !popUpMenuTriggerd || currentGameState == GameState.Paused && popUpMenuTriggerd)
         {
             pausePopupMenu.Draw(spriteBatch);
+            //popUpMenuTriggerd = false;
         }
 
 

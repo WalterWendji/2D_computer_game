@@ -11,7 +11,7 @@ namespace CODE_OF_STORY.Core;
 Gems are used to load, draw, and update a gem. */
 public class Gem
 {
-    private Vector2 position;
+    public Vector2 position;
     private AnimationItem gemAnimation;
 
 public Gem(Texture2D gemTexture, Vector2 postion)
