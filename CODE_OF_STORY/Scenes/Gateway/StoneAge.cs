@@ -41,6 +41,7 @@ internal class StoneAge : Component
 
         popUpMenuTriggerd = false;
         popUpMenuFired = false;
+        enemies = new List<Enemy>();
     }
 
 
@@ -61,9 +62,12 @@ internal class StoneAge : Component
         Texture2D gemTexture = Content.Load<Texture2D>("Items/Gems/plate32x8");
 
         player = new Player(runTexture, idleTexture, jumpAnimation, attackAnimation, deathAnimation, damageAnimation, playerStartPosition, 100);
+        
         enemy = new EnemyCharge(enRunTexture, enAttackTexture, enDamageTexture, enDeathTexture, enemyStartPosition, enemyEndPosition, 100f, 100f, 100, 300f);
-        gem = new Gem(gemTexture, new Vector2(300, 600));
+        enemies.Add(enemy);
 
+        gem = new Gem(gemTexture, new Vector2(300, 600));
+        
         pausePopupMenu.LoadContent(Content);
 
     }
