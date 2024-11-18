@@ -142,7 +142,7 @@ internal class StoneAge : Component
             if (Keyboard.GetState().IsKeyUp(Keys.P) && Keyboard.GetState().IsKeyUp(Keys.Escape))
             {
                 this.popUpMenuFired = false;
-                popUpMenuTriggerd = false;
+                //popUpMenuTriggerd = false;
             }
         }
 
