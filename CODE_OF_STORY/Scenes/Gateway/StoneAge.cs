@@ -63,12 +63,12 @@ internal class StoneAge : Component
 
         player = new Player(runTexture, idleTexture, jumpAnimation, attackAnimation, deathAnimation, damageAnimation, playerStartPosition, 100);
         player.LoadContent(Content);
-        
+
         enemy = new EnemyCharge(enRunTexture, enAttackTexture, enDamageTexture, enDeathTexture, enemyStartPosition, enemyEndPosition, 100f, 100f, 100, 300f);
         enemies.Add(enemy);
 
         gem = new Gem(gemTexture, new Vector2(300, 600));
-        
+
         pausePopupMenu.LoadContent(Content);
 
     }
@@ -93,12 +93,12 @@ internal class StoneAge : Component
                 player.Update(gameTime, enemies);
                 //player.AttackEnemy(enemies);
                 gem.Update(gameTime);
-                foreach(var enemy in enemies)
+                foreach (var enemy in enemies)
                 {
                     enemy.Update(gameTime, player);
                     enemy.AttackPlayer(player);
                 }
-                foreach(var projectile in player.ActiveProjectiles.ToList())
+                foreach (var projectile in player.ActiveProjectiles.ToList())
                 {
                     projectile.Update(gameTime);
                 }
@@ -107,6 +107,23 @@ internal class StoneAge : Component
             {
                 Console.WriteLine("The player or gem or enemy is null");
             }
+        }
+
+        if (!player.isAlive && !popUpMenuTriggerd)
+        {
+            Console.WriteLine("the pop up menu is triggered " + popUpMenuTriggerd);
+            while (deathTimer < 2)
+            {
+                deathTimer += gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            if (deathTimer >= DeathDelay)
+            {
+                Console.WriteLine("The deathtimer condition is called" + deathTimer);
+                currentGameState = GameState.Paused;
+                popUpMenuTriggerd = true;
+                deathTimer = 0;
+            }
+
         }
 
         // check button state
@@ -126,24 +143,12 @@ internal class StoneAge : Component
                     currentGameState = GameState.Playing;
                 }
             }
-            if (!player.isAlive && !popUpMenuTriggerd)
-            {
-                deathTimer += gameTime.ElapsedGameTime.TotalSeconds;
-                if (deathTimer >= DeathDelay)
-                {
-                    currentGameState = GameState.Paused;
-                    popUpMenuTriggerd = true;
-                    deathTimer = 0;
-                }
-
-            }
         }
         else
         {
             if (Keyboard.GetState().IsKeyUp(Keys.P) && Keyboard.GetState().IsKeyUp(Keys.Escape))
             {
                 this.popUpMenuFired = false;
-                //popUpMenuTriggerd = false;
             }
         }
 
@@ -156,7 +161,7 @@ internal class StoneAge : Component
             {
                 player.Draw(spriteBatch);
                 gem.Draw(spriteBatch);
-                foreach(var enemy in enemies)
+                foreach (var enemy in enemies)
                 {
                     enemy.Draw(spriteBatch);
                 }
