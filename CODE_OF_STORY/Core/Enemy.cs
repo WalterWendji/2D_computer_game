@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 //using System.Numerics;
@@ -75,7 +76,6 @@ public abstract class Enemy
         }
     }
 
-
     public bool IsPlayerInRange(Player player)
     {
         float attackRange = 50f;
@@ -87,6 +87,19 @@ public abstract class Enemy
         {
              return(player.Position.X < position.X && player.Position.X >= position.X - attackRange);
         }
+    }
+
+    public bool CheckProjectileCollision(Projectile projectile)
+    {
+        Rectangle enemyBounds = new Rectangle((int)Position.X,(int)Position.Y, 64, 64);
+        Rectangle projectileBounds = new Rectangle((int)Position.X,(int)Position.Y, 64, 64);
+        if(enemyBounds.Intersects(projectileBounds))
+        {
+            TakeDamage(20);
+            projectile.IsActive=false;
+            return true;
+        }
+        return false;
     }
 
     public virtual async void Update(GameTime gameTime, Player player)

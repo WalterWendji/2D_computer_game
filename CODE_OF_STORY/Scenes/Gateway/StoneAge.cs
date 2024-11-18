@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using CODE_OF_STORY.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -12,6 +14,7 @@ internal class StoneAge : Component
 {
     private Player player;
     private Enemy enemy;
+    private List<Enemy> enemies;
     private Gem gem;
     private PausePopupMenu pausePopupMenu;
 
@@ -39,7 +42,12 @@ internal class StoneAge : Component
         Texture2D gemTexture = Content.Load<Texture2D>("Items/Gems/plate32x8");
 
         player = new Player(runTexture, idleTexture, jumpAnimation, attackAnimation, deathAnimation, damageAnimation, new Vector2(100, 600), 100);
+        player.LoadContent(Content);
+
+        enemies = new List<Enemy>();
         enemy = new EnemyCharge(enRunTexture, enAttackTexture, enDamageTexture, enDeathTexture, new Vector2(400, 600), new Vector2(700, 600), 100f, 100f, 100, 300f);
+        enemies.Add(enemy);
+        
         gem = new Gem(gemTexture, new Vector2(300, 600));
 
         pausePopupMenu.LoadContent(Content);
@@ -52,13 +60,20 @@ internal class StoneAge : Component
 
         if (currentGameState == GameState.Playing)
         {
-            if (player != null && gem != null && enemy != null)
+            if (player != null && gem != null && enemies != null)
             {
-                player.Update(gameTime);
-                player.AttackEnemy(enemy);
+                player.Update(gameTime, enemies);
+                //player.AttackEnemy(enemies);
                 gem.Update(gameTime);
-                enemy.Update(gameTime, player);
-                enemy.AttackPlayer(player);
+                foreach(var enemy in enemies)
+                {
+                    enemy.Update(gameTime, player);
+                    enemy.AttackPlayer(player);
+                }
+                foreach(var projectile in player.ActiveProjectiles.ToList())
+                {
+                    projectile.Update(gameTime);
+                }
             }
             else
             {
@@ -80,7 +95,8 @@ internal class StoneAge : Component
                     currentGameState = GameState.Playing;
                 }
             }
-        } else
+        }
+        else
         {
             if (Keyboard.GetState().IsKeyUp(Keys.P) && Keyboard.GetState().IsKeyUp(Keys.Escape))
             {
@@ -97,7 +113,14 @@ internal class StoneAge : Component
             {
                 player.Draw(spriteBatch);
                 gem.Draw(spriteBatch);
-                enemy.Draw(spriteBatch);
+                foreach(var enemy in enemies)
+                {
+                    enemy.Draw(spriteBatch);
+                }
+                foreach (var projectile in player.ActiveProjectiles)
+                {
+                    projectile.Draw(spriteBatch);
+                }
             }
         }
         else if (currentGameState == GameState.Paused)

@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-
-//using System.Numerics;
+using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Threading;
 //using Vector2 = System.Numerics.Vector2;
 
 namespace CODE_OF_STORY.Core;
@@ -31,6 +34,15 @@ public class Player
     public bool damageTaken;
     private int health = 100;
     public bool isAlive => health > 0;
+    //Waffenwechsel
+    private bool RangedMode = false;
+    //public IEnumerable<Projectile> ActiveProjectiles => projectiles?.Where(p => p.IsActive) ?? Enumerable.Empty<Projectile>();
+    public List<Projectile> ActiveProjectiles {get; private set;} = new List<Projectile>();
+    //projektil var
+    private Texture2D arrowTexture;
+    private List<Projectile> projectiles;
+    private int maxProjektiles = 5;
+    private float projektilSpeed = 500f;
     //sprung var
     private bool isJumping;
     private float jumpSpeed = 0f;
@@ -57,6 +69,7 @@ public class Player
         this.speed = 200f;
         this.groundLevel = position.Y;
         this.health = initialHealth;
+        projectiles = new List<Projectile>();
     }
 
     public async void TakeDamage(int damage)
@@ -82,8 +95,38 @@ public class Player
             enemy.damageTaken = true;
         }
     }
+    public void ShootArrow(Vector2 targetPosition)
+    {
+        if(projectiles.Count > 0)
+        {
+            var arrow = projectiles.FirstOrDefault(p => !p.IsActive);
+            if(arrow == null)
+            return;
+            
+            Vector2 direction = targetPosition - position;
+            direction.Normalize();
+            //Vector2 velocity = direction * arrow.speed;
+            arrow = new Projectile(arrowTexture, position + new Vector2(facingRight ? 30 : -30, 0), direction, projektilSpeed);
+            /*arrow.Position = position + new Vector2(facingRight ? 30 : -30, 0);
+            arrow.Direction = direction;
+            arrow.speed = projektilSpeed;*/
+            arrow.IsActive = true;
+            ActiveProjectiles.Add(arrow);
+            
+        }
+    }
+    
+    public void RefillArrows(int count)
+    {
 
-
+        for (int i = 0; i < count; i++)
+        {
+            if (projectiles.Count < maxProjektiles)
+            {
+                projectiles.Add(new Projectile(arrowTexture, Vector2.Zero, Vector2.Zero, 0f));
+            }
+        }
+    }
     private bool IsEnemyInRange(Enemy enemy)
     {
         float attackRange = 50f;
@@ -96,8 +139,21 @@ public class Player
              return(enemy.Position.X < position.X && enemy.Position.X >= position.X - attackRange);
         }
     }
-    public void Update(GameTime gameTime)
+
+    public void LoadContent(ContentManager content)
     {
+        arrowTexture = content.Load<Texture2D>("Player_Level1/Warrior_1/arrow");
+        for (int i = 0; i < maxProjektiles; i++)
+        {
+            projectiles.Add(new Projectile(arrowTexture,Vector2.Zero,Vector2.Zero,0f) {IsActive = false});
+        }
+    }
+    public void Update(GameTime gameTime, List<Enemy> enemies)
+    {
+        if(projectiles == null)
+        {
+            projectiles = new List<Projectile>();
+        }
         if(isAlive)
         {
         KeyboardState state = Keyboard.GetState();
@@ -151,17 +207,39 @@ public class Player
             }
         }
         /*if (state.IsKeyDown(Keys.F))
-            interagieren
-        if (state.IsKeyDown(Keys.Q))
-            Waffewechseln
-            */
+            interagieren*/
+        if (state.IsKeyDown(Keys.Q) && !isAttacking)
+        {
+            RangedMode = !RangedMode;
+        }
+        
         if (mouseState.LeftButton == ButtonState.Pressed && !isAttacking)
         {
-            isAttacking = true;
-            hasDealtDamage = false;
-            attackAnimation.Reset();
+            if(RangedMode && projectiles.Count > 0)
+            {
+                ShootArrow(mouseState.Position.ToVector2());
+                
+            }
+            else
+            {
+                isAttacking = true;
+                hasDealtDamage = false;
+                attackAnimation.Reset();
+            }
         }
 
+        foreach(var enemy in enemies)
+        {
+            if(enemy != null)
+            {
+                AttackEnemy(enemy);
+            }
+        }
+
+        foreach (var projectile in projectiles)
+        {
+            projectile.Update(gameTime);
+        }
         
         if(isAttacking)
         {
