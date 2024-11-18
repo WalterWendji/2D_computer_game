@@ -1,19 +1,28 @@
 using System;
+using System.Collections;
 using CODE_OF_STORY.Core;
 using CODE_OF_STORY.Scenes.Gateway;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using static CODE_OF_STORY.Core.Data;
 
 namespace CODE_OF_STORY.Managers;
 
 internal partial class GatewaysManager : Component
 {
-    private StoneAge stoneAge = new StoneAge();
-    private MiddleAge middleAge= new MiddleAge();
-    private ModernAge modernAge= new ModernAge();
-    private Future future = new Future();
+    private StoneAge stoneAge;
+    private MiddleAge middleAge;
+    private ModernAge modernAge;
+    private Future future;
 
+    public GatewaysManager()
+    {
+        stoneAge = new StoneAge();
+        middleAge = new MiddleAge();
+        modernAge = new ModernAge();
+        future = new Future();
+    }
     internal override void LoadContent(ContentManager Content)
     {
         stoneAge.LoadContent(Content);
@@ -23,13 +32,45 @@ internal partial class GatewaysManager : Component
 
     }
 
+    public void RestartCurrentLevel()
+    {
+        switch (Data.currentState)
+        {
+            case Data.Scenes.StoneAge:
+                stoneAge.Reset();
+                break;
+            case Data.Scenes.MiddleAge:
+                ResetMiddleAge();
+                break;
+            case Data.Scenes.ModernAge:
+                ResetModernAge();
+                break;
+            case Data.Scenes.Future:
+                ResetFuture();
+                break;
+        }
+    }
+
+    /* private void ResetStoneAge()
+    {
+        stoneAge = null;
+        stoneAge = new StoneAge(); // Re-instantiate stoneAge
+    } */
+
+    private void ResetMiddleAge() { }
+    private void ResetModernAge() { }
+    private void ResetFuture() { }
+
     internal override void Update(GameTime gameTime)
     {
         switch (Data.currentState)
         {
             case Data.Scenes.StoneAge:
-                stoneAge.Update(gameTime);
-                break;
+                {
+                    stoneAge.Update(gameTime);
+                    Console.WriteLine("Is the player alive? " + Player.checkIsAlive);
+                    break;
+                }
             case Data.Scenes.MiddleAge:
                 middleAge.Update(gameTime);
                 break;

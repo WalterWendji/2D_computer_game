@@ -49,7 +49,7 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+        
         gameStateManager.LoadContent(Content);
         gatewaysManager.LoadContent(Content);
 
@@ -80,7 +80,13 @@ public class Game1 : Game
 
         if (Data.currentState == Data.Scenes.StoneAge || Data.currentState == Data.Scenes.MiddleAge || Data.currentState == Data.Scenes.ModernAge || Data.currentState == Data.Scenes.Future)
             gatewaysManager.Update(gameTime);
-
+        
+        if (!Player.checkIsAlive && PausePopupMenu.isClicked)
+        {
+            gatewaysManager.RestartCurrentLevel();
+            PausePopupMenu.isClicked = false;
+        }
+            
         base.Update(gameTime);
     }
 
