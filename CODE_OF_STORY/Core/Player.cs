@@ -225,6 +225,7 @@ public class Player
         if (state.IsKeyDown(Keys.Q) && !isAttacking)
         {
             RangedMode = !RangedMode;
+            Console.WriteLine("range mode" + RangedMode);
         }
         
         if (mouseState.LeftButton == ButtonState.Pressed && !isAttacking)
