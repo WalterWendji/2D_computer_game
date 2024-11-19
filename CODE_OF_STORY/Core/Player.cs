@@ -36,6 +36,8 @@ public class Player
     public bool damageTaken;
     private int health = 100;
     public bool isAlive => health > 0;
+    private float shootCd = 2f;
+    private float startShootCd = 0f;
     public static bool checkIsAlive; 
     //Waffenwechsel
     private bool RangedMode = false;
@@ -109,21 +111,22 @@ public class Player
             enemy.damageTaken = true;
         }
     }
+
     public void ShootArrow(Vector2 targetPosition)
     {
         if(projectiles.Count > 0)
         {
+            if(startShootCd < shootCd)
+            return;
+            startShootCd = 0;
             var arrow = projectiles.FirstOrDefault(p => !p.IsActive);
             if(arrow == null)
             return;
-            
+            MouseState mouseState = Mouse.GetState();
+            targetPosition = new Vector2(mouseState.X, mouseState.Y -80);
             Vector2 direction = targetPosition - position;
             direction.Normalize();
-            //Vector2 velocity = direction * arrow.speed;
-            arrow = new Projectile(arrowTexture, position + new Vector2(facingRight ? 30 : -30, 0), direction, projektilSpeed);
-            /*arrow.Position = position + new Vector2(facingRight ? 30 : -30, 0);
-            arrow.Direction = direction;
-            arrow.speed = projektilSpeed;*/
+            arrow = new Projectile(arrowTexture, position + new Vector2(facingRight ? 30 : -30, 40), direction, projektilSpeed);
             arrow.IsActive = true;
             ActiveProjectiles.Add(arrow);
             
@@ -173,7 +176,7 @@ public class Player
             KeyboardState state = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
+            startShootCd += (float)gameTime.ElapsedGameTime.TotalSeconds;
             isMoving = false;
 
             if (state.IsKeyDown(Keys.A))

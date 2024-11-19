@@ -91,16 +91,22 @@ internal class StoneAge : Component
             if (player != null && gem != null && enemies != null)
             {
                 player.Update(gameTime, enemies);
-                //player.AttackEnemy(enemies);
                 gem.Update(gameTime);
+                foreach (var projectile in player.ActiveProjectiles.ToList())
+                {
+                    foreach(var enemy in enemies)
+                    {
+                       if(enemy.CheckProjectileCollision(projectile))
+                       {
+                        Console.WriteLine("HIT");
+                       }
+                    }
+                    projectile.Update(gameTime);
+                }
                 foreach (var enemy in enemies)
                 {
                     enemy.Update(gameTime, player);
                     enemy.AttackPlayer(player);
-                }
-                foreach (var projectile in player.ActiveProjectiles.ToList())
-                {
-                    projectile.Update(gameTime);
                 }
             }
             else
@@ -167,7 +173,10 @@ internal class StoneAge : Component
                 }
                 foreach (var projectile in player.ActiveProjectiles)
                 {
+                    if(projectile.IsActive)
+                    {
                     projectile.Draw(spriteBatch);
+                    }
                 }
             }
         }

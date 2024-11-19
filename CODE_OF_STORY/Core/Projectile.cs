@@ -13,11 +13,11 @@ public class Projectile
     public Vector2 Position {get; set; }
     private Vector2 initialDirection;
     private Vector2 velocity;
-    private float gravity = 9.8f;
+    private float gravity = 750f;
     public float speed {get; set;}
     public bool IsActive;
     private float flightDistance;
-    private float maxDisFall = 300;
+    private float maxDisFall = 10000;
 
     public Projectile(Texture2D texture, Vector2 startPosition, Vector2 direction, float speed)
     {
@@ -32,14 +32,14 @@ public class Projectile
     }
 
     public Vector2 Direction => initialDirection;
-
+    
     public void Update(GameTime gameTime)
     {
         if(IsActive)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            flightDistance += velocity.X * deltaTime;
+            flightDistance += velocity.X + velocity.Y* deltaTime;
 
             if(flightDistance > maxDisFall)
             {
@@ -56,12 +56,10 @@ public class Projectile
     }
     public void Draw(SpriteBatch spriteBatch)
     {
-        
+        SpriteEffects flipEffect = (velocity.X < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
         if(IsActive)
         {
-            animationArrow.Draw(spriteBatch, Position, SpriteEffects.FlipHorizontally);    
-            /*spriteBatch.Draw(texture, Position, null,
-                         Color.White, (float)Math.Atan2(velocity.Y, velocity.X), new Vector2(texture.Width / 2, texture.Height / 2), 1f, SpriteEffects.None, 0f);*/
+            animationArrow.Draw(spriteBatch, Position, flipEffect);    
         }
     }
     

@@ -102,12 +102,15 @@ public abstract class Enemy
 
     public bool CheckProjectileCollision(Projectile projectile)
     {
+        if(!projectile.IsActive)
+            return false;
         Rectangle enemyBounds = new Rectangle((int)Position.X,(int)Position.Y, 64, 64);
-        Rectangle projectileBounds = new Rectangle((int)Position.X,(int)Position.Y, 64, 64);
+        Rectangle projectileBounds = new Rectangle((int)projectile.Position.X,(int)projectile.Position.Y, 16, 5);
         if(enemyBounds.Intersects(projectileBounds))
         {
             TakeDamage(20);
             projectile.IsActive=false;
+            damageTaken = true;
             return true;
         }
         return false;
@@ -141,7 +144,7 @@ public abstract class Enemy
                     movingRight = true;
                 }
             }
-
+           
             if (IsPlayerInRange(player))
             {
                 isAttacking = true;
