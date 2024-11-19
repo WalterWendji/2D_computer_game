@@ -7,40 +7,70 @@ namespace CODE_OF_STORY.Core;
 
 public class EnemyCharge : Enemy
 {
+    protected AnimationPlayer enCRunAnimation;
+    protected AnimationPlayer enCAttackAnimation;
+    protected AnimationPlayer enCDamageAnimation;
+    protected AnimationPlayer enCDeathAnimation;
+    protected Texture2D enCRunTexture;
+    protected Texture2D enCAttackTexture;
+    protected Texture2D enCDamageTexture;
+    protected Texture2D enCDeathTexture;
 
 
-    public EnemyCharge(Texture2D enRunTexture, Texture2D enAttackTexture, Texture2D enDamageTexture,Texture2D enDeathTexture,
-                         Vector2 startPosition, Vector2 patrolEnd, float speed, float sightRange, int health, float chargeSpeed)
-        : base(enRunTexture, enAttackTexture, enDamageTexture, enDeathTexture, startPosition, patrolEnd, sightRange, health)
+    public EnemyCharge(Texture2D enCRunTexture, Texture2D enCAttackTexture, Texture2D enCDamageTexture,Texture2D enCDeathTexture,
+                         Vector2 startPosition, Vector2 patrolEnd, float sightRange, int health, float chargeSpeed)
+        : base(startPosition, patrolEnd, sightRange, health)
     {
-        this.enRunTexture = enRunTexture;
-        this.enAttackTexture = enAttackTexture;
-        this.enDamageTexture = enDamageTexture;
-        this.enDeathTexture = enDeathTexture;
+        this.enCRunTexture = enCRunTexture;
+        enCRunAnimation = new AnimationPlayer(enCRunTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
+        enCAttackAnimation = new AnimationPlayer(enCAttackTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
+        enCDamageAnimation = new AnimationPlayer(enCDamageTexture, frameCount: 2, animationSpeed: 0.1f, playOnce: true);
+        enCDeathAnimation = new AnimationPlayer(enCDeathTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
+        this.enCRunTexture = enCRunTexture;
+        this.enCAttackTexture = enCAttackTexture;
+        this.enCDamageTexture = enCDamageTexture;
+        this.enCDeathTexture = enCDeathTexture;
     }  
 
-    public override void Update(GameTime gameTime, Player player) 
+    public override async void Update(GameTime gameTime, Player player) 
     {
         base.Update(gameTime, player);
         if(isAlive)
         {
-        if(sightRect.Contains(player.Position))
-        {
-            float chargeSpeed;
-            chargeSpeed = 300f;
-            speed = chargeSpeed;
+            if(sightRect.Contains(player.Position))
+            {
+                float chargeSpeed;
+                chargeSpeed = 300f;
+                speed = chargeSpeed;
+            }
+            else
+            {
+                speed = 100f;
+            }
         }
         else
         {
-            speed = 100f;
-        }
-        }
-        else
-        {
+            enCDeathAnimation.Update(gameTime);
             speed = 0f;
         }
-    } 
+        if (isAttacking)
+            {
+                enCAttackAnimation.Update(gameTime);
+                AttackPlayer(player);
+                if (enCAttackAnimation.IsFinished)
+                {
+                    await Task.Delay(200);
+                    enCAttackAnimation.Reset();
+                    hasDealtDamage = false;
+                }
+            }
 
+        enCRunAnimation.Update(gameTime);
+    }
+
+            
+    
+    
     public override async void Draw(SpriteBatch spriteBatch)
     {
         SpriteEffects flipEffect = movingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -48,22 +78,22 @@ public class EnemyCharge : Enemy
         {
             if(isAttacking)
             {
-                enAttackAnimation.Draw(spriteBatch, position, flipEffect);
+                enCAttackAnimation.Draw(spriteBatch, position, flipEffect);
             }
             else if(damageTaken)
             {
-                enDamageAnimation.Draw(spriteBatch, position, flipEffect);
+                enCDamageAnimation.Draw(spriteBatch, position, flipEffect);
                 await Task.Delay(200);
                 damageTaken = false;
             }
             else
             {
-                enRunAnimation.Draw(spriteBatch, position, flipEffect);
+                enCRunAnimation.Draw(spriteBatch, position, flipEffect);
             }
         }
         else
         {
-            enDeathAnimation.Draw(spriteBatch, position, flipEffect);
+            enCDeathAnimation.Draw(spriteBatch, position, flipEffect);
         }
     }
 }

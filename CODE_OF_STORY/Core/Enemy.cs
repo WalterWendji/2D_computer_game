@@ -19,16 +19,9 @@ public abstract class Enemy
     protected bool isAttacking;
     public bool damageTaken;
     public Vector2 Position => position;
-    private bool hasDealtDamage = false;
+    protected bool hasDealtDamage = false;
     //bewegung
-    protected AnimationPlayer enRunAnimation;
-    protected AnimationPlayer enAttackAnimation;
-    protected AnimationPlayer enDamageAnimation;
-    protected AnimationPlayer enDeathAnimation;
-    protected Texture2D enRunTexture;
-    protected Texture2D enAttackTexture;
-    protected Texture2D enDamageTexture;
-    protected Texture2D enDeathTexture;
+    
     protected Vector2 position;
     protected float speed;
     protected Vector2 patrolStart;
@@ -38,13 +31,9 @@ public abstract class Enemy
     private float sightRange;
     protected Rectangle sightRect;
 
-    protected Enemy(Texture2D enRunTexture, Texture2D enAttackTexture, Texture2D enDamageTexture, Texture2D enDeathTexture, Vector2 startposition, Vector2 patrolEnd, float sightRange, int initialhealth)
+    protected Enemy(Vector2 startposition, Vector2 patrolEnd, float sightRange, int initialhealth)
     {
-        this.enRunTexture = enRunTexture;
-        enRunAnimation = new AnimationPlayer(enRunTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
-        enAttackAnimation = new AnimationPlayer(enAttackTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
-        enDamageAnimation = new AnimationPlayer(enDamageTexture, frameCount: 2, animationSpeed: 0.1f, playOnce: true);
-        enDeathAnimation = new AnimationPlayer(enDeathTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
+
         this.position = startposition;
         this.patrolStart = startposition;
         this.patrolEnd = patrolEnd;
@@ -114,7 +103,7 @@ public abstract class Enemy
         return false;
     }
 
-    public virtual async void Update(GameTime gameTime, Player player)
+    public virtual void Update(GameTime gameTime, Player player)
     {
         if (isAlive)
         {
@@ -153,24 +142,10 @@ public abstract class Enemy
                 hasDealtDamage = false;
             }
 
-            if (isAttacking)
-            {
-                enAttackAnimation.Update(gameTime);
-                AttackPlayer(player);
-                if (enAttackAnimation.IsFinished)
-                {
-                    await Task.Delay(200);
-                    enAttackAnimation.Reset();
-                    hasDealtDamage = false;
-                }
-            }
+            
             //was soll passieren wenn der gegner den spieler sieht
 
-            enRunAnimation.Update(gameTime);
-        }
-        else
-        {
-            enDeathAnimation.Update(gameTime);
+            
         }
     }
 

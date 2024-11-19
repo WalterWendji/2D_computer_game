@@ -54,17 +54,25 @@ internal class StoneAge : Component
         Texture2D deathAnimation = Content.Load<Texture2D>("Player_Level1/Warrior_1/Dead");
         Texture2D damageAnimation = Content.Load<Texture2D>("Player_Level1/Warrior_1/Hurt");
 
-        Texture2D enAttackTexture = Content.Load<Texture2D>("Player_Level1/Warrior_2/Run+Attack");
-        Texture2D enRunTexture = Content.Load<Texture2D>("Player_Level1/Warrior_2/Run");
-        Texture2D enDamageTexture = Content.Load<Texture2D>("Player_Level1/Warrior_2/Hurt");
-        Texture2D enDeathTexture = Content.Load<Texture2D>("Player_Level1/Warrior_2/Dead");
+        Texture2D enCAttackTexture = Content.Load<Texture2D>("Player_Level1/Warrior_2/Run+Attack");
+        Texture2D enCRunTexture = Content.Load<Texture2D>("Player_Level1/Warrior_2/Run");
+        Texture2D enCDamageTexture = Content.Load<Texture2D>("Player_Level1/Warrior_2/Hurt");
+        Texture2D enCDeathTexture = Content.Load<Texture2D>("Player_Level1/Warrior_2/Dead");
+
+        Texture2D enTAttackTexture = Content.Load<Texture2D>("Player_Level1/Warrior_3/Attack_1");
+        Texture2D enTWalkTexture = Content.Load<Texture2D>("Player_Level1/Warrior_3/Walk");
+        Texture2D enTDamageTexture = Content.Load<Texture2D>("Player_Level1/Warrior_3/Hurt");
+        Texture2D enTDeathTexture = Content.Load<Texture2D>("Player_Level1/Warrior_3/Dead");
+
 
         Texture2D gemTexture = Content.Load<Texture2D>("Items/Gems/plate32x8");
 
         player = new Player(runTexture, idleTexture, jumpAnimation, attackAnimation, deathAnimation, damageAnimation, playerStartPosition, 100);
         player.LoadContent(Content);
 
-        enemy = new EnemyCharge(enRunTexture, enAttackTexture, enDamageTexture, enDeathTexture, enemyStartPosition, enemyEndPosition, 100f, 100f, 100, 300f);
+        enemy = new EnemyTank(enTWalkTexture, enTAttackTexture, enTDamageTexture, enTDeathTexture, enemyStartPosition, enemyEndPosition, 150f, 100);
+        enemies.Add(enemy);
+        enemy = new EnemyCharge(enCRunTexture, enCAttackTexture, enCDamageTexture, enCDeathTexture, enemyStartPosition, enemyEndPosition, 100f, 100, 300f);
         enemies.Add(enemy);
 
         gem = new Gem(gemTexture, new Vector2(300, 600));
@@ -96,10 +104,7 @@ internal class StoneAge : Component
                 {
                     foreach(var enemy in enemies)
                     {
-                       if(enemy.CheckProjectileCollision(projectile))
-                       {
-                        Console.WriteLine("HIT");
-                       }
+                       enemy.CheckProjectileCollision(projectile);
                     }
                     projectile.Update(gameTime);
                 }
