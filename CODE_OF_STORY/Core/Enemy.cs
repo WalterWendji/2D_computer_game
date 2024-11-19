@@ -48,11 +48,7 @@ public abstract class Enemy
         health -= damage;
         if (health <= 0)
         {
-            health = 0;//todesanimation und entfernen
-        }
-        else
-        {
-            //schadensanimation
+            health = 0;
         }
     }
 
@@ -140,12 +136,7 @@ public abstract class Enemy
             {
                 isAttacking = false;
                 hasDealtDamage = false;
-            }
-
-            
-            //was soll passieren wenn der gegner den spieler sieht
-
-            
+            } 
         }
     }
 
