@@ -4,8 +4,6 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using CODE_OF_STORY.Scenes.Gateway;
-
-//using System.Numerics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -16,7 +14,7 @@ Used to load, draw, and update an enemy. */
 public abstract class Enemy
 {
     //fighting var
-    protected int health = 100;
+    protected int health;
     public bool isAlive => health > 0;
     protected bool isAttacking;
     public bool damageTaken;
@@ -35,12 +33,12 @@ public abstract class Enemy
     protected float speed;
     protected Vector2 patrolStart;
     protected Vector2 patrolEnd;
-    protected bool movingRight = true;
+    protected bool movingRight;
     //sicht
-    public float sightRange;
+    private float sightRange;
     protected Rectangle sightRect;
 
-    public Enemy(Texture2D enRunTexture, Texture2D enAttackTexture, Texture2D enDamageTexture, Texture2D enDeathTexture, Vector2 startposition, Vector2 patrolEnd, float sightRange, int initialhealth)
+    protected Enemy(Texture2D enRunTexture, Texture2D enAttackTexture, Texture2D enDamageTexture, Texture2D enDeathTexture, Vector2 startposition, Vector2 patrolEnd, float sightRange, int initialhealth)
     {
         this.enRunTexture = enRunTexture;
         enRunAnimation = new AnimationPlayer(enRunTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);

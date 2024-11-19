@@ -6,12 +6,12 @@ namespace CODE_OF_STORY.Core;
 
 public class AnimationItem
 {
-     private Texture2D spriteSheet;
-    private int frameWidth;
-    private int frameHeight;
+    private readonly Texture2D spriteSheet;
+    private readonly int frameWidth;
+    private readonly int frameHeight;
     private int currentFrame;
-    private int totalFrames;
-    private float frameTime;
+    private readonly int totalFrames;
+    private readonly float frameTime;
     private float timer;
 
     public AnimationItem(Texture2D texture, int frameCount, float animationSpeed)

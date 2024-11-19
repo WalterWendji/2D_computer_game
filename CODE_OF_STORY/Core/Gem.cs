@@ -1,5 +1,4 @@
 using System;
-//using System.Numerics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,7 +11,7 @@ Gems are used to load, draw, and update a gem. */
 public class Gem
 {
     public Vector2 position;
-    private AnimationItem gemAnimation;
+    private readonly AnimationItem gemAnimation;
 
 public Gem(Texture2D gemTexture, Vector2 postion)
 {

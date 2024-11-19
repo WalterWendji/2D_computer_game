@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Threading;
-//using Vector2 = System.Numerics.Vector2;
 
 namespace CODE_OF_STORY.Core;
 
@@ -18,14 +17,14 @@ namespace CODE_OF_STORY.Core;
 Used to load, draw, and update the character. */
 public class Player
 {
-    private AnimationPlayer runAnimation;
-    private AnimationPlayer idleAnimation;
-    private AnimationPlayer jumpAnimation;
-    private AnimationPlayer attackAnimation;
-    private AnimationPlayer deathAnimation;
-    private AnimationPlayer damageAnimation;
+    private readonly AnimationPlayer runAnimation;
+    private readonly AnimationPlayer idleAnimation;
+    private readonly AnimationPlayer jumpAnimation;
+    private readonly AnimationPlayer attackAnimation;
+    private readonly AnimationPlayer deathAnimation;
+    private readonly AnimationPlayer damageAnimation;
     private bool facingRight;
-    private Texture2D idleTexture;
+    private readonly Texture2D idleTexture;
     //laufen var
     private Vector2 position;
     private float speed;
@@ -34,9 +33,9 @@ public class Player
     private bool isAttacking;
     private bool hasDealtDamage = false;
     public bool damageTaken;
-    private int health = 100;
+    private int health;
     public bool isAlive => health > 0;
-    private float shootCd = 2f;
+    private readonly float shootCd = 2f;
     private float startShootCd = 0f;
     public static bool checkIsAlive; 
     //Waffenwechsel
