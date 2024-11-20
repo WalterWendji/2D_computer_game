@@ -32,11 +32,35 @@ public class EnemyTank : Enemy
         this.patrolStart = new Vector2(300,600);
         this.patrolEnd = new Vector2(600,600);
     }
-
-    public override void TakeDamage(int damage)
+    public override void TakeDamage(int damage, Vector2 attackerPosition)
     {
-        base.TakeDamage(damage -5);
+        bool attackFromFront = movingRight
+            ? attackerPosition.X > Position.X
+            : attackerPosition.X < Position.X;
+        if(attackFromFront)
+        {
+            damageTaken = false;
+            //blockanimation
+            return;
+        }
+        base.TakeDamage(damage -5, position);
     }
+    public override bool CheckProjectileCollision(Projectile projectile)
+    {
+        if(!projectile.IsActive)
+            return false;
+        Rectangle enemyBounds = new Rectangle((int)Position.X,(int)Position.Y, 64, 64);
+        Rectangle projectileBounds = new Rectangle((int)projectile.Position.X,(int)projectile.Position.Y, 16, 5);
+        if(enemyBounds.Intersects(projectileBounds))
+        {
+            TakeDamage(20, projectile.Position);
+            projectile.IsActive = false;
+            damageTaken = true;
+            return true;
+        }
+        return false;
+    }
+
     public override async void Update(GameTime gameTime, Player player) 
     {
         base.Update(gameTime, player);

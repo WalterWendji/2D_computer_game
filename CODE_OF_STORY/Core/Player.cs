@@ -105,7 +105,7 @@ public class Player
     {
         if (isAttacking && !hasDealtDamage && IsEnemyInRange(enemy))
         {
-            enemy.TakeDamage(10);
+            enemy.TakeDamage(10, position);
             hasDealtDamage = true;
             enemy.damageTaken = true;
         }

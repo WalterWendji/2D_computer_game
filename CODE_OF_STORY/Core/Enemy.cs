@@ -43,8 +43,9 @@ public abstract class Enemy
         this.sightRange = sightRange;
     }
 
-    public virtual void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage, Vector2 attackerPosition)
     {
+        
         health -= damage;
         if (health <= 0)
         {
@@ -83,7 +84,7 @@ public abstract class Enemy
         }
     }
 
-    public bool CheckProjectileCollision(Projectile projectile)
+    public virtual bool CheckProjectileCollision(Projectile projectile)
     {
         if(!projectile.IsActive)
             return false;
@@ -91,7 +92,7 @@ public abstract class Enemy
         Rectangle projectileBounds = new Rectangle((int)projectile.Position.X,(int)projectile.Position.Y, 16, 5);
         if(enemyBounds.Intersects(projectileBounds))
         {
-            TakeDamage(20);
+            TakeDamage(20, position);
             projectile.IsActive=false;
             damageTaken = true;
             return true;
