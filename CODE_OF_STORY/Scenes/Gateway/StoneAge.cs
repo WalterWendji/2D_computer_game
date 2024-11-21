@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using CODE_OF_STORY.Core;
 using CODE_OF_STORY.Managers;
 using Microsoft.Xna.Framework;
@@ -21,6 +22,10 @@ internal class StoneAge : Component
     public static Vector2 playerStartPosition;
     public static Vector2 enemyStartPosition;
     public static Vector2 enemyEndPosition;
+    private static Vector2 enemyStartPosition2;
+    public static Vector2 enemyEndPosition2;
+    private static Vector2 enemyStartPosition3;
+    public static Vector2 enemyEndPosition3;
     private Vector2 gemStartPosition;
 
     private PausePopupMenu pausePopupMenu;
@@ -34,6 +39,10 @@ internal class StoneAge : Component
     {
         playerStartPosition = new Vector2(100, 600);
         enemyStartPosition = new Vector2(400, 600);
+        enemyStartPosition2 = new Vector2(400, 600);
+        enemyEndPosition2 = new Vector2(700, 600);
+        enemyStartPosition3 = new Vector2(700, 600);
+        enemyEndPosition3 = new Vector2(1200, 600);
         enemyEndPosition = new Vector2(700, 600);
         gemStartPosition = new Vector2(300, 600);
 
@@ -54,6 +63,11 @@ internal class StoneAge : Component
         Texture2D deathAnimation = Content.Load<Texture2D>("Player_Level1/Warrior_1/Dead");
         Texture2D damageAnimation = Content.Load<Texture2D>("Player_Level1/Warrior_1/Hurt");
 
+        Texture2D enNAttackTexture = Content.Load<Texture2D>("Player_Level1/EnemyN/enRun+Attack");
+        Texture2D enNRunTexture = Content.Load<Texture2D>("Player_Level1/EnemyN/enRun");
+        Texture2D enNDamageTexture = Content.Load<Texture2D>("Player_Level1/EnemyN/enHurt");
+        Texture2D enNDeathTexture = Content.Load<Texture2D>("Player_Level1/EnemyN/enDead");
+
         Texture2D enCAttackTexture = Content.Load<Texture2D>("Player_Level1/Warrior_2/Run+Attack");
         Texture2D enCRunTexture = Content.Load<Texture2D>("Player_Level1/Warrior_2/Run");
         Texture2D enCDamageTexture = Content.Load<Texture2D>("Player_Level1/Warrior_2/Hurt");
@@ -70,9 +84,11 @@ internal class StoneAge : Component
         player = new Player(runTexture, idleTexture, jumpAnimation, attackAnimation, deathAnimation, damageAnimation, playerStartPosition, 100);
         player.LoadContent(Content);
 
-        enemy = new EnemyTank(enTWalkTexture, enTAttackTexture, enTDamageTexture, enTDeathTexture, enemyStartPosition, enemyEndPosition, 150f, 100);
+        enemy = new EnemyTank(enTWalkTexture, enTAttackTexture, enTDamageTexture, enTDeathTexture, enemyStartPosition2, enemyEndPosition2, 150f, 100);
         enemies.Add(enemy);
         enemy = new EnemyCharge(enCRunTexture, enCAttackTexture, enCDamageTexture, enCDeathTexture, enemyStartPosition, enemyEndPosition, 100f, 100, 300f);
+        enemies.Add(enemy);
+        enemy = new EnemyNahkampf(enNRunTexture, enNAttackTexture, enNDamageTexture, enNDeathTexture, enemyStartPosition3, enemyEndPosition3, 100f, 100);
         enemies.Add(enemy);
 
         gem = new Gem(gemTexture, new Vector2(300, 600));
