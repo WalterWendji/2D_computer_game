@@ -108,7 +108,6 @@ internal class StoneAge : Component
     }
     internal override void Update(GameTime gameTime)
     {
-        pausePopupMenu.Update(gameTime);
 
         if (currentGameState == GameState.Playing)
         {
@@ -134,22 +133,23 @@ internal class StoneAge : Component
             {
                 Console.WriteLine("The player or gem or enemy is null");
             }
-        }
+        } else if (currentGameState == GameState.Paused)
+            pausePopupMenu.Update(gameTime);
 
         if (!player.isAlive && !popUpMenuTriggerd)
         {
             Console.WriteLine("the pop up menu is triggered " + popUpMenuTriggerd);
-            while (deathTimer < 2)
-            {
-                deathTimer += gameTime.ElapsedGameTime.TotalSeconds;
-            }
+            deathTimer += gameTime.ElapsedGameTime.TotalSeconds;
+
             if (deathTimer >= DeathDelay)
             {
-                Console.WriteLine("The deathtimer condition is called" + deathTimer);
+                Console.WriteLine("The deathtimer condition is called " + deathTimer);
                 currentGameState = GameState.Paused;
                 popUpMenuTriggerd = true;
                 deathTimer = 0;
+                pausePopupMenu.Update(gameTime);
             }
+            Console.WriteLine("The deathtimer " + deathTimer);
 
         }
 

@@ -31,6 +31,10 @@ internal class PausePopupMenu : Component
     private int xPosition;
     private int yPosition;
     public static bool isClicked;
+    public static bool isMouseStateRelease;
+
+    private MouseState currentMouseState, oldMouseState;
+    private Rectangle currentMouseStateRectangle;
 
 
     public PausePopupMenu()
@@ -39,6 +43,7 @@ internal class PausePopupMenu : Component
         btnColored = new Texture2D[buttonNameColored.Length];
         btnRects = new Rectangle[buttonNames.Length];
         isClicked = false;
+        isMouseStateRelease = false;
     }
 
     internal override void LoadContent(ContentManager Content)
@@ -80,36 +85,41 @@ internal class PausePopupMenu : Component
 
     internal override void Update(GameTime gameTime)
     {
+        oldMouseState = currentMouseState;
+        currentMouseState = Mouse.GetState();
+        currentMouseStateRectangle = new Rectangle(currentMouseState.X, currentMouseState.Y, 1, 1);
 
-        if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[0]))
+
+        if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[0]))
             Data.currentGameState = Data.GameState.Playing;
-        else if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[1]))
+        else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[1]))
         {
             isClicked = true;
             currentGameState = GameState.Playing;
             Data.currentState = Data.Scenes.StoneAge;
-        }       
-        else if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[2]))
+        }
+        else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[2]))
             Data.currentState = Data.Scenes.Menu;
-        else if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[3]))
+        else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[3]))
             Data.currentState = Data.Scenes.Settings;
-        else if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[4]))
+        else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[4]))
             Data.Exit = true;
-        else if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(homeButtonRect))
+        else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(homeButtonRect))
             Data.currentState = Data.Scenes.Gateways;
+
 
     }
     internal override void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(homeButton, homeButtonRect, Color.White);
-        if (Game1.currentMouseStateRectangle.Intersects(homeButtonRect))
+        if (currentMouseStateRectangle.Intersects(homeButtonRect))
             spriteBatch.Draw(homeButtonColored, homeButtonColoredRect, Color.White);
 
         for (int i = 0; i < buttons.Length; i++)
         {
             spriteBatch.Draw(buttons[i], btnRects[i], Color.White);
 
-            if (Game1.currentMouseStateRectangle.Intersects(btnRects[i]))
+            if (currentMouseStateRectangle.Intersects(btnRects[i]))
                 spriteBatch.Draw(btnColored[i], btnRects[i], Color.White);
 
         }

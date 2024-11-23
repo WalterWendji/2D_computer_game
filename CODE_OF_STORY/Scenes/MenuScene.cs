@@ -1,5 +1,6 @@
 using System;
 using CODE_OF_STORY.Core;
+using CODE_OF_STORY.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,17 +18,24 @@ internal class MenuScene : Component
     private Rectangle[] btnRects;
     private Texture2D menuBackground;
     private Rectangle BgRectangle;
-   
+
+
+    private MouseState currentMouseState, oldMouseState;
+    private Rectangle currentMouseStateRectangle;
+
     private int buttonHeight;
     private int totalHeight;
     private int xPosition;
     private int yPosition;
+    private double timer;
+
     public MenuScene()
     {
         btns = new Texture2D[buttonNames.Length];
         btnsColored = new Texture2D[buttonNamesColored.Length];
         btnRects = new Rectangle[buttonNames.Length];
         BgRectangle = new Rectangle();
+        timer = 0;
     }
 
     internal override void LoadContent(ContentManager Content)
@@ -38,14 +46,14 @@ internal class MenuScene : Component
         Viewport viewport = Game1._graphics.GraphicsDevice.Viewport;
         int screenWidth = viewport.Width;
         int screenHeight = viewport.Height;
-       
+
         for (int i = 0; i < btns.Length; i++)
         {
-            
+
             btns[i] = Content.Load<Texture2D>($"Buttons/{buttonNames[i]}");
-            buttonHeight = btns[0].Height/4;
+            buttonHeight = btns[0].Height / 4;
             totalHeight = buttonHeight * btns.Length;
-            xPosition = (screenWidth - (btns[i].Width/4)) / 2;
+            xPosition = (screenWidth - (btns[i].Width / 4)) / 2;
             yPosition = (screenHeight - totalHeight) / 2 + i * buttonHeight;
             btnRects[i] = new Rectangle(xPosition, yPosition, btns[i].Width / 4, btns[i].Height / 4);
 
@@ -53,8 +61,8 @@ internal class MenuScene : Component
         for (int i = 0; i < btnsColored.Length; i++)
         {
             btnsColored[i] = Content.Load<Texture2D>($"Buttons/ColoredButtons/{buttonNamesColored[i]}");
-            buttonHeight = btnsColored[0].Height/4;
-            totalHeight = buttonHeight * btns.Length*2;
+            buttonHeight = btnsColored[0].Height / 4;
+            totalHeight = buttonHeight * btns.Length * 2;
             xPosition = (screenWidth - (btnsColored[i].Width / 4)) / 2;
             yPosition = (screenHeight - totalHeight) / 2 + i * (buttonHeight + 60);
             btnRects[i] = new Rectangle(xPosition, yPosition, btnsColored[i].Width / 4, btnsColored[i].Height / 4);
@@ -63,16 +71,36 @@ internal class MenuScene : Component
 
     internal override void Update(GameTime gameTime)
     {
-        
+        timer += gameTime.ElapsedGameTime.TotalSeconds;
+        if (timer > 0.096684700000017)
+        {
+            oldMouseState = currentMouseState;
+            currentMouseState = Mouse.GetState();
+            currentMouseStateRectangle = new Rectangle(currentMouseState.X, currentMouseState.Y, 1, 1);
 
-        if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[0]))
-            Data.currentState = Data.Scenes.Gateways;
-        else if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[2]))
-            Data.currentState = Data.Scenes.Load;
-        else if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[3]))
-            Data.currentState = Data.Scenes.Settings;
-        else if (Game1.currentMouseState.LeftButton == ButtonState.Pressed && Game1.currentMouseStateRectangle.Intersects(btnRects[4]))
-            Data.Exit = true;
+
+            if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[0]))
+            {
+                Data.currentState = Data.Scenes.Gateways;
+                timer = 0;
+            }
+            else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[2]))
+            {
+                Data.currentState = Data.Scenes.Load;
+                timer = 0;
+            }
+            else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[3]))
+            {
+                Data.currentState = Data.Scenes.Settings;
+                timer = 0;
+            }
+            else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[4]))
+            {
+                Data.Exit = true;
+                timer = 0;
+            }
+        }
+
     }
 
     internal override void Draw(SpriteBatch spriteBatch)
@@ -83,7 +111,7 @@ internal class MenuScene : Component
             spriteBatch.Draw(btns[i], btnRects[i], Color.White);
 
             //Hovering effect to the button.
-            if (Game1.currentMouseStateRectangle.Intersects(btnRects[i]))
+            if (currentMouseStateRectangle.Intersects(btnRects[i]))
             {
                 spriteBatch.Draw(btnsColored[i], btnRects[i], Color.White);
             }
