@@ -35,6 +35,7 @@ internal class StoneAge : Component
 
     public static bool popUpMenuTriggerd;
     private bool popUpMenuFired;
+    private bool isGameOverRendered;
 
     public StoneAge()
     {
@@ -52,6 +53,8 @@ internal class StoneAge : Component
 
         popUpMenuTriggerd = false;
         popUpMenuFired = false;
+        isGameOverRendered = false;
+
         enemies = new List<Enemy>();
     }
 
@@ -103,6 +106,8 @@ internal class StoneAge : Component
     public void Reset()
     {
         popUpMenuTriggerd = false;
+        isGameOverRendered = false;
+
         player.ResetPlayer();
 
         enemy.ResetEnemy();
@@ -141,12 +146,15 @@ internal class StoneAge : Component
             pausePopupMenu.Update(gameTime);
 
         if (!player.isAlive && !popUpMenuTriggerd)
+        {
+            isGameOverRendered = true;
             gameOver.Update(gameTime);
+        }
 
         // check button state
         if (!this.popUpMenuFired)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.P) || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (Keyboard.GetState().IsKeyDown(Keys.P) && !isGameOverRendered || Keyboard.GetState().IsKeyDown(Keys.Escape) && !isGameOverRendered)
             {
                 this.popUpMenuFired = true;
                 if (currentGameState == GameState.Playing)
