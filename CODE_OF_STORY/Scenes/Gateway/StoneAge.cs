@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Principal;
 using CODE_OF_STORY.Core;
 using CODE_OF_STORY.Managers;
 using Microsoft.Xna.Framework;
@@ -19,6 +20,8 @@ internal class StoneAge : Component
     private List<Enemy> enemies;
     private Gem gem;
 
+    SpriteFont font;
+
     public static Vector2 playerStartPosition;
     public static Vector2 enemyStartPosition;
     public static Vector2 enemyEndPosition;
@@ -29,6 +32,8 @@ internal class StoneAge : Component
     private Vector2 gemStartPosition;
 
     private PausePopupMenu pausePopupMenu;
+
+    private GameOver gameOver;
 
     private bool popUpMenuTriggerd;
     private bool popUpMenuFired;
@@ -47,6 +52,7 @@ internal class StoneAge : Component
         gemStartPosition = new Vector2(300, 600);
 
         pausePopupMenu = new PausePopupMenu();
+        gameOver = new GameOver();
 
         popUpMenuTriggerd = false;
         popUpMenuFired = false;
@@ -81,6 +87,7 @@ internal class StoneAge : Component
 
         Texture2D gemTexture = Content.Load<Texture2D>("Items/Gems/plate32x8");
 
+        font = Content.Load<SpriteFont>("Spritefonts/JosefinSans-Regular");
         player = new Player(runTexture, idleTexture, jumpAnimation, attackAnimation, deathAnimation, damageAnimation, playerStartPosition, 100);
         player.LoadContent(Content);
 
@@ -94,6 +101,7 @@ internal class StoneAge : Component
         gem = new Gem(gemTexture, new Vector2(300, 600));
 
         pausePopupMenu.LoadContent(Content);
+        gameOver.LoadContent(Content);
 
     }
 
@@ -117,9 +125,9 @@ internal class StoneAge : Component
                 gem.Update(gameTime);
                 foreach (var projectile in player.ActiveProjectiles.ToList())
                 {
-                    foreach(var enemy in enemies)
+                    foreach (var enemy in enemies)
                     {
-                       enemy.CheckProjectileCollision(projectile);
+                        enemy.CheckProjectileCollision(projectile);
                     }
                     projectile.Update(gameTime);
                 }
@@ -133,23 +141,23 @@ internal class StoneAge : Component
             {
                 Console.WriteLine("The player or gem or enemy is null");
             }
-        } else if (currentGameState == GameState.Paused)
+        }
+        else if (currentGameState == GameState.Paused)
             pausePopupMenu.Update(gameTime);
 
         if (!player.isAlive && !popUpMenuTriggerd)
         {
-            Console.WriteLine("the pop up menu is triggered " + popUpMenuTriggerd);
+            /* Console.WriteLine("the pop up menu is triggered " + popUpMenuTriggerd);
             deathTimer += gameTime.ElapsedGameTime.TotalSeconds;
 
             if (deathTimer >= DeathDelay)
             {
                 Console.WriteLine("The deathtimer condition is called " + deathTimer);
-                currentGameState = GameState.Paused;
-                popUpMenuTriggerd = true;
+                // popUpMenuTriggerd = true;
                 deathTimer = 0;
-                pausePopupMenu.Update(gameTime);
-            }
-            Console.WriteLine("The deathtimer " + deathTimer);
+            } */
+            gameOver.Update(gameTime);
+            //Console.WriteLine("The deathtimer " + deathTimer);
 
         }
 
@@ -194,18 +202,24 @@ internal class StoneAge : Component
                 }
                 foreach (var projectile in player.ActiveProjectiles)
                 {
-                    if(projectile.IsActive)
+                    if (projectile.IsActive)
                     {
-                    projectile.Draw(spriteBatch);
+                        projectile.Draw(spriteBatch);
                     }
                 }
             }
         }
-        if (!player.isAlive && !popUpMenuTriggerd || currentGameState == GameState.Paused && popUpMenuTriggerd)
+        if (!player.isAlive && !popUpMenuTriggerd)
         {
-            pausePopupMenu.Draw(spriteBatch);
+            gameOver.Draw(spriteBatch);
             //popUpMenuTriggerd = false;
         }
+
+        if (currentGameState == GameState.Paused && popUpMenuTriggerd)
+            pausePopupMenu.Draw(spriteBatch);
+
+        //Vector2 textMiddlePoint = font.MeasureString(text) /2;
+        spriteBatch.DrawString(font, "Monogame Font Test", gemStartPosition, Color.White);
 
 
     }

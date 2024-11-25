@@ -81,10 +81,11 @@ public class Game1 : Game
         if (Data.currentState == Data.Scenes.StoneAge || Data.currentState == Data.Scenes.MiddleAge || Data.currentState == Data.Scenes.ModernAge || Data.currentState == Data.Scenes.Future)
             gatewaysManager.Update(gameTime);
         
-        if (!Player.checkIsAlive && PausePopupMenu.isClicked)
+        if (!Player.checkIsAlive && PausePopupMenu.isClicked || !Player.checkIsAlive && GameOver.isResetButtonClicked)
         {
             gatewaysManager.RestartCurrentLevel();
             PausePopupMenu.isClicked = false;
+            GameOver.isResetButtonClicked = false;
         }
             
         base.Update(gameTime);
