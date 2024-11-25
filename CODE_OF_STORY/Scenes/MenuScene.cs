@@ -28,6 +28,7 @@ internal class MenuScene : Component
     private int xPosition;
     private int yPosition;
     private double timer;
+    private double delay;
 
     public MenuScene()
     {
@@ -36,6 +37,7 @@ internal class MenuScene : Component
         btnRects = new Rectangle[buttonNames.Length];
         BgRectangle = new Rectangle();
         timer = 0;
+        delay = 0.3;
     }
 
     internal override void LoadContent(ContentManager Content)
@@ -72,8 +74,10 @@ internal class MenuScene : Component
     internal override void Update(GameTime gameTime)
     {
         timer += gameTime.ElapsedGameTime.TotalSeconds;
-        if (timer > 0.096684700000017)
+
+        if (timer > delay)
         {
+            Console.WriteLine("timer: " + timer);
             oldMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
             currentMouseStateRectangle = new Rectangle(currentMouseState.X, currentMouseState.Y, 1, 1);

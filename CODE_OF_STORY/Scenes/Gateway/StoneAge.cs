@@ -20,8 +20,6 @@ internal class StoneAge : Component
     private List<Enemy> enemies;
     private Gem gem;
 
-    SpriteFont font;
-
     public static Vector2 playerStartPosition;
     public static Vector2 enemyStartPosition;
     public static Vector2 enemyEndPosition;
@@ -35,10 +33,8 @@ internal class StoneAge : Component
 
     private GameOver gameOver;
 
-    private bool popUpMenuTriggerd;
+    public static bool popUpMenuTriggerd;
     private bool popUpMenuFired;
-    private double deathTimer;
-    private const double DeathDelay = 2.0; //2 seconds delay
 
     public StoneAge()
     {
@@ -87,7 +83,6 @@ internal class StoneAge : Component
 
         Texture2D gemTexture = Content.Load<Texture2D>("Items/Gems/plate32x8");
 
-        font = Content.Load<SpriteFont>("Spritefonts/JosefinSans-Regular");
         player = new Player(runTexture, idleTexture, jumpAnimation, attackAnimation, deathAnimation, damageAnimation, playerStartPosition, 100);
         player.LoadContent(Content);
 
@@ -146,20 +141,7 @@ internal class StoneAge : Component
             pausePopupMenu.Update(gameTime);
 
         if (!player.isAlive && !popUpMenuTriggerd)
-        {
-            /* Console.WriteLine("the pop up menu is triggered " + popUpMenuTriggerd);
-            deathTimer += gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (deathTimer >= DeathDelay)
-            {
-                Console.WriteLine("The deathtimer condition is called " + deathTimer);
-                // popUpMenuTriggerd = true;
-                deathTimer = 0;
-            } */
             gameOver.Update(gameTime);
-            //Console.WriteLine("The deathtimer " + deathTimer);
-
-        }
 
         // check button state
         if (!this.popUpMenuFired)
@@ -209,6 +191,7 @@ internal class StoneAge : Component
                 }
             }
         }
+
         if (!player.isAlive && !popUpMenuTriggerd)
         {
             gameOver.Draw(spriteBatch);
@@ -217,10 +200,5 @@ internal class StoneAge : Component
 
         if (currentGameState == GameState.Paused && popUpMenuTriggerd)
             pausePopupMenu.Draw(spriteBatch);
-
-        //Vector2 textMiddlePoint = font.MeasureString(text) /2;
-        spriteBatch.DrawString(font, "Monogame Font Test", gemStartPosition, Color.White);
-
-
     }
 }
