@@ -11,11 +11,14 @@ public class EnemyTank : Enemy
     protected AnimationPlayer enTAttackAnimation;
     protected AnimationPlayer enTDamageAnimation;
     protected AnimationPlayer enTDeathAnimation;
+    protected AnimationPlayer enTBlockAnimation;
     protected Texture2D enTWalkTexture;
     protected Texture2D enTAttackTexture;
     protected Texture2D enTDamageTexture;
     protected Texture2D enTDeathTexture;
-    public EnemyTank(Texture2D enTWalkTexture, Texture2D enTAttackTexture, Texture2D enTDamageTexture,Texture2D enTDeathTexture,
+    protected Texture2D enTBlockTexture;
+    private bool isBlocking;
+    public EnemyTank(Texture2D enTWalkTexture, Texture2D enTAttackTexture, Texture2D enTDamageTexture,Texture2D enTDeathTexture,Texture2D enTBlockTexture,
                          Vector2 startPosition, Vector2 patrolEnd, float sightRange, int health)
         : base(startPosition, patrolEnd, sightRange, health)
     {
@@ -24,7 +27,9 @@ public class EnemyTank : Enemy
         enTAttackAnimation = new AnimationPlayer(enTAttackTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
         enTDamageAnimation = new AnimationPlayer(enTDamageTexture, frameCount: 3, animationSpeed: 0.1f, playOnce: true);
         enTDeathAnimation = new AnimationPlayer(enTDeathTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
+        enTBlockAnimation = new AnimationPlayer(enTBlockTexture, frameCount: 2, animationSpeed: 0.1f, playOnce: true);
 
+        this.enTBlockTexture = enTBlockTexture;
         this.enTWalkTexture = enTWalkTexture;
         this.enTAttackTexture = enTAttackTexture;
         this.enTDamageTexture = enTDamageTexture;
@@ -40,7 +45,7 @@ public class EnemyTank : Enemy
         if(attackFromFront)
         {
             damageTaken = false;
-            //blockanimation
+            isBlocking = true;
             return;
         }
         base.TakeDamage(damage -5, position);
@@ -75,16 +80,22 @@ public class EnemyTank : Enemy
             speed = 0f;
         }
         if (isAttacking)
+        {
+            enTAttackAnimation.Update(gameTime);
+            AttackPlayer(player);
+            if (enTAttackAnimation.IsFinished)
             {
-                enTAttackAnimation.Update(gameTime);
-                AttackPlayer(player);
-                if (enTAttackAnimation.IsFinished)
-                {
-                    await Task.Delay(400);
-                    enTAttackAnimation.Reset();
-                    hasDealtDamage = false;
-                }
+                await Task.Delay(400);
+                enTAttackAnimation.Reset();
+                hasDealtDamage = false;
             }
+        }
+        if(isBlocking)
+        {
+            enTBlockAnimation.Update(gameTime);
+            await Task.Delay(200);
+            isBlocking =false;
+        }
        
     }
 
@@ -93,7 +104,11 @@ public class EnemyTank : Enemy
         SpriteEffects flipEffect = movingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
         if(isAlive)
         {
-            if(isAttacking)
+            if(isBlocking)
+            {
+                enTBlockAnimation.Draw(spriteBatch, position, flipEffect);
+            }
+            else if(isAttacking)
             {
                 enTAttackAnimation.Draw(spriteBatch, position, flipEffect);
             }

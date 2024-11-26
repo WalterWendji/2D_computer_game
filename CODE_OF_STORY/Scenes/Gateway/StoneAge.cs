@@ -82,14 +82,14 @@ internal class StoneAge : Component
         Texture2D enTWalkTexture = Content.Load<Texture2D>("Player_Level1/Warrior_3/Walk");
         Texture2D enTDamageTexture = Content.Load<Texture2D>("Player_Level1/Warrior_3/Hurt");
         Texture2D enTDeathTexture = Content.Load<Texture2D>("Player_Level1/Warrior_3/Dead");
-
+        Texture2D enTBlockTexture = Content.Load<Texture2D>("Player_Level1/Warrior_3/Protect");
 
         Texture2D gemTexture = Content.Load<Texture2D>("Items/Gems/plate32x8");
 
         player = new Player(runTexture, idleTexture, jumpAnimation, attackAnimation, deathAnimation, damageAnimation, playerStartPosition, 100);
         player.LoadContent(Content);
 
-        enemy = new EnemyTank(enTWalkTexture, enTAttackTexture, enTDamageTexture, enTDeathTexture, enemyStartPosition2, enemyEndPosition2, 150f, 100);
+        enemy = new EnemyTank(enTWalkTexture, enTAttackTexture, enTDamageTexture, enTDeathTexture, enTBlockTexture, enemyStartPosition2, enemyEndPosition2, 150f, 100);
         enemies.Add(enemy);
         enemy = new EnemyCharge(enCRunTexture, enCAttackTexture, enCDamageTexture, enCDeathTexture, enemyStartPosition, enemyEndPosition, 100f, 100, 300f);
         enemies.Add(enemy);
