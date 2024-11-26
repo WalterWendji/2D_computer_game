@@ -17,6 +17,7 @@ internal class StoneAge : Component
 {
     private Player player;
     private Enemy enemy;
+    private Shopkeeper shopkeeper;
     private List<Enemy> enemies;
     private Gem gem;
 
@@ -27,6 +28,7 @@ internal class StoneAge : Component
     public static Vector2 enemyEndPosition2;
     private static Vector2 enemyStartPosition3;
     public static Vector2 enemyEndPosition3;
+    public static Vector2 shopkeeperPosition;
     private Vector2 gemStartPosition;
 
     private PausePopupMenu pausePopupMenu;
@@ -47,6 +49,7 @@ internal class StoneAge : Component
         enemyEndPosition3 = new Vector2(1200, 600);
         enemyEndPosition = new Vector2(700, 600);
         gemStartPosition = new Vector2(300, 600);
+        shopkeeperPosition = new Vector2(1500, 600);
 
         pausePopupMenu = new PausePopupMenu();
         gameOver = new GameOver();
@@ -86,6 +89,11 @@ internal class StoneAge : Component
 
         Texture2D gemTexture = Content.Load<Texture2D>("Items/Gems/plate32x8");
 
+        Texture2D shIdleTexture = Content.Load<Texture2D>("NPCs/Shopkeeper/Idle");
+        Texture2D shApprovalTexture = Content.Load<Texture2D>("NPCs/Shopkeeper/Approval");
+        Texture2D shGreetingTexture = Content.Load<Texture2D>("NPCs/Shopkeeper/Idle_2");
+        Texture2D shDialogueTexture = Content.Load<Texture2D>("NPCs/Shopkeeper/Dialogue");
+
         player = new Player(runTexture, idleTexture, jumpAnimation, attackAnimation, deathAnimation, damageAnimation, playerStartPosition, 100);
         player.LoadContent(Content);
 
@@ -98,6 +106,8 @@ internal class StoneAge : Component
 
         gem = new Gem(gemTexture, new Vector2(300, 600));
 
+        shopkeeper = new Shopkeeper(shopkeeperPosition, shIdleTexture, shDialogueTexture, shGreetingTexture, shApprovalTexture);
+        
         pausePopupMenu.LoadContent(Content);
         gameOver.LoadContent(Content);
 
@@ -123,6 +133,7 @@ internal class StoneAge : Component
             {
                 player.Update(gameTime, enemies);
                 gem.Update(gameTime);
+                shopkeeper.Update(gameTime, player);
                 foreach (var projectile in player.ActiveProjectiles.ToList())
                 {
                     foreach (var enemy in enemies)
@@ -186,6 +197,7 @@ internal class StoneAge : Component
             {
                 player.Draw(spriteBatch);
                 gem.Draw(spriteBatch);
+                shopkeeper.Draw(spriteBatch);
                 foreach (var enemy in enemies)
                 {
                     enemy.Draw(spriteBatch);
