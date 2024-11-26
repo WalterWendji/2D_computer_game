@@ -1,14 +1,18 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace CODE_OF_STORY.Core;
 
 public class Shopkeeper
 {
     private float sightRange = 200;
+    private float interactionRange = 50;
+    private bool isInteracting;
     private bool greeting;
     private Rectangle sightRect;
+    private Rectangle interactionRect;
     public Vector2 position;
     private readonly AnimationPlayer shIdleAnimation;
     private readonly AnimationPlayer shDialogueAnimation;
@@ -21,7 +25,7 @@ public class Shopkeeper
     public Shopkeeper(Vector2 idelPosition, Texture2D shIdleTexture, Texture2D shDialogueTexture, Texture2D shGreetingTexture, Texture2D shApprovalTexture)
     {
         this.shIdleTexture = shIdleTexture;
-        shDialogueAnimation = new AnimationPlayer(shDialogueTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
+        shDialogueAnimation = new AnimationPlayer(shDialogueTexture, frameCount: 16, animationSpeed: 0.15f, playOnce: true);
         shIdleAnimation = new AnimationPlayer(shIdleTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
         shGreetingAnimation = new AnimationPlayer(shGreetingTexture, frameCount: 11, animationSpeed: 0.2f, playOnce: false);
         shApprovalAnimation = new AnimationPlayer(shApprovalTexture, frameCount: 4, animationSpeed: 0.2f, playOnce: true);
@@ -37,32 +41,61 @@ public class Shopkeeper
         else
         {
             greeting = false;
-        }
-        
+            isInteracting = false;
+        }   
     }
 
-    public void Update(GameTime gameTime, Player player)
+    public void CheckInteraction(Player player, KeyboardState keyboardState, KeyboardState prevKeyboardState)
+    {
+        interactionRect = new Rectangle((int)position.X - (int) interactionRange /2, (int)position.Y, (int)interactionRange, 128);
+        if(interactionRect.Contains(player.Position) && keyboardState.IsKeyDown(Keys.F) && prevKeyboardState.IsKeyUp(Keys.F))
+        {
+            isInteracting = true;
+            shDialogueAnimation.PlayOnce();
+        }
+    }
+    public void Update(GameTime gameTime, Player player, KeyboardState keyboardState, KeyboardState prevKeyboardState)
     {
         Greeting(player);
-        if(greeting)
+        CheckInteraction(player, keyboardState, prevKeyboardState);
+        
+        if(greeting && !isInteracting)
         {
             shGreetingAnimation.Update(gameTime);
         }
-        else
+        if(isInteracting)
+        {
+            shDialogueAnimation.Update(gameTime);
+            if(shDialogueAnimation.IsFinished)
+            {
+                isInteracting = false;
+            }
+        }
+        if(!greeting && !isInteracting)
         {
             shIdleAnimation.Update(gameTime);
         }
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    public void Draw(SpriteBatch spriteBatch, Player player)
     {
-        if(greeting)
-        {
-            shGreetingAnimation.Draw(spriteBatch, position, SpriteEffects.None);
-        }
-        else
+        if(!greeting && !isInteracting)
         {
             shIdleAnimation.Draw(spriteBatch, position, SpriteEffects.None);
         }
+        if(greeting && !isInteracting)
+        {
+            shGreetingAnimation.Draw(spriteBatch, position, SpriteEffects.None);
+        }
+        if(isInteracting)
+        {
+            shDialogueAnimation.Draw(spriteBatch, position, SpriteEffects.None);
+        }
+        
+        /*if(interactionRect.Contains(player.Position))
+        {
+            spriteBatch.DrawString(SpriteFont, "Press F to interact", new Vector2(position.X, position.Y - 20), Color.White);
+        }*/
+        
     }
 }

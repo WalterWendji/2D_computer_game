@@ -16,7 +16,7 @@ public class AnimationPlayer
     private readonly int totalFrames;
     private float frameTime;
     private float timer;
-    private readonly bool playOnce;
+    public bool playOnce;
     public bool IsFinished {get; private set; } = false;
 
     public AnimationPlayer(Texture2D texture, int frameCount, float animationSpeed, bool playOnce)
@@ -31,7 +31,11 @@ public class AnimationPlayer
         IsFinished = false;
         this.playOnce = playOnce;
     }
-
+    public void PlayOnce()
+    {
+        playOnce = true;
+        Reset();
+    }
     public void Reset()
     {
         currentFrame = 0;

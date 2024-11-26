@@ -21,6 +21,9 @@ internal class StoneAge : Component
     private List<Enemy> enemies;
     private Gem gem;
 
+    private KeyboardState currentKeyboardState;
+    private KeyboardState prevKeyboardState;
+
     public static Vector2 playerStartPosition;
     public static Vector2 enemyStartPosition;
     public static Vector2 enemyEndPosition;
@@ -126,14 +129,18 @@ internal class StoneAge : Component
     }
     internal override void Update(GameTime gameTime)
     {
-
+        /*KeyboardState keyboardState = Keyboard.GetState();
+        KeyboardState prevKeyboardState = Keyboard.GetState();
+        */
+        prevKeyboardState = currentKeyboardState;
+        currentKeyboardState = Keyboard.GetState();
         if (currentGameState == GameState.Playing)
         {
             if (player != null && gem != null && enemies != null)
             {
                 player.Update(gameTime, enemies);
                 gem.Update(gameTime);
-                shopkeeper.Update(gameTime, player);
+                shopkeeper.Update(gameTime, player, currentKeyboardState, prevKeyboardState);
                 foreach (var projectile in player.ActiveProjectiles.ToList())
                 {
                     foreach (var enemy in enemies)
@@ -197,7 +204,7 @@ internal class StoneAge : Component
             {
                 player.Draw(spriteBatch);
                 gem.Draw(spriteBatch);
-                shopkeeper.Draw(spriteBatch);
+                shopkeeper.Draw(spriteBatch, player);
                 foreach (var enemy in enemies)
                 {
                     enemy.Draw(spriteBatch);
