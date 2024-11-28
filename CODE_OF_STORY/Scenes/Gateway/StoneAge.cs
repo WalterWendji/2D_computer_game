@@ -190,7 +190,7 @@ internal class StoneAge : Component
         else if (currentGameState == GameState.Paused)
             pausePopupMenu.Update(gameTime);
 
-        if (!player.isAlive && !popUpMenuTriggerd)
+        if (player != null && !player.isAlive && !popUpMenuTriggerd)
         {
             isGameOverRendered = true;
             gameOver.Update(gameTime);
@@ -221,7 +221,7 @@ internal class StoneAge : Component
             }
         }
 
-        if (!player.isAlive && !popUpMenuTriggerd)
+        if (player != null && !player.isAlive && !popUpMenuTriggerd)
         {
             gameOver.Draw(spriteBatch);
             //popUpMenuTriggerd = false;
