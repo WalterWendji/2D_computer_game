@@ -90,8 +90,34 @@ internal class PausePopupMenu : Component
         currentMouseState = Mouse.GetState();
         currentMouseStateRectangle = new Rectangle(currentMouseState.X, currentMouseState.Y, 1, 1);
 
+        if (currentMouseState.LeftButton == ButtonState.Pressed)
+        {
+            if (currentMouseStateRectangle.Intersects(btnRects[0]) || currentMouseStateRectangle.Intersects(btnRects[1])
+                || currentMouseStateRectangle.Intersects(btnRects[2]) || currentMouseStateRectangle.Intersects(btnRects[3])
+                || currentMouseStateRectangle.Intersects(btnRects[4]) || currentMouseStateRectangle.Intersects(homeButtonRect))
+            {
+                StoneAge.popUpMenuTriggerd = false;
+            }
+            
+            if (currentMouseStateRectangle.Intersects(btnRects[0]))
+                Data.currentGameState = Data.GameState.Playing;
+            else if (currentMouseStateRectangle.Intersects(btnRects[1]))
+            {
+                isClicked = true;
+                currentGameState = GameState.Playing;
+                Data.currentState = Data.Scenes.StoneAge;
+            }
+            else if (currentMouseStateRectangle.Intersects(btnRects[2]))
+                Data.currentState = Data.Scenes.Menu;
+            else if (currentMouseStateRectangle.Intersects(btnRects[3]))
+                Data.currentState = Data.Scenes.Settings;
+            else if (currentMouseStateRectangle.Intersects(btnRects[4]))
+                Data.Exit = true;
+            else if (currentMouseStateRectangle.Intersects(homeButtonRect))
+                Data.currentState = Data.Scenes.Gateways;
+        }
 
-        if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[0]))
+        /* if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[0]))
         {
             Data.currentGameState = Data.GameState.Playing;
             StoneAge.popUpMenuTriggerd = false;
@@ -108,17 +134,17 @@ internal class PausePopupMenu : Component
             StoneAge.popUpMenuTriggerd = false;
         }
         else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[3]))
-            {
-                Data.currentState = Data.Scenes.Settings;
-                StoneAge.popUpMenuTriggerd = false;
-            }
+        {
+            Data.currentState = Data.Scenes.Settings;
+            StoneAge.popUpMenuTriggerd = false;
+        }
         else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[4]))
             Data.Exit = true;
         else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(homeButtonRect))
         {
             Data.currentState = Data.Scenes.Gateways;
             StoneAge.popUpMenuTriggerd = false;
-        }
+        } */
 
         //Stop the game: StoneAge.popUpMenuTriggerd = false; Don't delete pls!
 

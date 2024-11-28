@@ -82,8 +82,30 @@ internal class MenuScene : Component
             currentMouseState = Mouse.GetState();
             currentMouseStateRectangle = new Rectangle(currentMouseState.X, currentMouseState.Y, 1, 1);
 
+            if (currentMouseState.LeftButton == ButtonState.Pressed)
+            {
+                if (currentMouseStateRectangle.Intersects(btnRects[0]) || currentMouseStateRectangle.Intersects(btnRects[1])
+                    || currentMouseStateRectangle.Intersects(btnRects[2]) || currentMouseStateRectangle.Intersects(btnRects[3])
+                    || currentMouseStateRectangle.Intersects(btnRects[4]))
+                {
+                    timer = 0;
+                }
 
-            if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[0]))
+                if (currentMouseStateRectangle.Intersects(btnRects[0]))
+                    Data.currentState = Data.Scenes.Gateways;
+                else if (currentMouseStateRectangle.Intersects(btnRects[1]))
+                {
+                    //TO BE DONE
+                }
+                else if (currentMouseStateRectangle.Intersects(btnRects[2]))
+                    Data.currentState = Data.Scenes.Load;
+                else if (currentMouseStateRectangle.Intersects(btnRects[3]))
+                    Data.currentState = Data.Scenes.Settings;
+                else if (currentMouseStateRectangle.Intersects(btnRects[4]))
+                    Data.Exit = true;
+            }
+
+            /* if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[0]))
             {
                 Data.currentState = Data.Scenes.Gateways;
                 timer = 0;
@@ -102,7 +124,7 @@ internal class MenuScene : Component
             {
                 Data.Exit = true;
                 timer = 0;
-            }
+            } */
         }
 
     }

@@ -134,6 +134,33 @@ internal class StoneAge : Component
         */
         prevKeyboardState = currentKeyboardState;
         currentKeyboardState = Keyboard.GetState();
+
+        // check button state
+        if (!this.popUpMenuFired)
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.P) && !isGameOverRendered || Keyboard.GetState().IsKeyDown(Keys.Escape) && !isGameOverRendered)
+            {
+                this.popUpMenuFired = true;
+                if (currentGameState == GameState.Playing)
+                {
+                    popUpMenuTriggerd = true;
+                    currentGameState = GameState.Paused;
+                }
+                else if (currentGameState == GameState.Paused)
+                {
+                    popUpMenuTriggerd = false;
+                    currentGameState = GameState.Playing;
+                }
+            }
+        }
+        else
+        {
+            if (Keyboard.GetState().IsKeyUp(Keys.P) && Keyboard.GetState().IsKeyUp(Keys.Escape))
+            {
+                this.popUpMenuFired = false;
+            }
+        }
+
         if (currentGameState == GameState.Playing)
         {
             if (player != null && gem != null && enemies != null)
@@ -169,31 +196,6 @@ internal class StoneAge : Component
             gameOver.Update(gameTime);
         }
 
-        // check button state
-        if (!this.popUpMenuFired)
-        {
-            if (Keyboard.GetState().IsKeyDown(Keys.P) && !isGameOverRendered || Keyboard.GetState().IsKeyDown(Keys.Escape) && !isGameOverRendered)
-            {
-                this.popUpMenuFired = true;
-                if (currentGameState == GameState.Playing)
-                {
-                    popUpMenuTriggerd = true;
-                    currentGameState = GameState.Paused;
-                }
-                else if (currentGameState == GameState.Paused)
-                {
-                    popUpMenuTriggerd = false;
-                    currentGameState = GameState.Playing;
-                }
-            }
-        }
-        else
-        {
-            if (Keyboard.GetState().IsKeyUp(Keys.P) && Keyboard.GetState().IsKeyUp(Keys.Escape))
-            {
-                this.popUpMenuFired = false;
-            }
-        }
 
     }
     internal override void Draw(SpriteBatch spriteBatch)
