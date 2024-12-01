@@ -6,6 +6,7 @@ using System.Security.Principal;
 using CODE_OF_STORY.Core;
 using CODE_OF_STORY.Managers;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -41,6 +42,9 @@ internal class StoneAge : Component
     public static bool popUpMenuTriggerd;
     private bool popUpMenuFired;
     private bool isGameOverRendered;
+
+    SoundEffect backgroundSoundScenario1;
+    SoundEffectInstance backgroundSoundScenario1Instance;
 
     public StoneAge()
     {
@@ -114,10 +118,16 @@ internal class StoneAge : Component
         pausePopupMenu.LoadContent(Content);
         gameOver.LoadContent(Content);
 
+        backgroundSoundScenario1 = Content.Load<SoundEffect>("Audio/25-Raid_FolkMetal2");
+        backgroundSoundScenario1Instance = backgroundSoundScenario1.CreateInstance();
+
+
     }
 
     public void Reset()
     {
+        backgroundSoundScenario1Instance.Play();
+
         popUpMenuTriggerd = false;
         isGameOverRendered = false;
 
@@ -145,11 +155,14 @@ internal class StoneAge : Component
                 {
                     popUpMenuTriggerd = true;
                     currentGameState = GameState.Paused;
+                    backgroundSoundScenario1Instance.Pause();
                 }
                 else if (currentGameState == GameState.Paused)
                 {
                     popUpMenuTriggerd = false;
                     currentGameState = GameState.Playing;
+
+                    backgroundSoundScenario1Instance.Resume();
                 }
             }
         }
@@ -165,6 +178,8 @@ internal class StoneAge : Component
         {
             if (player != null && gem != null && enemies != null)
             {
+                backgroundSoundScenario1Instance.Play(); //TODO: That doesn't work properly on linux. Why?
+
                 player.Update(gameTime, enemies);
                 gem.Update(gameTime);
                 shopkeeper.Update(gameTime, player, currentKeyboardState, prevKeyboardState);
@@ -194,6 +209,8 @@ internal class StoneAge : Component
         {
             isGameOverRendered = true;
             gameOver.Update(gameTime);
+
+            backgroundSoundScenario1Instance.Stop();
         }
 
 

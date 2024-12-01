@@ -20,6 +20,24 @@
 /processorParam:TextureFormat=Compressed
 /build:Arial.spritefont
 
+#begin Audio/25-Raid_FolkMetal2.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/25-Raid_FolkMetal2.mp3
+
+#begin Audio/Happy_Trails_higher.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Happy_Trails_higher.wav
+
+#begin Audio/Happy_Trails_higherMP3.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/Happy_Trails_higherMP3.mp3
+
 #begin Buttons/Back_Button.png
 /importer:TextureImporter
 /processor:TextureProcessor

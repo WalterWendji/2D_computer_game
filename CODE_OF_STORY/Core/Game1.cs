@@ -3,6 +3,8 @@ using CODE_OF_STORY.Scenes.Gateway;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace CODE_OF_STORY.Core;
 
@@ -26,6 +28,10 @@ public class Game1 : Game
     public static Rectangle backButtonRectColored;
     private Vector2 backButtonPosition;
 
+    SoundEffect menuSong;
+    SoundEffectInstance menuSongInstance;
+
+
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -42,7 +48,7 @@ public class Game1 : Game
 
         gameStateManager = new GameStateManager();
         gatewaysManager = new GatewaysManager();
-
+        
         base.Initialize();
     }
 
@@ -65,10 +71,16 @@ public class Game1 : Game
 
         backButtonRect = new Rectangle(xPosition, yPosition, backButton.Width/4, backButton.Height/4);
         backButtonRectColored = new Rectangle(xPosition ,yPosition, backButtonColored.Width/4, backButtonColored.Height/4);
+
+        menuSong = Content.Load<SoundEffect>("Audio/Happy_Trails_higher");
+        menuSongInstance = menuSong.CreateInstance();
+
+
     }
 
     protected override void Update(GameTime gameTime)
     {
+        menuSongInstance.Play();
         oldMouseState = currentMouseState;
         currentMouseState = Mouse.GetState();
         currentMouseStateRectangle = new Rectangle(currentMouseState.X, currentMouseState.Y, 1, 1);
@@ -79,7 +91,10 @@ public class Game1 : Game
         gameStateManager.Update(gameTime);
 
         if (Data.currentState == Data.Scenes.StoneAge || Data.currentState == Data.Scenes.MiddleAge || Data.currentState == Data.Scenes.ModernAge || Data.currentState == Data.Scenes.Future)
+        {
             gatewaysManager.Update(gameTime);
+            menuSongInstance.Stop();
+        }
         
         if (!Player.checkIsAlive && PausePopupMenu.isClicked || !Player.checkIsAlive && GameOver.isResetButtonClicked)
         {
