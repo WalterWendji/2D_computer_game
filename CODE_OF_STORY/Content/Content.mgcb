@@ -26,6 +26,12 @@
 /processorParam:Quality=Best
 /build:Audio/25-Raid_FolkMetal2.mp3
 
+#begin Audio/25-Raid_FolkMetal2W.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/25-Raid_FolkMetal2W.wav
+
 #begin Audio/Happy_Trails_higher.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -37,6 +43,48 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Audio/Happy_Trails_higherMP3.mp3
+
+#begin Audio/Sound_animation/damage_1_sean.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Sound_animation/damage_1_sean.wav
+
+#begin Audio/Sound_animation/death_4_sean.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Sound_animation/death_4_sean.wav
+
+#begin Audio/Sound_animation/Footsteps_Gravel_Run_02.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Sound_animation/Footsteps_Gravel_Run_02.wav
+
+#begin Audio/Sound_animation/Voice_Male_V1_Attack_Short_Mono_09.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Sound_animation/Voice_Male_V1_Attack_Short_Mono_09.wav
+
+#begin Audio/Sound_animation/Voice_Male_V1_Jump_Mono_05.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Sound_animation/Voice_Male_V1_Jump_Mono_05.wav
+
+#begin Audio/Sound_animation/Voice_Male_V1_Land_Mono_05.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Sound_animation/Voice_Male_V1_Land_Mono_05.wav
+
+#begin Audio/Sound_animation/Voice_Male_V1_Pain_Mono_17.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Sound_animation/Voice_Male_V1_Pain_Mono_17.wav
 
 #begin Buttons/Back_Button.png
 /importer:TextureImporter

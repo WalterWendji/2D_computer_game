@@ -71,7 +71,7 @@ public class Game1 : Game
 
         backButtonRect = new Rectangle(xPosition, yPosition, backButton.Width/4, backButton.Height/4);
         backButtonRectColored = new Rectangle(xPosition ,yPosition, backButtonColored.Width/4, backButtonColored.Height/4);
-
+        
         menuSong = Content.Load<SoundEffect>("Audio/Happy_Trails_higher");
         menuSongInstance = menuSong.CreateInstance();
 

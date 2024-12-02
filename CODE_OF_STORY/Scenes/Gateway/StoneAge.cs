@@ -118,7 +118,7 @@ internal class StoneAge : Component
         pausePopupMenu.LoadContent(Content);
         gameOver.LoadContent(Content);
 
-        backgroundSoundScenario1 = Content.Load<SoundEffect>("Audio/25-Raid_FolkMetal2");
+        backgroundSoundScenario1 = Content.Load<SoundEffect>("Audio/25-Raid_FolkMetal2W");
         backgroundSoundScenario1Instance = backgroundSoundScenario1.CreateInstance();
 
 
@@ -179,7 +179,8 @@ internal class StoneAge : Component
             if (player != null && gem != null && enemies != null)
             {
                 backgroundSoundScenario1Instance.Play(); //TODO: That doesn't work properly on linux. Why?
-
+                backgroundSoundScenario1Instance.Volume = 0.05f;
+                
                 player.Update(gameTime, enemies);
                 gem.Update(gameTime);
                 shopkeeper.Update(gameTime, player, currentKeyboardState, prevKeyboardState);
