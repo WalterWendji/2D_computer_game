@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Principal;
@@ -101,9 +102,6 @@ internal class StoneAge : Component
         Texture2D shGreetingTexture = Content.Load<Texture2D>("NPCs/Shopkeeper/Idle_2");
         Texture2D shDialogueTexture = Content.Load<Texture2D>("NPCs/Shopkeeper/Dialogue");
 
-        Texture2D shopBackground = Content.Load<Texture2D>("GameUI/testshop");
-        SpriteFont font = Content.Load<SpriteFont>("Arial");
-
         player = new Player(runTexture, idleTexture, jumpAnimation, attackAnimation, deathAnimation, damageAnimation, playerStartPosition, 100);
         player.LoadContent(Content);
 
@@ -116,7 +114,26 @@ internal class StoneAge : Component
 
         gem = new Gem(gemTexture, new Vector2(300, 600));
 
-        shopkeeper = new Shopkeeper(shopkeeperPosition, shIdleTexture, shDialogueTexture, shGreetingTexture, shApprovalTexture, shopBackground, font);
+        Texture2D shopBackground = Content.Load<Texture2D>("GameUI/shop");
+        SpriteFont font = Content.Load<SpriteFont>("Arial");
+
+        Texture2D hPotionImage = Content.Load<Texture2D>("Items/ShopItem/hPotion");
+        Texture2D asPotionImage = Content.Load<Texture2D>("Items/ShopItem/asPotion");
+        Texture2D swordImage = Content.Load<Texture2D>("Items/ShopItem/sword");
+        Texture2D shildImage = Content.Load<Texture2D>("Items/ShopItem/shild");
+        Texture2D lifeImage = Content.Load<Texture2D>("Items/ShopItem/life");
+        Texture2D bootImage = Content.Load<Texture2D>("Items/ShopItem/boot");
+
+        List<ShopItem> shopItems = new List<ShopItem>
+        {
+            new ShopItem("Heiltrank", hPotionImage, 100),
+            new ShopItem("Angriffsgeschwindikeit", asPotionImage, 150),
+            new ShopItem("Nahkampfschaden", swordImage, 100),
+            new ShopItem("Schild", shildImage, 100),
+            new ShopItem("Extra Leben", lifeImage, 100),
+            new ShopItem("Doppelsprung", bootImage, 100)
+        };
+        shopkeeper = new Shopkeeper(shopkeeperPosition, shIdleTexture, shDialogueTexture, shGreetingTexture, shApprovalTexture, shopBackground, font, shopItems);
         
         pausePopupMenu.LoadContent(Content);
         gameOver.LoadContent(Content);

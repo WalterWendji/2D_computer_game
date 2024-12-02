@@ -24,7 +24,7 @@ public class Shopkeeper
 
     
 
-    public Shopkeeper(Vector2 idelPosition, Texture2D shIdleTexture, Texture2D shDialogueTexture, Texture2D shGreetingTexture, Texture2D shApprovalTexture, Texture2D shopBackground, SpriteFont font)
+    public Shopkeeper(Vector2 idelPosition, Texture2D shIdleTexture, Texture2D shDialogueTexture, Texture2D shGreetingTexture, Texture2D shApprovalTexture, Texture2D shopBackground, SpriteFont font, List<ShopItem> items)
     {
         this.shIdleTexture = shIdleTexture;
         shDialogueAnimation = new AnimationPlayer(shDialogueTexture, frameCount: 16, animationSpeed: 0.15f, playOnce: true);
@@ -33,7 +33,7 @@ public class Shopkeeper
         shApprovalAnimation = new AnimationPlayer(shApprovalTexture, frameCount: 4, animationSpeed: 0.2f, playOnce: true);
         this.position = idelPosition;
 
-        shopWindow = new ShopWindow(shopBackground, font, new Vector2(600, 300), new List<string> {"Heiltrank", "Trank der Angriffsgeschwindigkeit", "Bonus Nakampfschaden", "Bonus Fernkampfschaden", "Bonus Max Leben", "Schild", "Doppelsprung", "Amulett der Wiederbelebung"});
+        shopWindow = new ShopWindow(shopBackground, font, new Vector2(600, 300), items);
     }
     public void Greeting(Player player)
     {
