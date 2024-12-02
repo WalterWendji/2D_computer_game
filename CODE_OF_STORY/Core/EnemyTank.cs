@@ -52,11 +52,12 @@ public class EnemyTank : Enemy
     }
     public override bool CheckProjectileCollision(Projectile projectile)
     {
+        
         if(!projectile.IsActive)
             return false;
         Rectangle enemyBounds = new Rectangle((int)Position.X,(int)Position.Y, 64, 64);
         Rectangle projectileBounds = new Rectangle((int)projectile.Position.X,(int)projectile.Position.Y, 16, 5);
-        if(enemyBounds.Intersects(projectileBounds))
+        if(enemyBounds.Intersects(projectileBounds) && isAlive)
         {
             TakeDamage(20, projectile.Position);
             projectile.IsActive = false;
