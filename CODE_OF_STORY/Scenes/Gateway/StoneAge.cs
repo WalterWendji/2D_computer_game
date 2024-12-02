@@ -101,6 +101,9 @@ internal class StoneAge : Component
         Texture2D shGreetingTexture = Content.Load<Texture2D>("NPCs/Shopkeeper/Idle_2");
         Texture2D shDialogueTexture = Content.Load<Texture2D>("NPCs/Shopkeeper/Dialogue");
 
+        Texture2D shopBackground = Content.Load<Texture2D>("GameUI/testshop");
+        SpriteFont font = Content.Load<SpriteFont>("Arial");
+
         player = new Player(runTexture, idleTexture, jumpAnimation, attackAnimation, deathAnimation, damageAnimation, playerStartPosition, 100);
         player.LoadContent(Content);
 
@@ -113,7 +116,7 @@ internal class StoneAge : Component
 
         gem = new Gem(gemTexture, new Vector2(300, 600));
 
-        shopkeeper = new Shopkeeper(shopkeeperPosition, shIdleTexture, shDialogueTexture, shGreetingTexture, shApprovalTexture);
+        shopkeeper = new Shopkeeper(shopkeeperPosition, shIdleTexture, shDialogueTexture, shGreetingTexture, shApprovalTexture, shopBackground, font);
         
         pausePopupMenu.LoadContent(Content);
         gameOver.LoadContent(Content);

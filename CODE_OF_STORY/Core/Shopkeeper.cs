@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace CODE_OF_STORY.Core;
 
@@ -19,10 +20,11 @@ public class Shopkeeper
     private readonly AnimationPlayer shApprovalAnimation;
     private readonly AnimationPlayer shGreetingAnimation;
     private readonly Texture2D shIdleTexture;
+    private ShopWindow shopWindow;
 
     
 
-    public Shopkeeper(Vector2 idelPosition, Texture2D shIdleTexture, Texture2D shDialogueTexture, Texture2D shGreetingTexture, Texture2D shApprovalTexture)
+    public Shopkeeper(Vector2 idelPosition, Texture2D shIdleTexture, Texture2D shDialogueTexture, Texture2D shGreetingTexture, Texture2D shApprovalTexture, Texture2D shopBackground, SpriteFont font)
     {
         this.shIdleTexture = shIdleTexture;
         shDialogueAnimation = new AnimationPlayer(shDialogueTexture, frameCount: 16, animationSpeed: 0.15f, playOnce: true);
@@ -30,6 +32,8 @@ public class Shopkeeper
         shGreetingAnimation = new AnimationPlayer(shGreetingTexture, frameCount: 11, animationSpeed: 0.2f, playOnce: false);
         shApprovalAnimation = new AnimationPlayer(shApprovalTexture, frameCount: 4, animationSpeed: 0.2f, playOnce: true);
         this.position = idelPosition;
+
+        shopWindow = new ShopWindow(shopBackground, font, new Vector2(600, 300), new List<string> {"Heiltrank", "Trank der Angriffsgeschwindigkeit", "Bonus Nakampfschaden", "Bonus Fernkampfschaden", "Bonus Max Leben", "Schild", "Doppelsprung", "Amulett der Wiederbelebung"});
     }
     public void Greeting(Player player)
     {
@@ -66,8 +70,10 @@ public class Shopkeeper
         if(isInteracting)
         {
             shDialogueAnimation.Update(gameTime);
-            if(shDialogueAnimation.IsFinished)
+            shopWindow.Update(gameTime);
+            if(shDialogueAnimation.IsFinished && !shopWindow.isVisible)
             {
+                shopWindow.Show();
                 isInteracting = false;
             }
         }
@@ -90,12 +96,7 @@ public class Shopkeeper
         if(isInteracting)
         {
             shDialogueAnimation.Draw(spriteBatch, position, SpriteEffects.None);
+            shopWindow.Draw(spriteBatch);
         }
-        
-        /*if(interactionRect.Contains(player.Position))
-        {
-            spriteBatch.DrawString(SpriteFont, "Press F to interact", new Vector2(position.X, position.Y - 20), Color.White);
-        }*/
-        
     }
 }
