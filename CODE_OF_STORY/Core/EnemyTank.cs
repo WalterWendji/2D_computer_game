@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Threading.Tasks;
+using CODE_OF_STORY.Managers;
 
 namespace CODE_OF_STORY.Core;
 
@@ -12,28 +13,16 @@ public class EnemyTank : Enemy
     protected AnimationPlayer enTDamageAnimation;
     protected AnimationPlayer enTDeathAnimation;
     protected AnimationPlayer enTBlockAnimation;
-    protected Texture2D enTWalkTexture;
-    protected Texture2D enTAttackTexture;
-    protected Texture2D enTDamageTexture;
-    protected Texture2D enTDeathTexture;
-    protected Texture2D enTBlockTexture;
     private bool isBlocking;
-    public EnemyTank(Texture2D enTWalkTexture, Texture2D enTAttackTexture, Texture2D enTDamageTexture,Texture2D enTDeathTexture,Texture2D enTBlockTexture,
-                         Vector2 startPosition, Vector2 patrolEnd, float sightRange, int health)
+    public EnemyTank(Vector2 startPosition, Vector2 patrolEnd, float sightRange, int health)
         : base(startPosition, patrolEnd, sightRange, health)
     {
-        this.enTWalkTexture = enTWalkTexture;
-        enTWalkAnimation = new AnimationPlayer(enTWalkTexture, frameCount: 8, animationSpeed: 0.2f, playOnce: false);
-        enTAttackAnimation = new AnimationPlayer(enTAttackTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
-        enTDamageAnimation = new AnimationPlayer(enTDamageTexture, frameCount: 3, animationSpeed: 0.1f, playOnce: true);
-        enTDeathAnimation = new AnimationPlayer(enTDeathTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
-        enTBlockAnimation = new AnimationPlayer(enTBlockTexture, frameCount: 2, animationSpeed: 0.1f, playOnce: true);
+        enTWalkAnimation = new AnimationPlayer(ResourceManager.enTWalkTexture, frameCount: 8, animationSpeed: 0.2f, playOnce: false);
+        enTAttackAnimation = new AnimationPlayer(ResourceManager.enTAttackTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
+        enTDamageAnimation = new AnimationPlayer(ResourceManager.enTDamageTexture, frameCount: 3, animationSpeed: 0.1f, playOnce: true);
+        enTDeathAnimation = new AnimationPlayer(ResourceManager.enTDeathTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
+        enTBlockAnimation = new AnimationPlayer(ResourceManager.enTBlockTexture, frameCount: 2, animationSpeed: 0.1f, playOnce: true);
 
-        this.enTBlockTexture = enTBlockTexture;
-        this.enTWalkTexture = enTWalkTexture;
-        this.enTAttackTexture = enTAttackTexture;
-        this.enTDamageTexture = enTDamageTexture;
-        this.enTDeathTexture = enTDeathTexture;
         this.patrolStart = new Vector2(300,600);
         this.patrolEnd = new Vector2(600,600);
     }

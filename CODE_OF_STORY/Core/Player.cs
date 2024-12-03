@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using CODE_OF_STORY.Scenes.Gateway;
+using CODE_OF_STORY.Managers;
 
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -24,7 +25,7 @@ public class Player
     private readonly AnimationPlayer deathAnimation;
     private readonly AnimationPlayer damageAnimation;
     private bool facingRight;
-    private readonly Texture2D idleTexture;
+    //private readonly Texture2D idleTexture;
     //laufen var
     private Vector2 position;
     private float speed;
@@ -59,16 +60,14 @@ public class Player
     {
         get { return position; }
     }
-    public Player(Texture2D runTexture, Texture2D idleTexture, Texture2D jumpTexture, Texture2D attackTexture, Texture2D deathTexture, Texture2D damageTexture,
-                     Vector2 position, int initialHealth)
+    public Player(Vector2 position, int initialHealth)
     {
-        this.idleTexture = idleTexture;
-        runAnimation = new AnimationPlayer(runTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
-        idleAnimation = new AnimationPlayer(idleTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
-        jumpAnimation = new AnimationPlayer(jumpTexture, frameCount: 2, animationSpeed: 0.5f, playOnce: false);
-        attackAnimation = new AnimationPlayer(attackTexture, frameCount: 4, animationSpeed: 0.2f, playOnce: true);
-        deathAnimation = new AnimationPlayer(deathTexture, frameCount: 4, animationSpeed: 0.2f, playOnce: true);
-        damageAnimation = new AnimationPlayer(damageTexture, frameCount: 2, animationSpeed: 0.2f, playOnce: true);
+        runAnimation = new AnimationPlayer(ResourceManager.runTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
+        idleAnimation = new AnimationPlayer(ResourceManager.idleTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
+        jumpAnimation = new AnimationPlayer(ResourceManager.jumpTexture, frameCount: 2, animationSpeed: 0.5f, playOnce: false);
+        attackAnimation = new AnimationPlayer(ResourceManager.attackTexture, frameCount: 4, animationSpeed: 0.2f, playOnce: true);
+        deathAnimation = new AnimationPlayer(ResourceManager.deathTexture, frameCount: 4, animationSpeed: 0.2f, playOnce: true);
+        damageAnimation = new AnimationPlayer(ResourceManager.damageTexture, frameCount: 2, animationSpeed: 0.2f, playOnce: true);
         this.position = position;
         this.speed = 200f;
         this.groundLevel = position.Y;

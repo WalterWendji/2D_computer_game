@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using CODE_OF_STORY.Managers;
 
 namespace CODE_OF_STORY.Core;
 
@@ -19,18 +20,16 @@ public class Shopkeeper
     private readonly AnimationPlayer shDialogueAnimation;
     private readonly AnimationPlayer shApprovalAnimation;
     private readonly AnimationPlayer shGreetingAnimation;
-    private readonly Texture2D shIdleTexture;
     private ShopWindow shopWindow;
 
     
 
-    public Shopkeeper(Vector2 idelPosition, Texture2D shIdleTexture, Texture2D shDialogueTexture, Texture2D shGreetingTexture, Texture2D shApprovalTexture, Texture2D shopBackground, SpriteFont font, List<ShopItem> items)
+    public Shopkeeper(Vector2 idelPosition, Texture2D shopBackground, SpriteFont font, List<ShopItem> items)
     {
-        this.shIdleTexture = shIdleTexture;
-        shDialogueAnimation = new AnimationPlayer(shDialogueTexture, frameCount: 16, animationSpeed: 0.15f, playOnce: true);
-        shIdleAnimation = new AnimationPlayer(shIdleTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
-        shGreetingAnimation = new AnimationPlayer(shGreetingTexture, frameCount: 11, animationSpeed: 0.2f, playOnce: false);
-        shApprovalAnimation = new AnimationPlayer(shApprovalTexture, frameCount: 4, animationSpeed: 0.2f, playOnce: true);
+        shDialogueAnimation = new AnimationPlayer(ResourceManager.shDialogueTexture, frameCount: 16, animationSpeed: 0.15f, playOnce: true);
+        shIdleAnimation = new AnimationPlayer(ResourceManager.shIdleTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
+        shGreetingAnimation = new AnimationPlayer(ResourceManager.shGreetingTexture, frameCount: 11, animationSpeed: 0.2f, playOnce: false);
+        shApprovalAnimation = new AnimationPlayer(ResourceManager.shApprovalTexture, frameCount: 4, animationSpeed: 0.2f, playOnce: true);
         this.position = idelPosition;
 
         shopWindow = new ShopWindow(shopBackground, font, new Vector2(600, 300), items);

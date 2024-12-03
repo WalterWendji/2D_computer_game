@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Threading.Tasks;
+using CODE_OF_STORY.Managers;
 
 namespace CODE_OF_STORY.Core;
 
@@ -11,25 +12,14 @@ public class EnemyCharge : Enemy
     protected AnimationPlayer enCAttackAnimation;
     protected AnimationPlayer enCDamageAnimation;
     protected AnimationPlayer enCDeathAnimation;
-    protected Texture2D enCRunTexture;
-    protected Texture2D enCAttackTexture;
-    protected Texture2D enCDamageTexture;
-    protected Texture2D enCDeathTexture;
 
-
-    public EnemyCharge(Texture2D enCRunTexture, Texture2D enCAttackTexture, Texture2D enCDamageTexture,Texture2D enCDeathTexture,
-                         Vector2 startPosition, Vector2 patrolEnd, float sightRange, int health, float chargeSpeed)
+    public EnemyCharge(Vector2 startPosition, Vector2 patrolEnd, float sightRange, int health, float chargeSpeed)
         : base(startPosition, patrolEnd, sightRange, health)
     {
-        this.enCRunTexture = enCRunTexture;
-        enCRunAnimation = new AnimationPlayer(enCRunTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
-        enCAttackAnimation = new AnimationPlayer(enCAttackTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
-        enCDamageAnimation = new AnimationPlayer(enCDamageTexture, frameCount: 2, animationSpeed: 0.1f, playOnce: true);
-        enCDeathAnimation = new AnimationPlayer(enCDeathTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
-        this.enCRunTexture = enCRunTexture;
-        this.enCAttackTexture = enCAttackTexture;
-        this.enCDamageTexture = enCDamageTexture;
-        this.enCDeathTexture = enCDeathTexture;
+        enCRunAnimation = new AnimationPlayer(ResourceManager.enCRunTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
+        enCAttackAnimation = new AnimationPlayer(ResourceManager.enCAttackTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
+        enCDamageAnimation = new AnimationPlayer(ResourceManager.enCDamageTexture, frameCount: 2, animationSpeed: 0.1f, playOnce: true);
+        enCDeathAnimation = new AnimationPlayer(ResourceManager.enCDeathTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
     }  
 
     public override async void Update(GameTime gameTime, Player player) 
