@@ -5,13 +5,14 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using CODE_OF_STORY.Managers;
 
+
 namespace CODE_OF_STORY.Core;
 
 public class Shopkeeper
 {
     private float sightRange = 200;
     private float interactionRange = 50;
-    private bool isInteracting;
+    public bool isInteracting;
     private bool greeting;
     private Rectangle sightRect;
     private Rectangle interactionRect;
@@ -20,11 +21,11 @@ public class Shopkeeper
     private readonly AnimationPlayer shDialogueAnimation;
     private readonly AnimationPlayer shApprovalAnimation;
     private readonly AnimationPlayer shGreetingAnimation;
-    private ShopWindow shopWindow;
+    public ShopWindow shopWindow;
 
     
 
-    public Shopkeeper(Vector2 idelPosition, Texture2D shopBackground, SpriteFont font, List<ShopItem> items)
+    public Shopkeeper(Vector2 idelPosition, SpriteFont font, List<ShopItem> items)
     {
         shDialogueAnimation = new AnimationPlayer(ResourceManager.shDialogueTexture, frameCount: 16, animationSpeed: 0.15f, playOnce: true);
         shIdleAnimation = new AnimationPlayer(ResourceManager.shIdleTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
@@ -32,7 +33,7 @@ public class Shopkeeper
         shApprovalAnimation = new AnimationPlayer(ResourceManager.shApprovalTexture, frameCount: 4, animationSpeed: 0.2f, playOnce: true);
         this.position = idelPosition;
 
-        shopWindow = new ShopWindow(shopBackground, font, new Vector2(600, 300), items);
+        shopWindow = new ShopWindow(font, new Vector2(600, 300), items);
     }
     public void Greeting(Player player)
     {
@@ -95,7 +96,7 @@ public class Shopkeeper
         if(isInteracting)
         {
             shDialogueAnimation.Draw(spriteBatch, position, SpriteEffects.None);
-            shopWindow.Draw(spriteBatch);
+            //shopWindow.Draw(spriteBatch);
         }
     }
 }

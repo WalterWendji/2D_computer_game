@@ -95,7 +95,7 @@ internal class StoneAge : Component
 
         gem = new Gem(gemTexture, new Vector2(300, 600));
 
-        Texture2D shopBackground = Content.Load<Texture2D>("GameUI/shop");
+        //Texture2D shopBackground = Content.Load<Texture2D>("GameUI/shop");
         SpriteFont font = Content.Load<SpriteFont>("Arial");
 
         Texture2D hPotionImage = Content.Load<Texture2D>("Items/ShopItem/hPotion");
@@ -114,10 +114,11 @@ internal class StoneAge : Component
             new ShopItem("Extra Leben", lifeImage, 100),
             new ShopItem("Doppelsprung", bootImage, 100)
         };
-        shopkeeper = new Shopkeeper(shopkeeperPosition, /*shIdleTexture, shDialogueTexture, shGreetingTexture, shApprovalTexture,*/ shopBackground, font, shopItems);
+        shopkeeper = new Shopkeeper(shopkeeperPosition, /*shIdleTexture, shDialogueTexture, shGreetingTexture, shApprovalTexture,*/ font, shopItems);
         
         pausePopupMenu.LoadContent(Content);
         gameOver.LoadContent(Content);
+        shopkeeper.shopWindow.LoadContent(Content);
 
         backgroundSoundScenario1 = Content.Load<SoundEffect>("Audio/25-Raid_FolkMetal2W");
         backgroundSoundScenario1Instance = backgroundSoundScenario1.CreateInstance();
@@ -185,6 +186,7 @@ internal class StoneAge : Component
                 player.Update(gameTime, enemies);
                 gem.Update(gameTime);
                 shopkeeper.Update(gameTime, player, currentKeyboardState, prevKeyboardState);
+
                 foreach (var projectile in player.ActiveProjectiles.ToList())
                 {
                     foreach (var enemy in enemies)
@@ -193,6 +195,7 @@ internal class StoneAge : Component
                     }
                     projectile.Update(gameTime);
                 }
+
                 foreach (var enemy in enemies)
                 {
                     enemy.Update(gameTime, player);
@@ -223,13 +226,21 @@ internal class StoneAge : Component
         {
             if (player != null)
             {
+                if(shopkeeper.isInteracting)
+                {
+                    shopkeeper.shopWindow.Draw(spriteBatch);
+                }
+                
                 player.Draw(spriteBatch);
                 gem.Draw(spriteBatch);
                 shopkeeper.Draw(spriteBatch, player);
+
+
                 foreach (var enemy in enemies)
                 {
                     enemy.Draw(spriteBatch);
                 }
+
                 foreach (var projectile in player.ActiveProjectiles)
                 {
                     if (projectile.IsActive)

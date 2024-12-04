@@ -3,12 +3,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Content;
 
 namespace CODE_OF_STORY.Core;
 
 public class ShopWindow
 {
-    private Texture2D backgroundTexture;
+
+    Texture2D shopBackground;
     private SpriteFont font;
     private Vector2 position;
     //listen
@@ -23,9 +25,8 @@ public class ShopWindow
 
     public bool isVisible {get; private set;}
 
-    public ShopWindow(Texture2D backgroundTexture, SpriteFont font, Vector2 position, List<ShopItem> items)
+    public ShopWindow(SpriteFont font, Vector2 position, List<ShopItem> items)
     {
-        this.backgroundTexture = backgroundTexture;
         this.font = font;
         this.position = position;
         this.items = items;
@@ -38,6 +39,11 @@ public class ShopWindow
             //Vector2 textSize = font.MeasureString(items[i]);
             itemBounds.Add(new Rectangle((int)itemPosition.X, (int)itemPosition.Y, 100, 80) /*(int)textSize.X +100, (int)textSize.Y+80)*/);
         }
+    }
+
+    public void LoadContent(ContentManager Content)
+    {
+        shopBackground = Content.Load<Texture2D>("GameUI/shop");
     }
 
     public void Show()
@@ -87,7 +93,7 @@ public class ShopWindow
     public void Draw(SpriteBatch spriteBatch)
     {
         if(!isVisible) return;
-        spriteBatch.Draw(backgroundTexture, position, Color.White);
+        spriteBatch.Draw(shopBackground, position, Color.White);
 
         for(int i = 0; i < items.Count; i++)
         {
