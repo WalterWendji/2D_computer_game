@@ -58,8 +58,8 @@ internal class StoneAge : Component
         enemyStartPosition3 = new Vector2(700, 600);
         enemyEndPosition3 = new Vector2(1200, 600);
         enemyEndPosition = new Vector2(700, 600);
-        enemyStartPosition4 = new Vector2 (400, 500);
-        enemyEndPosition4 = new Vector2(700, 500);
+        enemyStartPosition4 = new Vector2 (400, 600);
+        enemyEndPosition4 = new Vector2(700, 600);
         gemStartPosition = new Vector2(300, 600);
         shopkeeperPosition = new Vector2(1500, 600);
 

@@ -23,9 +23,9 @@ public class EnemyFernkampf : Enemy
         : base(startPosition, patrolEnd, sightRange, attackRange, health)
     {
         enFRunAnimation = new AnimationPlayer(ResourceManager.enFWalkTexture, frameCount: 8, animationSpeed: 0.1f, playOnce: false);
-        enFAttackAnimation = new AnimationPlayer(ResourceManager.enFAttack_1Texture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
-        enFDamageAnimation = new AnimationPlayer(ResourceManager.enFDamageTexture, frameCount: 2, animationSpeed: 0.1f, playOnce: true);
-        enFDeathAnimation = new AnimationPlayer(ResourceManager.enFDeathTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
+        enFAttackAnimation = new AnimationPlayer(ResourceManager.enFShot_1Texture, frameCount: 14, animationSpeed: 0.1f, playOnce: true);
+        enFDamageAnimation = new AnimationPlayer(ResourceManager.enFDamageTexture, frameCount: 3, animationSpeed: 0.1f, playOnce: true);
+        enFDeathAnimation = new AnimationPlayer(ResourceManager.enFDeathTexture, frameCount: 3, animationSpeed: 0.1f, playOnce: true);
 
         this.projectiles = new List<Projectile>();
         this.arrowTexture = arrowTexture;
@@ -44,7 +44,7 @@ public class EnemyFernkampf : Enemy
         projectiles.Add(arrow);
     }
 
-    public override void Update(GameTime gameTime, Player player) 
+    public override async void Update(GameTime gameTime, Player player) 
     {
         base.Update(gameTime, player);
         startShootCd += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -64,26 +64,31 @@ public class EnemyFernkampf : Enemy
             {
                 Shoot(player.Position);
             }
+
+            if (isAttacking)
+            {
+                speed = 0f;
+                enFAttackAnimation.Update(gameTime);
+                await Task.Delay(1400);
+                AttackPlayer(player);
+                if (enFAttackAnimation.IsFinished)
+                {
+                    enFAttackAnimation.Reset();
+                    isAttacking = false;
+                    hasDealtDamage = false;
+                }
+            }
+            else
+            {
             enFRunAnimation.Update(gameTime);
             speed = 100;
+            }
         }
         else
         {
             enFDeathAnimation.Update(gameTime);
             speed = 0f;
-        }
-        if (isAttacking)
-            {
-                enFAttackAnimation.Update(gameTime);
-                AttackPlayer(player);
-                if (enFAttackAnimation.IsFinished)
-                {
-                    speed = 0f;
-                    enFAttackAnimation.Reset();
-                    hasDealtDamage = false;
-                }
-            }
-
+        }  
     }
 
     public override async void Draw(SpriteBatch spriteBatch)
@@ -91,7 +96,7 @@ public class EnemyFernkampf : Enemy
         SpriteEffects flipEffect = movingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
         if(isAlive)
         {
-            if(isAttacking)
+            if(isAttacking && startShootCd < shootCd)
             {
                 enFAttackAnimation.Draw(spriteBatch, position, flipEffect);
             }
@@ -105,14 +110,14 @@ public class EnemyFernkampf : Enemy
             {
                 enFRunAnimation.Draw(spriteBatch, position, flipEffect);
             }
-            foreach (var projectile in projectiles)
-            {
-                projectile.Draw(spriteBatch);
-            }
         }
         else
         {
             enFDeathAnimation.Draw(spriteBatch, position, flipEffect);
+        }
+        foreach (var projectile in projectiles)
+        {
+            projectile.Draw(spriteBatch);
         }
     }
 }
