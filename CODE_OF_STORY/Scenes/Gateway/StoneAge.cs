@@ -179,8 +179,8 @@ internal class StoneAge : Component
         {
             if (player != null && gem != null && enemies != null)
             {
-                backgroundSoundScenario1Instance.Play(); //TODO: That doesn't work properly on linux. Why?
-                backgroundSoundScenario1Instance.Volume = 0.05f;
+                backgroundSoundScenario1Instance.Play(); 
+                backgroundSoundScenario1Instance.Volume = 0.03f;
                 
                 player.Update(gameTime, enemies);
                 gem.Update(gameTime);

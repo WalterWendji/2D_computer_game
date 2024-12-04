@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Threading;
+using Microsoft.Xna.Framework.Audio;
 
 namespace CODE_OF_STORY.Core;
 
@@ -53,6 +54,10 @@ public class Player
     private float gravity = 500f;
     public float groundLevel;
 
+    private float footStepsRunSpeed;
+    SoundEffect footStepsRunEffect;
+    SoundEffectInstance footStepsRunEffectInstance;
+
     //zugriff aus die aktuelle position für enemy
     public Vector2 Position
     {
@@ -72,6 +77,7 @@ public class Player
         this.health = initialHealth;
         projectiles = new List<Projectile>();
         checkIsAlive = isAlive;
+        footStepsRunSpeed = 0.05f;
     }
 
     public void ResetPlayer()
@@ -160,6 +166,9 @@ public class Player
         {
             projectiles.Add(new Projectile(arrowTexture,Vector2.Zero,Vector2.Zero,0f) {IsActive = false});
         }
+
+        footStepsRunEffect = content.Load<SoundEffect>("Audio/Sound_animation/Footsteps_Gravel_Run_02");
+        footStepsRunEffectInstance = footStepsRunEffect.CreateInstance();
     }
     public void Update(GameTime gameTime, List<Enemy> enemies)
     {
@@ -175,17 +184,23 @@ public class Player
             startShootCd += (float)gameTime.ElapsedGameTime.TotalSeconds;
             isMoving = false;
 
+            if (state.IsKeyDown(Keys.A) || state.IsKeyDown(Keys.D))
+            {
+                isMoving = true;
+                
+                footStepsRunEffectInstance.Play();
+                footStepsRunEffectInstance.Pitch = footStepsRunSpeed;   
+            }
+
             if (state.IsKeyDown(Keys.A))
             {
                 position.X -= speed * deltaTime;
                 facingRight = false;
-                isMoving = true;
             }
             else if (state.IsKeyDown(Keys.D))
             {
                 position.X += speed * deltaTime;
                 facingRight = true;
-                isMoving = true;
             }
             if (isJumping)
             {
