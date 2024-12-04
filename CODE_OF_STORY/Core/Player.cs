@@ -39,10 +39,10 @@ public class Player
     public bool isAlive => health > 0;
     private readonly float shootCd = 2f;
     private float startShootCd = 0f;
-    public static bool checkIsAlive; 
+    public static bool checkIsAlive;
     //Waffenwechsel
     private bool RangedMode = false;
-    public List<Projectile> ActiveProjectiles {get; private set;} = new List<Projectile>();
+    public List<Projectile> ActiveProjectiles { get; private set; } = new List<Projectile>();
     //projektil var
     private Texture2D arrowTexture;
     private List<Projectile> projectiles;
@@ -54,9 +54,10 @@ public class Player
     private float gravity = 500f;
     public float groundLevel;
 
+    private bool isDeathSoundEffectPlayed;
     private float footStepsRunSpeed;
-    SoundEffect footStepsRunEffect;
-    SoundEffectInstance footStepsRunEffectInstance;
+    SoundEffect footStepsRunSoundEffect, jumpSoundEffect, attackSoundEffect, landSoundEffect, deathSoundEffect, damageSoundEffect;
+    SoundEffectInstance footStepsRunSoundEffectInstance, jumpSoundEffectInstance, attackSoundEffectInstance, landSoundEffectInstance, deathSoundEffectInstance, damageSoundEffectInstance;
 
     //zugriff aus die aktuelle position für enemy
     public Vector2 Position
@@ -71,13 +72,18 @@ public class Player
         attackAnimation = new AnimationPlayer(ResourceManager.attackTexture, frameCount: 4, animationSpeed: 0.2f, playOnce: true);
         deathAnimation = new AnimationPlayer(ResourceManager.deathTexture, frameCount: 4, animationSpeed: 0.2f, playOnce: true);
         damageAnimation = new AnimationPlayer(ResourceManager.damageTexture, frameCount: 2, animationSpeed: 0.2f, playOnce: true);
+
         this.position = position;
         this.speed = 200f;
         this.groundLevel = position.Y;
         this.health = initialHealth;
+
         projectiles = new List<Projectile>();
+
         checkIsAlive = isAlive;
+
         footStepsRunSpeed = 0.05f;
+        isDeathSoundEffectPlayed = false;
     }
 
     public void ResetPlayer()
@@ -87,7 +93,10 @@ public class Player
         groundLevel = position.Y;
         health = 100;
         checkIsAlive = isAlive;
+
         projectiles = new List<Projectile>();
+
+        isDeathSoundEffectPlayed = false;
     }
 
     public async void TakeDamage(int damage)
@@ -116,25 +125,25 @@ public class Player
 
     public void ShootArrow(Vector2 targetPosition)
     {
-        if(projectiles.Count > 0)
+        if (projectiles.Count > 0)
         {
-            if(startShootCd < shootCd)
-            return;
+            if (startShootCd < shootCd)
+                return;
             startShootCd = 0;
             var arrow = projectiles.FirstOrDefault(p => !p.IsActive);
-            if(arrow == null)
-            return;
+            if (arrow == null)
+                return;
             MouseState mouseState = Mouse.GetState();
-            targetPosition = new Vector2(mouseState.X, mouseState.Y -80);
+            targetPosition = new Vector2(mouseState.X, mouseState.Y - 80);
             Vector2 direction = targetPosition - position;
             direction.Normalize();
             arrow = new Projectile(arrowTexture, position + new Vector2(facingRight ? 30 : -30, 40), direction, 500f);
             arrow.IsActive = true;
             ActiveProjectiles.Add(arrow);
-            
+
         }
     }
-    
+
     public void RefillArrows(int count)
     {
 
@@ -146,6 +155,7 @@ public class Player
             }
         }
     }
+
     private bool IsEnemyInRange(Enemy enemy)
     {
         float attackRange = 50f;
@@ -164,19 +174,31 @@ public class Player
         arrowTexture = content.Load<Texture2D>("Player_Level1/Warrior_1/arrow");
         for (int i = 0; i < maxProjektiles; i++)
         {
-            projectiles.Add(new Projectile(arrowTexture,Vector2.Zero,Vector2.Zero,0f) {IsActive = false});
+            projectiles.Add(new Projectile(arrowTexture, Vector2.Zero, Vector2.Zero, 0f) { IsActive = false });
         }
 
-        footStepsRunEffect = content.Load<SoundEffect>("Audio/Sound_animation/Footsteps_Gravel_Run_02");
-        footStepsRunEffectInstance = footStepsRunEffect.CreateInstance();
+        footStepsRunSoundEffect = content.Load<SoundEffect>("Audio/Sound_animation/Footsteps_Gravel_Run_02");
+        jumpSoundEffect = content.Load<SoundEffect>("Audio/Sound_animation/Voice_Male_V1_Jump_Mono_05");
+        attackSoundEffect = content.Load<SoundEffect>("Audio/Sound_animation/Voice_Male_V1_Attack_Short_Mono_09");
+        landSoundEffect = content.Load<SoundEffect>("Audio/Sound_animation/Voice_Male_V1_Land_Mono_05");
+        deathSoundEffect = content.Load<SoundEffect>("Audio/Sound_animation/death_4_sean");
+        damageSoundEffect = content.Load<SoundEffect>("Audio/Sound_animation/damage_1_sean");
+
+        footStepsRunSoundEffectInstance = footStepsRunSoundEffect.CreateInstance();
+        jumpSoundEffectInstance = jumpSoundEffect.CreateInstance();
+        attackSoundEffectInstance = attackSoundEffect.CreateInstance();
+        landSoundEffectInstance = landSoundEffect.CreateInstance();
+        deathSoundEffectInstance = deathSoundEffect.CreateInstance();
+        damageSoundEffectInstance = damageSoundEffect.CreateInstance();
     }
+
     public void Update(GameTime gameTime, List<Enemy> enemies)
     {
-        if(projectiles == null)
+        if (projectiles == null)
         {
             projectiles = new List<Projectile>();
         }
-        if(isAlive)
+        if (isAlive)
         {
             KeyboardState state = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
@@ -187,9 +209,9 @@ public class Player
             if (state.IsKeyDown(Keys.A) || state.IsKeyDown(Keys.D))
             {
                 isMoving = true;
-                
-                footStepsRunEffectInstance.Play();
-                footStepsRunEffectInstance.Pitch = footStepsRunSpeed;   
+
+                footStepsRunSoundEffectInstance.Play();
+                footStepsRunSoundEffectInstance.Pitch = footStepsRunSpeed;
             }
 
             if (state.IsKeyDown(Keys.A))
@@ -217,6 +239,8 @@ public class Player
 
             if (state.IsKeyDown(Keys.Space) && !isJumping)
             {
+                jumpSoundEffectInstance.Play();
+
                 isJumping = true;
                 jumpSpeed = -jumpPower;
             }
@@ -226,67 +250,81 @@ public class Player
                 jumpSpeed += gravity * deltaTime;
                 position.Y += jumpSpeed * deltaTime;
 
+                footStepsRunSoundEffectInstance.Stop();
 
-            if(position.Y >= groundLevel)
-            {
-                position.Y = groundLevel;
-                isJumping = false;
-                jumpSpeed = 0f;
-            }
-        }
-        /*if (state.IsKeyDown(Keys.F))
-            interagieren*/
-        if (state.IsKeyDown(Keys.Q) && !isAttacking)
-        {
-            RangedMode = !RangedMode;
-            Console.WriteLine("range mode" + RangedMode);
-        }
-        
-        if (mouseState.LeftButton == ButtonState.Pressed && !isAttacking)
-        {
-            if(RangedMode && projectiles.Count > 0)
-            {
-                ShootArrow(mouseState.Position.ToVector2());
-                
-            }
-            else
-            {
-                isAttacking = true;
-                hasDealtDamage = false;
-                attackAnimation.Reset();
-            }
-        }
+                if (position.Y >= groundLevel)
+                {
+                    landSoundEffectInstance.Play();
+                    footStepsRunSoundEffectInstance.Resume();
 
-        foreach(var enemy in enemies)
-        {
-            if(enemy != null)
-            {
-                AttackEnemy(enemy);
+                    position.Y = groundLevel;
+                    isJumping = false;
+                    jumpSpeed = 0f;
+                }
             }
-        }
+            /*if (state.IsKeyDown(Keys.F))
+                interagieren*/
+            if (state.IsKeyDown(Keys.Q) && !isAttacking)
+            {
+                RangedMode = !RangedMode;
+                Console.WriteLine("range mode" + RangedMode);
+            }
 
-        foreach (var projectile in projectiles)
-        {
-            projectile.Update(gameTime);
-        }
-        
-        if(isAttacking)
-        {
-            attackAnimation.Update(gameTime);
-            if(attackAnimation.IsFinished)
+            if (mouseState.LeftButton == ButtonState.Pressed && !isAttacking)
             {
-                isAttacking = false;
-                hasDealtDamage = false;
+                if (RangedMode && projectiles.Count > 0)
+                {
+                    ShootArrow(mouseState.Position.ToVector2());
+
+                }
+                else
+                {
+                    attackSoundEffectInstance.Play();
+
+                    isAttacking = true;
+                    hasDealtDamage = false;
+                    attackAnimation.Reset();
+                }
             }
-        }
+
+            foreach (var enemy in enemies)
+            {
+                if (enemy != null)
+                {
+                    AttackEnemy(enemy);
+                }
+            }
+
+            foreach (var projectile in projectiles)
+            {
+                projectile.Update(gameTime);
+            }
+
+            if (isAttacking)
+            {
+                attackAnimation.Update(gameTime);
+                if (attackAnimation.IsFinished)
+                {
+                    isAttacking = false;
+                    hasDealtDamage = false;
+                }
+            }
 
             if (damageTaken)
             {
+                damageSoundEffectInstance.Play();
+
                 damageAnimation.Update(gameTime);
             }
         }
         else
         {
+            if(!isDeathSoundEffectPlayed)
+            {
+                deathSoundEffectInstance.Play();
+                isDeathSoundEffectPlayed = true;
+            }
+            
             deathAnimation.Update(gameTime);
             checkIsAlive = false;
         }
