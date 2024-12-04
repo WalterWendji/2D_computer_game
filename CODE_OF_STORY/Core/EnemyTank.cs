@@ -14,8 +14,8 @@ public class EnemyTank : Enemy
     protected AnimationPlayer enTDeathAnimation;
     protected AnimationPlayer enTBlockAnimation;
     private bool isBlocking;
-    public EnemyTank(Vector2 startPosition, Vector2 patrolEnd, float sightRange, int health)
-        : base(startPosition, patrolEnd, sightRange, health)
+    public EnemyTank(Vector2 startPosition, Vector2 patrolEnd, float sightRange, float attackRange, int health)
+        : base(startPosition, patrolEnd, sightRange, attackRange, health)
     {
         enTWalkAnimation = new AnimationPlayer(ResourceManager.enTWalkTexture, frameCount: 8, animationSpeed: 0.2f, playOnce: false);
         enTAttackAnimation = new AnimationPlayer(ResourceManager.enTAttackTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);

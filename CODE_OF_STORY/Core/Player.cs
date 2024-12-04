@@ -41,13 +41,11 @@ public class Player
     public static bool checkIsAlive; 
     //Waffenwechsel
     private bool RangedMode = false;
-    //public IEnumerable<Projectile> ActiveProjectiles => projectiles?.Where(p => p.IsActive) ?? Enumerable.Empty<Projectile>();
     public List<Projectile> ActiveProjectiles {get; private set;} = new List<Projectile>();
     //projektil var
     private Texture2D arrowTexture;
     private List<Projectile> projectiles;
     private int maxProjektiles = 5;
-    private float projektilSpeed = 500f;
     //sprung var
     private bool isJumping;
     private float jumpSpeed = 0f;
@@ -124,7 +122,7 @@ public class Player
             targetPosition = new Vector2(mouseState.X, mouseState.Y -80);
             Vector2 direction = targetPosition - position;
             direction.Normalize();
-            arrow = new Projectile(arrowTexture, position + new Vector2(facingRight ? 30 : -30, 40), direction, projektilSpeed);
+            arrow = new Projectile(arrowTexture, position + new Vector2(facingRight ? 30 : -30, 40), direction, 500f);
             arrow.IsActive = true;
             ActiveProjectiles.Add(arrow);
             

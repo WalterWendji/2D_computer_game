@@ -29,9 +29,10 @@ public abstract class Enemy
     protected bool movingRight;
     //sicht
     private float sightRange;
+    protected float attackRange;
     protected Rectangle sightRect;
 
-    protected Enemy(Vector2 startposition, Vector2 patrolEnd, float sightRange, int initialhealth)
+    protected Enemy(Vector2 startposition, Vector2 patrolEnd, float sightRange, float attackRange, int initialhealth)
     {
 
         this.position = startposition;
@@ -41,6 +42,7 @@ public abstract class Enemy
         this.health = initialhealth;
         this.movingRight = true;
         this.sightRange = sightRange;
+        this.attackRange = attackRange;
     }
 
     public virtual void TakeDamage(int damage, Vector2 attackerPosition)
@@ -73,7 +75,7 @@ public abstract class Enemy
 
     public bool IsPlayerInRange(Player player)
     {
-        float attackRange = 50f;
+        
         if (movingRight)
         {
             return (player.Position.X > position.X && player.Position.X <= position.X + attackRange);

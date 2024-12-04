@@ -13,8 +13,8 @@ public class EnemyCharge : Enemy
     protected AnimationPlayer enCDamageAnimation;
     protected AnimationPlayer enCDeathAnimation;
 
-    public EnemyCharge(Vector2 startPosition, Vector2 patrolEnd, float sightRange, int health, float chargeSpeed)
-        : base(startPosition, patrolEnd, sightRange, health)
+    public EnemyCharge(Vector2 startPosition, Vector2 patrolEnd, float sightRange, float attackRange, int health, float chargeSpeed)
+        : base(startPosition, patrolEnd, sightRange, attackRange, health)
     {
         enCRunAnimation = new AnimationPlayer(ResourceManager.enCRunTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
         enCAttackAnimation = new AnimationPlayer(ResourceManager.enCAttackTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);

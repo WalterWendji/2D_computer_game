@@ -33,6 +33,8 @@ internal class StoneAge : Component
     public static Vector2 enemyEndPosition2;
     private static Vector2 enemyStartPosition3;
     public static Vector2 enemyEndPosition3;
+    private static Vector2 enemyStartPosition4;
+    public static Vector2 enemyEndPosition4;
     public static Vector2 shopkeeperPosition;
     private Vector2 gemStartPosition;
 
@@ -56,6 +58,8 @@ internal class StoneAge : Component
         enemyStartPosition3 = new Vector2(700, 600);
         enemyEndPosition3 = new Vector2(1200, 600);
         enemyEndPosition = new Vector2(700, 600);
+        enemyStartPosition4 = new Vector2 (400, 500);
+        enemyEndPosition4 = new Vector2(700, 500);
         gemStartPosition = new Vector2(300, 600);
         shopkeeperPosition = new Vector2(1500, 600);
 
@@ -75,15 +79,18 @@ internal class StoneAge : Component
         ResourceManager.LoadContent(Content);
 
         Texture2D gemTexture = Content.Load<Texture2D>("Items/Gems/plate32x8");
+        Texture2D arrowTexture = Content.Load<Texture2D>("Player_Level1/Warrior_1/arrow");
 
         player = new Player(playerStartPosition, 100);
         player.LoadContent(Content);
 
-        enemy = new EnemyTank(enemyStartPosition2, enemyEndPosition2, 150f, 100);
+        enemy = new EnemyTank(enemyStartPosition2, enemyEndPosition2, 150f, 50f, 100);
         enemies.Add(enemy);
-        enemy = new EnemyCharge(enemyStartPosition, enemyEndPosition, 100f, 100, 300f);
+        enemy = new EnemyCharge(enemyStartPosition, enemyEndPosition, 100f, 50f, 100, 300f);
         enemies.Add(enemy);
-        enemy = new EnemyNahkampf(enemyStartPosition3, enemyEndPosition3, 100f, 100);
+        enemy = new EnemyNahkampf(enemyStartPosition3, enemyEndPosition3, 100f, 50f, 100);
+        enemies.Add(enemy);
+        enemy = new EnemyFernkampf(enemyStartPosition4, enemyEndPosition4, 300f, 300f, 50, arrowTexture);
         enemies.Add(enemy);
 
         gem = new Gem(gemTexture, new Vector2(300, 600));

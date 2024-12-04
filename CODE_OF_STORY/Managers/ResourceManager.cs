@@ -22,6 +22,15 @@ public static class ResourceManager
     public static Texture2D enTDeathTexture;
     public static Texture2D enTBlockTexture;
 
+    public static Texture2D enFWalkTexture;
+    public static Texture2D enFDamageTexture;
+    public static Texture2D enFDeathTexture;
+    public static Texture2D enFIdleTexture;
+    public static Texture2D enFIdle_2Texture;
+    public static Texture2D enFAttack_1Texture;
+    public static Texture2D enFShot_1Texture;
+    public static Texture2D enFShot_2Texture;
+
     public static Texture2D runTexture;
     public static Texture2D idleTexture;
     public static Texture2D jumpTexture;
@@ -51,6 +60,15 @@ public static class ResourceManager
         enTDamageTexture = content.Load<Texture2D>("Player_Level1/Warrior_3/Hurt");
         enTDeathTexture = content.Load<Texture2D>("Player_Level1/Warrior_3/Dead");
         enTBlockTexture = content.Load<Texture2D>("Player_Level1/Warrior_3/Protect");
+
+        enFWalkTexture = content.Load<Texture2D>("Player_Level1/EnemyF/Walk");
+        enFAttack_1Texture = content.Load<Texture2D>("Player_Level1/EnemyF/Attack_1");
+        enFDamageTexture = content.Load<Texture2D>("Player_Level1/EnemyF/Hurt");
+        enFDeathTexture = content.Load<Texture2D>("Player_Level1/EnemyF/Dead");
+        enFIdleTexture = content.Load<Texture2D>("Player_Level1/EnemyF/Idle");
+        enFIdle_2Texture = content.Load<Texture2D>("Player_Level1/EnemyF/Idle_2");
+        enFShot_1Texture = content.Load<Texture2D>("Player_Level1/EnemyF/Shot_1");
+        enFShot_2Texture = content.Load<Texture2D>("Player_Level1/EnemyF/Shot_2");
 
         runTexture = content.Load<Texture2D>("Player_Level1/Warrior_1/Run");
         idleTexture = content.Load<Texture2D>("Player_Level1/Warrior_1/Idle");

@@ -13,8 +13,8 @@ public class EnemyNahkampf : Enemy
     protected AnimationPlayer enNDamageAnimation;
     protected AnimationPlayer enNDeathAnimation;
 
-    public EnemyNahkampf(Vector2 startPosition, Vector2 patrolEnd, float sightRange, int health)
-        : base(startPosition, patrolEnd, sightRange, health)
+    public EnemyNahkampf(Vector2 startPosition, Vector2 patrolEnd, float sightRange, float attackRange, int health)
+        : base(startPosition, patrolEnd, sightRange, attackRange, health)
     {
         enNRunAnimation = new AnimationPlayer(ResourceManager.enNRunTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
         enNAttackAnimation = new AnimationPlayer(ResourceManager.enNAttackTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
