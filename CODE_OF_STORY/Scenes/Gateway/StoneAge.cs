@@ -21,6 +21,7 @@ internal class StoneAge : Component
     private Enemy enemy;
     private Shopkeeper shopkeeper;
     private List<Enemy> enemies;
+    private List<Projectile> enemyProjectiles;
     private Gem gem;
 
     private KeyboardState currentKeyboardState;
@@ -71,11 +72,15 @@ internal class StoneAge : Component
         isGameOverRendered = false;
 
         enemies = new List<Enemy>();
+        enemyProjectiles = new List<Projectile>();
+
     }
 
 
     internal override void LoadContent(ContentManager Content)
     {
+        enemyProjectiles = new List<Projectile>();
+        
         ResourceManager.LoadContent(Content);
 
         Texture2D gemTexture = Content.Load<Texture2D>("Items/Gems/plate32x8");
@@ -84,13 +89,13 @@ internal class StoneAge : Component
         player = new Player(playerStartPosition, 100);
         player.LoadContent(Content);
 
-        enemy = new EnemyTank(enemyStartPosition2, enemyEndPosition2, 150f, 50f, 100);
+       enemy = new EnemyTank(enemyStartPosition2, enemyEndPosition2, 150f, 50f, 100);
         enemies.Add(enemy);
         enemy = new EnemyCharge(enemyStartPosition, enemyEndPosition, 100f, 50f, 100, 300f);
         enemies.Add(enemy);
         enemy = new EnemyNahkampf(enemyStartPosition3, enemyEndPosition3, 100f, 50f, 100);
         enemies.Add(enemy);
-        enemy = new EnemyFernkampf(enemyStartPosition4, enemyEndPosition4, 300f, 300f, 50, arrowTexture);
+       enemy = new EnemyFernkampf(enemyStartPosition4, enemyEndPosition4, 300f, 300f, 50, arrowTexture);
         enemies.Add(enemy);
 
         gem = new Gem(gemTexture, new Vector2(300, 600));
@@ -183,7 +188,7 @@ internal class StoneAge : Component
                 backgroundSoundScenario1Instance.Play(); 
                 backgroundSoundScenario1Instance.Volume = 0.03f;
                 
-                player.Update(gameTime, enemies);
+                player.Update(gameTime, enemies, enemyProjectiles);
                 gem.Update(gameTime);
                 shopkeeper.Update(gameTime, player, currentKeyboardState, prevKeyboardState);
 

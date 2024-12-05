@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using System.Threading.Tasks;
 using CODE_OF_STORY.Managers;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace CODE_OF_STORY.Core;
 
@@ -14,10 +15,11 @@ public class EnemyFernkampf : Enemy
     protected AnimationPlayer enFDamageAnimation;
     protected AnimationPlayer enFDeathAnimation;
     //projektil var
+    protected bool isShooting;
     private readonly float shootCd = 2f;
     private float startShootCd = 0f;
     private Texture2D arrowTexture;
-    private List<Projectile> projectiles;
+    private List<Projectile> enemyProjectiles;
 
     public EnemyFernkampf(Vector2 startPosition, Vector2 patrolEnd, float sightRange, float attackRange, int health, Texture2D arrowTexture)
         : base(startPosition, patrolEnd, sightRange, attackRange, health)
@@ -27,7 +29,7 @@ public class EnemyFernkampf : Enemy
         enFDamageAnimation = new AnimationPlayer(ResourceManager.enFDamageTexture, frameCount: 3, animationSpeed: 0.1f, playOnce: true);
         enFDeathAnimation = new AnimationPlayer(ResourceManager.enFDeathTexture, frameCount: 3, animationSpeed: 0.1f, playOnce: true);
 
-        this.projectiles = new List<Projectile>();
+        this.enemyProjectiles = new List<Projectile>();
         this.arrowTexture = arrowTexture;
     }
 
@@ -35,13 +37,13 @@ public class EnemyFernkampf : Enemy
     {
         if(startShootCd < shootCd)
             return;
-        isAttacking = true;
+        isShooting = true;
         startShootCd =0;
         Vector2 direction = targetPosition - position;
         direction.Normalize();
 
-        Projectile arrow = new Projectile(arrowTexture, position, direction, 300f);
-        projectiles.Add(arrow);
+        Projectile arrow = new Projectile(arrowTexture, position + new Vector2(-30, 40), direction, 300f);
+        enemyProjectiles.Add(arrow);
     }
 
     public override async void Update(GameTime gameTime, Player player) 
@@ -49,23 +51,33 @@ public class EnemyFernkampf : Enemy
         base.Update(gameTime, player);
         startShootCd += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        for(int i = projectiles.Count -1; i >= 0; i--)
+        for(int i = enemyProjectiles.Count -1; i >= 0; i--)
         {
-            projectiles[i].Update(gameTime);
-            if(!projectiles[i].IsActive)
+            var projectile = enemyProjectiles[i];
+            projectile.Update(gameTime);
+
+            if(player.CheckPlayerProjectileCollision(projectile))
             {
-                projectiles.RemoveAt(i);
+                enemyProjectiles.RemoveAt(i);
+            }
+            else if(!projectile.IsActive)
+            {
+                enemyProjectiles.RemoveAt(i);
             }
         }
         if(isAlive)
         {
             float distanceToPlayer = Vector2.Distance(position, player.Position);
-            if(distanceToPlayer <= attackRange)
+            if(distanceToPlayer <= attackRange && startShootCd > shootCd)
             {
                 Shoot(player.Position);
             }
-
-            if (isAttacking)
+            if(damageTaken)
+            {
+                await Task.Delay(300);
+                damageTaken = false;
+            }
+            if (isShooting)
             {
                 speed = 0f;
                 enFAttackAnimation.Update(gameTime);
@@ -74,7 +86,7 @@ public class EnemyFernkampf : Enemy
                 if (enFAttackAnimation.IsFinished)
                 {
                     enFAttackAnimation.Reset();
-                    isAttacking = false;
+                    isShooting = false;
                     hasDealtDamage = false;
                 }
             }
@@ -91,20 +103,18 @@ public class EnemyFernkampf : Enemy
         }  
     }
 
-    public override async void Draw(SpriteBatch spriteBatch)
+    public override void Draw(SpriteBatch spriteBatch)
     {
         SpriteEffects flipEffect = movingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
         if(isAlive)
         {
-            if(isAttacking && startShootCd < shootCd)
+            if(isShooting && startShootCd < shootCd)
             {
                 enFAttackAnimation.Draw(spriteBatch, position, flipEffect);
             }
             else if(damageTaken)
             {
                 enFDamageAnimation.Draw(spriteBatch, position, flipEffect);
-                await Task.Delay(200);
-                damageTaken = false;
             }
             else
             {
@@ -115,7 +125,7 @@ public class EnemyFernkampf : Enemy
         {
             enFDeathAnimation.Draw(spriteBatch, position, flipEffect);
         }
-        foreach (var projectile in projectiles)
+        foreach (var projectile in enemyProjectiles)
         {
             projectile.Draw(spriteBatch);
         }

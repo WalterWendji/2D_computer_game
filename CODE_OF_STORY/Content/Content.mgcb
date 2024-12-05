@@ -710,7 +710,7 @@
 /processorParam:TextureFormat=Color
 /build:NPCs/Shopkeeper/Idle.png
 
-#begin Player_Level1/EnemyF/Dead.png
+#begin Player_Level1/EnemyF/Dead288x96.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -720,9 +720,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Player_Level1/EnemyF/Dead.png
+/build:Player_Level1/EnemyF/Dead288x96.png
 
-#begin Player_Level1/EnemyF/Hurt.png
+#begin Player_Level1/EnemyF/Hurt288x96.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -732,9 +732,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Player_Level1/EnemyF/Hurt.png
+/build:Player_Level1/EnemyF/Hurt288x96.png
 
-#begin Player_Level1/EnemyF/Attack_1.png
+#begin Player_Level1/EnemyF/Shot_1_1334x96.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -744,9 +744,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Player_Level1/EnemyF/Attack_1.png
+/build:Player_Level1/EnemyF/Shot_1_1334x96.png
 
-#begin Player_Level1/EnemyF/Idle_2.png
+#begin Player_Level1/EnemyF/Walk768x96.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -756,55 +756,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Player_Level1/EnemyF/Idle_2.png
-
-#begin Player_Level1/EnemyF/Idle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Player_Level1/EnemyF/Idle.png
-
-#begin Player_Level1/EnemyF/Shot_1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Player_Level1/EnemyF/Shot_1.png
-
-#begin Player_Level1/EnemyF/Shot_2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Player_Level1/EnemyF/Shot_2.png
-
-#begin Player_Level1/EnemyF/Walk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Player_Level1/EnemyF/Walk.png
+/build:Player_Level1/EnemyF/Walk768x96.png
 
 #begin Player_Level1/EnemyN/enAttack_1.png
 /importer:TextureImporter

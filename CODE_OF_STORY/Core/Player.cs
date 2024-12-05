@@ -144,6 +144,20 @@ public class Player
         }
     }
 
+    public bool CheckPlayerProjectileCollision(Projectile projectile)
+    {
+        if(!isAlive || !projectile.IsActive)
+            return false;
+        Rectangle playerBounds = new Rectangle((int)position.X, (int)position.Y, 64, 50);
+        Rectangle projectileBounds = new Rectangle((int)projectile.Position.X, (int)Position.Y, 16, 5);
+        if(playerBounds.Intersects(projectileBounds))
+        {
+            TakeDamage(15);
+            projectile.IsActive = false;
+            return true;
+        }
+        return false;
+    }
     public void RefillArrows(int count)
     {
 
@@ -192,7 +206,7 @@ public class Player
         damageSoundEffectInstance = damageSoundEffect.CreateInstance();
     }
 
-    public void Update(GameTime gameTime, List<Enemy> enemies)
+    public void Update(GameTime gameTime, List<Enemy> enemies, List<Projectile> enemyProjectiles)
     {
         if (projectiles == null)
         {
@@ -206,6 +220,10 @@ public class Player
             startShootCd += (float)gameTime.ElapsedGameTime.TotalSeconds;
             isMoving = false;
 
+            foreach(var projectile in enemyProjectiles)
+            {
+                CheckPlayerProjectileCollision(projectile);
+            }
             if (state.IsKeyDown(Keys.A) || state.IsKeyDown(Keys.D))
             {
                 isMoving = true;
@@ -213,7 +231,6 @@ public class Player
                 footStepsRunSoundEffectInstance.Play();
                 footStepsRunSoundEffectInstance.Pitch = footStepsRunSpeed;
             }
-
             if (state.IsKeyDown(Keys.A))
             {
                 position.X -= speed * deltaTime;
@@ -360,7 +377,5 @@ public class Player
         {
             deathAnimation.Draw(spriteBatch, position, flipEffect);
         }
-
-        //spriteBatch.Draw(texture, position, Color.White);
     }
 }
