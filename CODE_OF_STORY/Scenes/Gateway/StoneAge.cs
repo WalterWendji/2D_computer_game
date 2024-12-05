@@ -95,6 +95,7 @@ internal class StoneAge : Component
         Texture2D enTBlockTexture = Content.Load<Texture2D>("Player_Level1/Warrior_3/Protect");
 
         Texture2D gemTexture = Content.Load<Texture2D>("Items/Gems/plate32x8");
+        gem = new Gem(gemTexture, new Vector2(300, 600));
 
         Texture2D shIdleTexture = Content.Load<Texture2D>("NPCs/Shopkeeper/Idle");
         Texture2D shApprovalTexture = Content.Load<Texture2D>("NPCs/Shopkeeper/Approval");
@@ -111,7 +112,7 @@ internal class StoneAge : Component
         enemy = new EnemyNahkampf(enNRunTexture, enNAttackTexture, enNDamageTexture, enNDeathTexture, enemyStartPosition3, enemyEndPosition3, 100f, 100);
         enemies.Add(enemy);
 
-        gem = new Gem(gemTexture, new Vector2(300, 600));
+        
 
         shopkeeper = new Shopkeeper(shopkeeperPosition, shIdleTexture, shDialogueTexture, shGreetingTexture, shApprovalTexture);
         
@@ -134,8 +135,8 @@ internal class StoneAge : Component
         player.ResetPlayer();
 
         enemy.ResetEnemy();
-        gem.position = gemStartPosition;
-
+        //gem = new Gem(Content.Load<Texture2D>("Items/Gems/plate32x8"), gemStartPosition);
+        //gem.ResetGem();
     }
     internal override void Update(GameTime gameTime)
     {
@@ -183,6 +184,14 @@ internal class StoneAge : Component
                 player.Update(gameTime, enemies);
                 gem.Update(gameTime);
                 shopkeeper.Update(gameTime, player, currentKeyboardState, prevKeyboardState);
+                // Check collision with gem
+                if (gem != null && player.Bounds.Intersects(gem.Bounds))
+                {
+                    player.IncreaseScore(gem.PointValue);
+                    Console.WriteLine("Gem collected!");
+
+                    gem.Collect();
+                }
                 foreach (var projectile in player.ActiveProjectiles.ToList())
                 {
                     foreach (var enemy in enemies)
@@ -219,11 +228,13 @@ internal class StoneAge : Component
     {
         if (currentGameState == GameState.Playing || !popUpMenuTriggerd)
         {
-            if (player != null)
+            if (player != null && gem != null)
             {
                 player.Draw(spriteBatch);
                 gem.Draw(spriteBatch);
                 shopkeeper.Draw(spriteBatch, player);
+
+            
                 foreach (var enemy in enemies)
                 {
                     enemy.Draw(spriteBatch);

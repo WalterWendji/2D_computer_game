@@ -7,8 +7,8 @@ namespace CODE_OF_STORY.Core;
 public class AnimationItem
 {
     private readonly Texture2D spriteSheet;
-    private readonly int frameWidth;
-    private readonly int frameHeight;
+    public readonly int frameWidth;
+    public readonly int frameHeight;
     private int currentFrame;
     private readonly int totalFrames;
     private readonly float frameTime;

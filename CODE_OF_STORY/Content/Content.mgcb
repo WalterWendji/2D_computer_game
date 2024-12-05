@@ -1029,3 +1029,10 @@
 /processorParam:TextureFormat=Compressed
 /build:Spritefonts/JosefinSans-Regular.spritefont
 
+#begin Spritefonts/scoreFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Spritefonts/scoreFont.spritefont
+
