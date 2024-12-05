@@ -26,7 +26,6 @@ public class Player
     private readonly AnimationPlayer deathAnimation;
     private readonly AnimationPlayer damageAnimation;
     private bool facingRight;
-    //private readonly Texture2D idleTexture;
     //laufen var
     private Vector2 position;
     private float speed;
@@ -41,6 +40,7 @@ public class Player
     private float startShootCd = 0f;
     public static bool checkIsAlive;
     //Waffenwechsel
+    private bool prevQKeyPressed = false;
     private bool RangedMode = false;
     public List<Projectile> ActiveProjectiles { get; private set; } = new List<Projectile>();
     //projektil var
@@ -215,6 +215,7 @@ public class Player
         if (isAlive)
         {
             KeyboardState state = Keyboard.GetState();
+            KeyboardState prevKeyboardState = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             startShootCd += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -279,14 +280,14 @@ public class Player
                     jumpSpeed = 0f;
                 }
             }
-            /*if (state.IsKeyDown(Keys.F))
-                interagieren*/
-            if (state.IsKeyDown(Keys.Q) && !isAttacking)
+            
+            bool isQKeyPressed = state.IsKeyDown(Keys.Q);
+            if (isQKeyPressed && !prevQKeyPressed && !isAttacking)
             {
                 RangedMode = !RangedMode;
                 Console.WriteLine("range mode" + RangedMode);
             }
-
+            prevQKeyPressed = isQKeyPressed;
             if (mouseState.LeftButton == ButtonState.Pressed && !isAttacking)
             {
                 if (RangedMode && projectiles.Count > 0)
