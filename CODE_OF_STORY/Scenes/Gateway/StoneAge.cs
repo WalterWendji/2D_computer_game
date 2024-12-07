@@ -21,6 +21,7 @@ internal class StoneAge : Component
     private Shopkeeper shopkeeper;
     private List<Enemy> enemies;
     private Gem gem;
+    private Life life;
 
     private KeyboardState currentKeyboardState;
     private KeyboardState prevKeyboardState;
@@ -135,8 +136,7 @@ internal class StoneAge : Component
         player.ResetPlayer();
 
         enemy.ResetEnemy();
-        //gem = new Gem(Content.Load<Texture2D>("Items/Gems/plate32x8"), gemStartPosition);
-        //gem.ResetGem();
+        
     }
     internal override void Update(GameTime gameTime)
     {
