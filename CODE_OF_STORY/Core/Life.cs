@@ -1,9 +1,10 @@
 using System;
-using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CODE_OF_STORY.Core;
+
+
 /** Implements a floating Heart in the game.
  Heart are collectable by the player, 
  gives the Player Chances & a set amount Lifes.
