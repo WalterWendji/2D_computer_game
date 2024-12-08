@@ -85,11 +85,8 @@ internal class StoneAge : Component
         ResourceManager.LoadContent(Content);
 
         Texture2D gemTexture = Content.Load<Texture2D>("Items/Gems/plate32x8");
-<<<<<<< HEAD
         Texture2D arrowTexture = Content.Load<Texture2D>("Player_Level1/Warrior_1/arrow");
-=======
         gem = new Gem(gemTexture, new Vector2(300, 600));
->>>>>>> WIP_gem_1
 
         player = new Player(playerStartPosition, 100);
         player.LoadContent(Content);
@@ -106,7 +103,7 @@ internal class StoneAge : Component
         
 
         //Texture2D shopBackground = Content.Load<Texture2D>("GameUI/shop");
-        SpriteFont font = Content.Load<SpriteFont>("Arial");
+        SpriteFont font = Content.Load<SpriteFont>("Spritefonts/Arial");
 
         Texture2D hPotionImage = Content.Load<Texture2D>("Items/ShopItem/hPotion");
         Texture2D asPotionImage = Content.Load<Texture2D>("Items/ShopItem/asPotion");
@@ -195,9 +192,7 @@ internal class StoneAge : Component
                 player.Update(gameTime, enemies, enemyProjectiles);
                 gem.Update(gameTime);
                 shopkeeper.Update(gameTime, player, currentKeyboardState, prevKeyboardState);
-<<<<<<< HEAD
 
-=======
                 // Check collision with gem
                 if (gem != null && player.Bounds.Intersects(gem.Bounds))
                 {
@@ -206,7 +201,6 @@ internal class StoneAge : Component
 
                     gem.Collect();
                 }
->>>>>>> WIP_gem_1
                 foreach (var projectile in player.ActiveProjectiles.ToList())
                 {
                     foreach (var enemy in enemies)
@@ -255,11 +249,8 @@ internal class StoneAge : Component
                 gem.Draw(spriteBatch);
                 shopkeeper.Draw(spriteBatch, player);
 
-<<<<<<< HEAD
 
-=======
             
->>>>>>> WIP_gem_1
                 foreach (var enemy in enemies)
                 {
                     enemy.Draw(spriteBatch);

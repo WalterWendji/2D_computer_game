@@ -54,15 +54,12 @@ public class Player
     private float gravity = 500f;
     public float groundLevel;
 
-<<<<<<< HEAD
     private bool isDeathSoundEffectPlayed;
     private float footStepsRunSpeed;
     SoundEffect footStepsRunSoundEffect, jumpSoundEffect, attackSoundEffect, landSoundEffect, deathSoundEffect, damageSoundEffect;
     SoundEffectInstance footStepsRunSoundEffectInstance, jumpSoundEffectInstance, attackSoundEffectInstance, landSoundEffectInstance, deathSoundEffectInstance, damageSoundEffectInstance;
-=======
     public int Score { get; private set; }
 
->>>>>>> WIP_gem_1
 
     //zugriff aus die aktuelle position für enemy
     public Vector2 Position
