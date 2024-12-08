@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
+using System.Collections.Generic;
 
 namespace CODE_OF_STORY.Core;
 
@@ -28,7 +29,7 @@ public class Game1 : Game
     public static Rectangle backButtonRectColored;
     private Vector2 backButtonPosition;
 
-    SoundEffect menuSong;
+        SoundEffect menuSong;
     SoundEffectInstance menuSongInstance;
 
 
@@ -55,6 +56,11 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+    
+    
+
+
         
         gameStateManager.LoadContent(Content);
         gatewaysManager.LoadContent(Content);

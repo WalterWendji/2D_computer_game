@@ -23,6 +23,7 @@ internal class StoneAge : Component
     private List<Enemy> enemies;
     private List<Projectile> enemyProjectiles;
     private Gem gem;
+    private Life life;
 
     private KeyboardState currentKeyboardState;
     private KeyboardState prevKeyboardState;
@@ -84,7 +85,11 @@ internal class StoneAge : Component
         ResourceManager.LoadContent(Content);
 
         Texture2D gemTexture = Content.Load<Texture2D>("Items/Gems/plate32x8");
+<<<<<<< HEAD
         Texture2D arrowTexture = Content.Load<Texture2D>("Player_Level1/Warrior_1/arrow");
+=======
+        gem = new Gem(gemTexture, new Vector2(300, 600));
+>>>>>>> WIP_gem_1
 
         player = new Player(playerStartPosition, 100);
         player.LoadContent(Content);
@@ -98,7 +103,7 @@ internal class StoneAge : Component
        enemy = new EnemyFernkampf(enemyStartPosition4, enemyEndPosition4, 300f, 300f, 50, arrowTexture);
         enemies.Add(enemy);
 
-        gem = new Gem(gemTexture, new Vector2(300, 600));
+        
 
         //Texture2D shopBackground = Content.Load<Texture2D>("GameUI/shop");
         SpriteFont font = Content.Load<SpriteFont>("Arial");
@@ -141,8 +146,7 @@ internal class StoneAge : Component
         player.ResetPlayer();
 
         enemy.ResetEnemy();
-        gem.position = gemStartPosition;
-
+        
     }
     internal override void Update(GameTime gameTime)
     {
@@ -191,7 +195,18 @@ internal class StoneAge : Component
                 player.Update(gameTime, enemies, enemyProjectiles);
                 gem.Update(gameTime);
                 shopkeeper.Update(gameTime, player, currentKeyboardState, prevKeyboardState);
+<<<<<<< HEAD
 
+=======
+                // Check collision with gem
+                if (gem != null && player.Bounds.Intersects(gem.Bounds))
+                {
+                    player.IncreaseScore(gem.PointValue);
+                    Console.WriteLine("Gem collected!");
+
+                    gem.Collect();
+                }
+>>>>>>> WIP_gem_1
                 foreach (var projectile in player.ActiveProjectiles.ToList())
                 {
                     foreach (var enemy in enemies)
@@ -229,7 +244,7 @@ internal class StoneAge : Component
     {
         if (currentGameState == GameState.Playing || !popUpMenuTriggerd)
         {
-            if (player != null)
+            if (player != null && gem != null)
             {
                 if(shopkeeper.isInteracting)
                 {
@@ -240,7 +255,11 @@ internal class StoneAge : Component
                 gem.Draw(spriteBatch);
                 shopkeeper.Draw(spriteBatch, player);
 
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> WIP_gem_1
                 foreach (var enemy in enemies)
                 {
                     enemy.Draw(spriteBatch);

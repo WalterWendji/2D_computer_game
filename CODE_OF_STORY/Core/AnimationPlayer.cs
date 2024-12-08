@@ -68,7 +68,7 @@ public class AnimationPlayer
             timer = 0f;
         }
     }
-
+    
     public void Draw(SpriteBatch spriteBatch, Vector2 position, SpriteEffects effects)
     {
         Rectangle sourceRectangle = new Rectangle(frameWidth * currentFrame, 0, frameWidth, frameHeight);

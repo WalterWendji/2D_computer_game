@@ -54,10 +54,15 @@ public class Player
     private float gravity = 500f;
     public float groundLevel;
 
+<<<<<<< HEAD
     private bool isDeathSoundEffectPlayed;
     private float footStepsRunSpeed;
     SoundEffect footStepsRunSoundEffect, jumpSoundEffect, attackSoundEffect, landSoundEffect, deathSoundEffect, damageSoundEffect;
     SoundEffectInstance footStepsRunSoundEffectInstance, jumpSoundEffectInstance, attackSoundEffectInstance, landSoundEffectInstance, deathSoundEffectInstance, damageSoundEffectInstance;
+=======
+    public int Score { get; private set; }
+
+>>>>>>> WIP_gem_1
 
     //zugriff aus die aktuelle position für enemy
     public Vector2 Position
@@ -182,6 +187,11 @@ public class Player
             return (enemy.Position.X < position.X && enemy.Position.X >= position.X - attackRange);
         }
     }
+
+    public void IncreaseScore(int points)
+     {
+            Score += points;
+     }
 
     public void LoadContent(ContentManager content)
     {
@@ -347,7 +357,13 @@ public class Player
             checkIsAlive = false;
         }
     }
-
+    public Rectangle Bounds 
+    {
+        get 
+        {
+            return new Rectangle((int)Position.X, (int)Position.Y, 64, 64); // غير العرض والطول لو لازم
+        }
+    }
     public void Draw(SpriteBatch spriteBatch)
     {
         SpriteEffects flipEffect = facingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;

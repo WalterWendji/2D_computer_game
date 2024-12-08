@@ -17,7 +17,7 @@ internal class SettingsScene : Component
     internal override void LoadContent(ContentManager Content)
     {
         _spriteBatch = new SpriteBatch(Game1._graphics.GraphicsDevice);
-        font1 = Content.Load<SpriteFont>("Arial");
+        font1 = Content.Load<SpriteFont>("Spritefonts/Arial");
         Viewport viewport = Game1._graphics.GraphicsDevice.Viewport;
 
         fontpos = new Vector2(viewport.Width / 2, viewport.Height / 2);
