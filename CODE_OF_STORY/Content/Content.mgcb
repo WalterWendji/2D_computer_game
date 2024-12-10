@@ -583,6 +583,18 @@
 /processorParam:TextureFormat=Color
 /build:Items/ShopItem/asPotion.png
 
+#begin Items/ShopItem/bogen.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Items/ShopItem/bogen.png
+
 #begin Items/ShopItem/boot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -606,6 +618,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Items/ShopItem/hPotion.png
+
+#begin Items/ShopItem/kette.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Items/ShopItem/kette.png
 
 #begin Items/ShopItem/life.png
 /importer:TextureImporter

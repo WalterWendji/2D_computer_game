@@ -96,7 +96,6 @@ public class Shopkeeper
         if(isInteracting)
         {
             shDialogueAnimation.Draw(spriteBatch, position, SpriteEffects.None);
-            //shopWindow.Draw(spriteBatch);
         }
     }
 }

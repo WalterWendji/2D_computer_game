@@ -104,7 +104,6 @@ public class ShopWindow
 
             if(i == selectedItemIndex)
             {
-                //Rectangle highlightRect = new Rectangle((int)itemPosition.X -5, (int)itemPosition.Y -5, items[i].Image.Width + 10, items[i].Image.Height + 10);
                 spriteBatch.Draw(items[i].Image, itemPosition, Color.White * (i == selectedItemIndex ? 0.8f : 1f));
             }
             int itemWidth = 200;

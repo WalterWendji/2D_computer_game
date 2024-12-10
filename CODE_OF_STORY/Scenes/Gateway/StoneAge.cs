@@ -111,6 +111,8 @@ internal class StoneAge : Component
         Texture2D shildImage = Content.Load<Texture2D>("Items/ShopItem/shild");
         Texture2D lifeImage = Content.Load<Texture2D>("Items/ShopItem/life");
         Texture2D bootImage = Content.Load<Texture2D>("Items/ShopItem/boot");
+        Texture2D bogenImage = Content.Load<Texture2D>("Items/ShopItem/bogen");
+        Texture2D ketteImage = Content.Load<Texture2D>("Items/ShopItem/kette");
 
         List<ShopItem> shopItems = new List<ShopItem>
         {
@@ -119,7 +121,9 @@ internal class StoneAge : Component
             new ShopItem("Nahkampfschaden", swordImage, 100),
             new ShopItem("Schild", shildImage, 100),
             new ShopItem("Extra Leben", lifeImage, 100),
-            new ShopItem("Doppelsprung", bootImage, 100)
+            new ShopItem("Doppelsprung", bootImage, 100),
+            new ShopItem("Fernkampschaden", bogenImage, 100),
+            new ShopItem("Wiederbelebung", ketteImage, 100)
         };
         shopkeeper = new Shopkeeper(shopkeeperPosition, /*shIdleTexture, shDialogueTexture, shGreetingTexture, shApprovalTexture,*/ font, shopItems);
         
