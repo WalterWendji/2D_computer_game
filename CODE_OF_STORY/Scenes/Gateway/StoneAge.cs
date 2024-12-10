@@ -60,7 +60,7 @@ internal class StoneAge : Component
         enemyStartPosition3 = new Vector2(700, 600);
         enemyEndPosition3 = new Vector2(1200, 600);
         enemyEndPosition = new Vector2(700, 600);
-        enemyStartPosition4 = new Vector2 (400, 600);
+        enemyStartPosition4 = new Vector2(400, 600);
         enemyEndPosition4 = new Vector2(700, 600);
         gemStartPosition = new Vector2(300, 600);
         shopkeeperPosition = new Vector2(1500, 600);
@@ -81,7 +81,7 @@ internal class StoneAge : Component
     internal override void LoadContent(ContentManager Content)
     {
         enemyProjectiles = new List<Projectile>();
-        
+
         ResourceManager.LoadContent(Content);
 
         Texture2D gemTexture = Content.Load<Texture2D>("Items/Gems/plate32x8");
@@ -91,16 +91,16 @@ internal class StoneAge : Component
         player = new Player(playerStartPosition, 100);
         player.LoadContent(Content);
 
-       enemy = new EnemyTank(enemyStartPosition2, enemyEndPosition2, 150f, 50f, 100);
+        enemy = new EnemyTank(enemyStartPosition2, enemyEndPosition2, 150f, 50f, 100);
         enemies.Add(enemy);
         enemy = new EnemyCharge(enemyStartPosition, enemyEndPosition, 100f, 50f, 100, 300f);
         enemies.Add(enemy);
         enemy = new EnemyNahkampf(enemyStartPosition3, enemyEndPosition3, 100f, 50f, 100);
         enemies.Add(enemy);
-       enemy = new EnemyFernkampf(enemyStartPosition4, enemyEndPosition4, 300f, 300f, 50, arrowTexture);
+        enemy = new EnemyFernkampf(enemyStartPosition4, enemyEndPosition4, 300f, 300f, 50, arrowTexture);
         enemies.Add(enemy);
 
-        
+
 
         //Texture2D shopBackground = Content.Load<Texture2D>("GameUI/shop");
         SpriteFont font = Content.Load<SpriteFont>("Spritefonts/Arial");
@@ -126,10 +126,11 @@ internal class StoneAge : Component
             new ShopItem("Wiederbelebung", ketteImage, 100)
         };
         shopkeeper = new Shopkeeper(shopkeeperPosition, /*shIdleTexture, shDialogueTexture, shGreetingTexture, shApprovalTexture,*/ font, shopItems);
-        
+
         pausePopupMenu.LoadContent(Content);
         gameOver.LoadContent(Content);
-        shopkeeper.shopWindow.LoadContent(Content);
+        shopkeeper.LoadContent(Content);
+        //shopkeeper.shopWindow.LoadContent(Content);
 
         backgroundSoundScenario1 = Content.Load<SoundEffect>("Audio/25-Raid_FolkMetal2W");
         backgroundSoundScenario1Instance = backgroundSoundScenario1.CreateInstance();
@@ -144,10 +145,12 @@ internal class StoneAge : Component
         popUpMenuTriggerd = false;
         isGameOverRendered = false;
 
+        gem.Reset();
+
         player.ResetPlayer();
 
         enemy.ResetEnemy();
-        
+
     }
     internal override void Update(GameTime gameTime)
     {
@@ -190,9 +193,9 @@ internal class StoneAge : Component
         {
             if (player != null && gem != null && enemies != null)
             {
-                backgroundSoundScenario1Instance.Play(); 
+                backgroundSoundScenario1Instance.Play();
                 backgroundSoundScenario1Instance.Volume = 0.03f;
-                
+
                 player.Update(gameTime, enemies, enemyProjectiles);
                 gem.Update(gameTime);
                 shopkeeper.Update(gameTime, player, currentKeyboardState, prevKeyboardState);
@@ -244,17 +247,17 @@ internal class StoneAge : Component
         {
             if (player != null && gem != null)
             {
-                if(shopkeeper.isInteracting)
+                /* if(shopkeeper.isInteracting)
                 {
-                    shopkeeper.shopWindow.Draw(spriteBatch);
-                }
-                
+                    shopWindow.Draw(spriteBatch);
+                }  */
+
                 player.Draw(spriteBatch);
                 gem.Draw(spriteBatch);
                 shopkeeper.Draw(spriteBatch, player);
 
 
-            
+
                 foreach (var enemy in enemies)
                 {
                     enemy.Draw(spriteBatch);

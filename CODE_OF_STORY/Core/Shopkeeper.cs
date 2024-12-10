@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using CODE_OF_STORY.Managers;
+using Microsoft.Xna.Framework.Content;
 
 
 namespace CODE_OF_STORY.Core;
@@ -14,6 +15,7 @@ public class Shopkeeper
     private float interactionRange = 50;
     public bool isInteracting;
     private bool greeting;
+    public bool isDialogueAnimationFinished;
     private Rectangle sightRect;
     private Rectangle interactionRect;
     public Vector2 position;
@@ -34,6 +36,11 @@ public class Shopkeeper
         this.position = idelPosition;
 
         shopWindow = new ShopWindow(font, new Vector2(600, 300), items);
+    }
+
+    public void LoadContent(ContentManager Content)
+    {
+        shopWindow.LoadContent(Content);
     }
     public void Greeting(Player player)
     {
@@ -74,6 +81,7 @@ public class Shopkeeper
             if(shDialogueAnimation.IsFinished && !shopWindow.isVisible)
             {
                 shopWindow.Show();
+                isDialogueAnimationFinished = true;
                 isInteracting = false;
             }
         }
@@ -96,6 +104,7 @@ public class Shopkeeper
         if(isInteracting)
         {
             shDialogueAnimation.Draw(spriteBatch, position, SpriteEffects.None);
+            shopWindow.Draw(spriteBatch);
         }
     }
 }
