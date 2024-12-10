@@ -367,6 +367,18 @@
 /processorParam:TextureFormat=Color
 /build:Buttons/Home.png
 
+#begin Buttons/KeyButton.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Buttons/KeyButton.png
+
 #begin Buttons/LevelDefault.png
 /importer:TextureImporter
 /processor:TextureProcessor

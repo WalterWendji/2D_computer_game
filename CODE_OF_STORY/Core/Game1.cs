@@ -56,12 +56,7 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-
     
-    
-
-
-        
         gameStateManager.LoadContent(Content);
         gatewaysManager.LoadContent(Content);
 
@@ -80,8 +75,6 @@ public class Game1 : Game
         
         menuSong = Content.Load<SoundEffect>("Audio/Happy_Trails_higher");
         menuSongInstance = menuSong.CreateInstance();
-
-
     }
 
     protected override void Update(GameTime gameTime)

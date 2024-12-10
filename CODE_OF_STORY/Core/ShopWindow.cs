@@ -36,7 +36,6 @@ public class ShopWindow
         for(int i = 0; i < items.Count; i++)
         {
             Vector2 itemPosition = position + new Vector2(20, 50 + i * 100);
-            //Vector2 textSize = font.MeasureString(items[i]);
             itemBounds.Add(new Rectangle((int)itemPosition.X, (int)itemPosition.Y, 100, 80) /*(int)textSize.X +100, (int)textSize.Y+80)*/);
         }
     }
