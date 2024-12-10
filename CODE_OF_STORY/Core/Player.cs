@@ -221,7 +221,7 @@ public class Player
         }
         if (isAlive)
         {
-            KeyboardState state = Keyboard.GetState();
+            var keyboardState = Keyboard.GetState();
             KeyboardState prevKeyboardState = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -232,19 +232,19 @@ public class Player
             {
                 CheckPlayerProjectileCollision(projectile);
             }
-            if (state.IsKeyDown(Keys.A) || state.IsKeyDown(Keys.D))
+            if (keyboardState.IsKeyDown(PlayerControls.Settings.MoveLeft) || keyboardState.IsKeyDown(PlayerControls.Settings.MoveRight))
             {
                 isMoving = true;
 
                 footStepsRunSoundEffectInstance.Play();
                 footStepsRunSoundEffectInstance.Pitch = footStepsRunSpeed;
             }
-            if (state.IsKeyDown(Keys.A))
+            if (keyboardState.IsKeyDown(PlayerControls.Settings.MoveLeft))
             {
                 position.X -= speed * deltaTime;
                 facingRight = false;
             }
-            else if (state.IsKeyDown(Keys.D))
+            else if (keyboardState.IsKeyDown(PlayerControls.Settings.MoveRight))
             {
                 position.X += speed * deltaTime;
                 facingRight = true;
@@ -262,7 +262,7 @@ public class Player
                 idleAnimation.Update(gameTime);
             }
 
-            if (state.IsKeyDown(Keys.Space) && !isJumping)
+            if (keyboardState.IsKeyDown(PlayerControls.Settings.Jump) && !isJumping)
             {
                 jumpSoundEffectInstance.Play();
 
@@ -288,7 +288,7 @@ public class Player
                 }
             }
             
-            bool isQKeyPressed = state.IsKeyDown(Keys.Q);
+            bool isQKeyPressed = keyboardState.IsKeyDown(PlayerControls.Settings.Interact);
             if (isQKeyPressed && !prevQKeyPressed && !isAttacking)
             {
                 RangedMode = !RangedMode;
