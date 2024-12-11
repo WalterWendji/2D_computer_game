@@ -34,7 +34,8 @@ public class Player
     private bool isAttacking;
     private bool hasDealtDamage = false;
     public bool damageTaken;
-    private int health;
+    public int health {get; private set;}
+    public int maxHealth {get; private set;}
     public bool isAlive => health > 0;
     private readonly float shootCd = 2f;
     private float startShootCd = 0f;
@@ -66,7 +67,7 @@ public class Player
     {
         get { return position; }
     }
-    public Player(Vector2 position, int initialHealth)
+    public Player(Vector2 position, int currentHealth)
     {
         runAnimation = new AnimationPlayer(ResourceManager.runTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
         idleAnimation = new AnimationPlayer(ResourceManager.idleTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
@@ -78,7 +79,8 @@ public class Player
         this.position = position;
         this.speed = 200f;
         this.groundLevel = position.Y;
-        this.health = initialHealth;
+        this.health = currentHealth;
+        //this.maxHealth = currentMaxHealth;
 
         projectiles = new List<Projectile>();
 
@@ -103,13 +105,14 @@ public class Player
 
     public async void TakeDamage(int damage)
     {
-        health -= damage;
+        
         if (health <= 0)
         {
             health = 0;//todesanimation und entfernen
         }
         else
         {
+            health -= damage;
             damageTaken = true;
             await Task.Delay(200);
         }
@@ -183,6 +186,11 @@ public class Player
         {
             return (enemy.Position.X < position.X && enemy.Position.X >= position.X - attackRange);
         }
+    }
+
+    public void Heal(int amount)
+    {
+       // Health = Math.Min(health + amount, currentMaxHealth)
     }
 
     public void IncreaseScore(int points)

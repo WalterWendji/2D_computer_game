@@ -45,6 +45,10 @@ public class EnemyFernkampf : Enemy
         Projectile arrow = new Projectile(arrowTexture, position + new Vector2(-30, 40), direction, 300f);
         enemyProjectiles.Add(arrow);
     }
+    public override void AttackPlayer(Player player)
+    {
+        //leer gelassen um zu verhindern das doppelt schaden berrechnet wird.
+    }
 
     public override async void Update(GameTime gameTime, Player player) 
     {

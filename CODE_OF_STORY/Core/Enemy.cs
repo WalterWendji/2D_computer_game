@@ -64,7 +64,7 @@ public abstract class Enemy
         health = 100;
         patrolEnd = StoneAge.enemyEndPosition;
     }
-    public void AttackPlayer(Player player)
+    public virtual void AttackPlayer(Player player)
     {
         if (isAttacking && !hasDealtDamage && IsPlayerInRange(player))
         {
