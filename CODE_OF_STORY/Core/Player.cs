@@ -296,7 +296,7 @@ public class Player
                 }
             }
             
-            bool isQKeyPressed = keyboardState.IsKeyDown(PlayerControls.Settings.Interact);
+            bool isQKeyPressed = keyboardState.IsKeyDown(PlayerControls.Settings.SwitchAttackMode);
             if (isQKeyPressed && !prevQKeyPressed && !isAttacking)
             {
                 RangedMode = !RangedMode;

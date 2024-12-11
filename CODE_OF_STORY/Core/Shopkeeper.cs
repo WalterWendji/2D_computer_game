@@ -59,7 +59,7 @@ public class Shopkeeper
     public void CheckInteraction(Player player, KeyboardState keyboardState, KeyboardState prevKeyboardState)
     {
         interactionRect = new Rectangle((int)position.X - (int) interactionRange /2, (int)position.Y, (int)interactionRange, 128);
-        if(interactionRect.Contains(player.Position) && keyboardState.IsKeyDown(Keys.F) && prevKeyboardState.IsKeyUp(Keys.F))
+        if(interactionRect.Contains(player.Position) && keyboardState.IsKeyDown(PlayerControls.Settings.Interact) && prevKeyboardState.IsKeyUp(PlayerControls.Settings.Interact))
         {
             isInteracting = true;
             shDialogueAnimation.PlayOnce();
