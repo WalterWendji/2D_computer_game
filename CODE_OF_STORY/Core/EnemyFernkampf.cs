@@ -21,8 +21,8 @@ public class EnemyFernkampf : Enemy
     private Texture2D arrowTexture;
     private List<Projectile> enemyProjectiles;
 
-    public EnemyFernkampf(Vector2 startPosition, Vector2 patrolEnd, float sightRange, float attackRange, int health, Texture2D arrowTexture)
-        : base(startPosition, patrolEnd, sightRange, attackRange, health)
+    public EnemyFernkampf(Vector2 startPosition, Vector2 patrolEnd, float sightRange, float attackRange, int health, Texture2D arrowTexture, Player player)
+        : base(startPosition, patrolEnd, sightRange, attackRange, health, player)
     {
         enFRunAnimation = new AnimationPlayer(ResourceManager.enFWalkTexture, frameCount: 8, animationSpeed: 0.1f, playOnce: false);
         enFAttackAnimation = new AnimationPlayer(ResourceManager.enFShot_1Texture, frameCount: 14, animationSpeed: 0.1f, playOnce: true);
@@ -72,7 +72,7 @@ public class EnemyFernkampf : Enemy
         if(isAlive)
         {
             float distanceToPlayer = Vector2.Distance(position, player.Position);
-            if(distanceToPlayer <= attackRange && startShootCd > shootCd)
+            if(distanceToPlayer <= attackRange && startShootCd > shootCd && player.isAlive)
             {
                 Shoot(player.Position);
             }
@@ -81,7 +81,7 @@ public class EnemyFernkampf : Enemy
                 await Task.Delay(300);
                 damageTaken = false;
             }
-            if (isShooting)
+            if (isShooting && player.isAlive)
             {
                 speed = 0f;
                 enFAttackAnimation.Update(gameTime);
