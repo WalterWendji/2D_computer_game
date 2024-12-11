@@ -13,8 +13,8 @@ public class EnemyCharge : Enemy
     protected AnimationPlayer enCDamageAnimation;
     protected AnimationPlayer enCDeathAnimation;
 
-    public EnemyCharge(Vector2 startPosition, Vector2 patrolEnd, float sightRange, float attackRange, int health, float chargeSpeed)
-        : base(startPosition, patrolEnd, sightRange, attackRange, health)
+    public EnemyCharge(Vector2 startPosition, Vector2 patrolEnd, float sightRange, float attackRange, int health, float chargeSpeed, Player player)
+        : base(startPosition, patrolEnd, sightRange, attackRange, health, player)
     {
         enCRunAnimation = new AnimationPlayer(ResourceManager.enCRunTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
         enCAttackAnimation = new AnimationPlayer(ResourceManager.enCAttackTexture, frameCount: 4, animationSpeed: 0.1f, playOnce: true);
@@ -27,7 +27,7 @@ public class EnemyCharge : Enemy
         base.Update(gameTime, player);
         if(isAlive)
         {
-            if(sightRect.Contains(player.Position))
+            if(sightRect.Contains(player.Position) && player.isAlive)
             {
                 float chargeSpeed;
                 chargeSpeed = 300f;

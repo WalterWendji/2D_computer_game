@@ -13,6 +13,7 @@ namespace CODE_OF_STORY.Core;
 Used to load, draw, and update an enemy. */
 public abstract class Enemy
 {
+    private Player player;
     //fighting var
     protected int health;
     public bool isAlive => health > 0;
@@ -32,7 +33,7 @@ public abstract class Enemy
     protected float attackRange;
     protected Rectangle sightRect;
 
-    protected Enemy(Vector2 startposition, Vector2 patrolEnd, float sightRange, float attackRange, int initialhealth)
+    protected Enemy(Vector2 startposition, Vector2 patrolEnd, float sightRange, float attackRange, int initialhealth, Player player)
     {
 
         this.position = startposition;
@@ -43,6 +44,7 @@ public abstract class Enemy
         this.movingRight = true;
         this.sightRange = sightRange;
         this.attackRange = attackRange;
+        this.player = player;
     }
 
     public virtual void TakeDamage(int damage, Vector2 attackerPosition)
@@ -64,9 +66,9 @@ public abstract class Enemy
         health = 100;
         patrolEnd = StoneAge.enemyEndPosition;
     }
-    public void AttackPlayer(Player player)
+    public virtual void AttackPlayer(Player player)
     {
-        if (isAttacking && !hasDealtDamage && IsPlayerInRange(player))
+        if (isAttacking && !hasDealtDamage && IsPlayerInRange(player) && player.isAlive)
         {
             player.TakeDamage(10);
             hasDealtDamage = true;
@@ -134,7 +136,7 @@ public abstract class Enemy
                 }
             }
            
-            if (IsPlayerInRange(player))
+            if (IsPlayerInRange(player) && player.isAlive)
             {
                 isAttacking = true;
             }

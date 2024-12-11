@@ -91,13 +91,13 @@ internal class StoneAge : Component
         player = new Player(playerStartPosition, 100);
         player.LoadContent(Content);
 
-        enemy = new EnemyTank(enemyStartPosition2, enemyEndPosition2, 150f, 50f, 100);
+        enemy = new EnemyTank(enemyStartPosition2, enemyEndPosition2, 150f, 50f, 100, player);
         enemies.Add(enemy);
-        enemy = new EnemyCharge(enemyStartPosition, enemyEndPosition, 100f, 50f, 100, 300f);
+        enemy = new EnemyCharge(enemyStartPosition, enemyEndPosition, 100f, 50f, 100, 300f, player);
         enemies.Add(enemy);
-        enemy = new EnemyNahkampf(enemyStartPosition3, enemyEndPosition3, 100f, 50f, 100);
+        enemy = new EnemyNahkampf(enemyStartPosition3, enemyEndPosition3, 100f, 50f, 100, player);
         enemies.Add(enemy);
-        enemy = new EnemyFernkampf(enemyStartPosition4, enemyEndPosition4, 300f, 300f, 50, arrowTexture);
+        enemy = new EnemyFernkampf(enemyStartPosition4, enemyEndPosition4, 300f, 300f, 50, arrowTexture, player);
         enemies.Add(enemy);
 
 

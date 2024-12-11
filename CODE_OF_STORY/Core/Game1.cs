@@ -50,6 +50,8 @@ public class Game1 : Game
         gameStateManager = new GameStateManager();
         gatewaysManager = new GatewaysManager();
         
+        ControlSettingsManager.LoadControls();
+        
         base.Initialize();
     }
 

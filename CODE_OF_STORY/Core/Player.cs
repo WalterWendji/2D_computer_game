@@ -34,7 +34,8 @@ public class Player
     private bool isAttacking;
     private bool hasDealtDamage = false;
     public bool damageTaken;
-    private int health;
+    public int health {get; private set;}
+    public int maxHealth {get; private set;}
     public bool isAlive => health > 0;
     private readonly float shootCd = 2f;
     private float startShootCd = 0f;
@@ -66,7 +67,7 @@ public class Player
     {
         get { return position; }
     }
-    public Player(Vector2 position, int initialHealth)
+    public Player(Vector2 position, int currentHealth)
     {
         runAnimation = new AnimationPlayer(ResourceManager.runTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
         idleAnimation = new AnimationPlayer(ResourceManager.idleTexture, frameCount: 6, animationSpeed: 0.1f, playOnce: false);
@@ -78,7 +79,8 @@ public class Player
         this.position = position;
         this.speed = 200f;
         this.groundLevel = position.Y;
-        this.health = initialHealth;
+        this.health = currentHealth;
+        //this.maxHealth = currentMaxHealth;
 
         projectiles = new List<Projectile>();
 
@@ -103,13 +105,14 @@ public class Player
 
     public async void TakeDamage(int damage)
     {
-        health -= damage;
+        
         if (health <= 0)
         {
             health = 0;//todesanimation und entfernen
         }
         else
         {
+            health -= damage;
             damageTaken = true;
             await Task.Delay(200);
         }
@@ -185,6 +188,11 @@ public class Player
         }
     }
 
+    public void Heal(int amount)
+    {
+       // Health = Math.Min(health + amount, currentMaxHealth)
+    }
+
     public void IncreaseScore(int points)
      {
             Score += points;
@@ -221,7 +229,7 @@ public class Player
         }
         if (isAlive)
         {
-            KeyboardState state = Keyboard.GetState();
+            var keyboardState = Keyboard.GetState();
             KeyboardState prevKeyboardState = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -232,19 +240,19 @@ public class Player
             {
                 CheckPlayerProjectileCollision(projectile);
             }
-            if (state.IsKeyDown(Keys.A) || state.IsKeyDown(Keys.D))
+            if (keyboardState.IsKeyDown(PlayerControls.Settings.MoveLeft) || keyboardState.IsKeyDown(PlayerControls.Settings.MoveRight))
             {
                 isMoving = true;
 
                 footStepsRunSoundEffectInstance.Play();
                 footStepsRunSoundEffectInstance.Pitch = footStepsRunSpeed;
             }
-            if (state.IsKeyDown(Keys.A))
+            if (keyboardState.IsKeyDown(PlayerControls.Settings.MoveLeft))
             {
                 position.X -= speed * deltaTime;
                 facingRight = false;
             }
-            else if (state.IsKeyDown(Keys.D))
+            else if (keyboardState.IsKeyDown(PlayerControls.Settings.MoveRight))
             {
                 position.X += speed * deltaTime;
                 facingRight = true;
@@ -262,7 +270,7 @@ public class Player
                 idleAnimation.Update(gameTime);
             }
 
-            if (state.IsKeyDown(Keys.Space) && !isJumping)
+            if (keyboardState.IsKeyDown(PlayerControls.Settings.Jump) && !isJumping)
             {
                 jumpSoundEffectInstance.Play();
 
@@ -288,7 +296,7 @@ public class Player
                 }
             }
             
-            bool isQKeyPressed = state.IsKeyDown(Keys.Q);
+            bool isQKeyPressed = keyboardState.IsKeyDown(PlayerControls.Settings.SwitchAttackMode);
             if (isQKeyPressed && !prevQKeyPressed && !isAttacking)
             {
                 RangedMode = !RangedMode;

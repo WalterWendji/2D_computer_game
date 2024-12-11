@@ -1,5 +1,7 @@
 using System;
 using CODE_OF_STORY.Core;
+using CODE_OF_STORY.Managers;
+using Microsoft.VisualBasic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,8 +27,32 @@ internal class ControlsScene : Component
 
     public ControlsScene()
     {
-        currentKeys = (Keys[])defaultKeys.Clone();
+        ControlSettingsManager.LoadControls();
+        currentKeys = new Keys [PlayerControls.Settings.ActionsCount()];
+        Array.Copy(PlayerControls.Settings.ToKeysArray(), currentKeys, currentKeys.Length);
         keyRects = new Rectangle[actions.Length];
+    }
+
+    private void UpdatePlayerControls()
+    {
+        for(int i = 0; i < currentKeys.Length; i++)
+        {
+            if(i != selectedAction && currentKeys[i] == currentKeys[selectedAction])
+            {
+                Console.WriteLine("Diese Taste ist bereits für eine andere Aktion belegt.");
+                return;
+            }
+        }
+        ControlSettings newSettings = new ControlSettings
+        {
+            MoveLeft = currentKeys[0],
+            MoveRight = currentKeys[1],
+            Jump = currentKeys[2],
+            Interact =currentKeys[3],
+            SwitchAttackMode = currentKeys[4],
+            UseItem = currentKeys[5]
+        };
+        PlayerControls.UpdateControls(newSettings);
     }
 
     internal override void LoadContent(ContentManager Content)
@@ -67,6 +93,8 @@ internal class ControlsScene : Component
             if(pressedKeys.Length > 0)
             {
                 currentKeys[selectedAction] = pressedKeys[0];
+                UpdatePlayerControls();
+                ControlSettingsManager.SaveControls();
                 selectedAction = -1;
             }
         }
