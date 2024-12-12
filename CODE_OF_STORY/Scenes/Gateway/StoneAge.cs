@@ -161,9 +161,9 @@ internal class StoneAge : Component
         currentKeyboardState = Keyboard.GetState();
 
         // check button state
-        if (!this.popUpMenuFired)
+        if (noPopupMenuAndShopWindowVisible())
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.P) && !isGameOverRendered || Keyboard.GetState().IsKeyDown(Keys.Escape) && !isGameOverRendered)
+            if (keyboard_P_or_esc_IsPressedAndGameOverRenderedNotTriggerd())
             {
                 this.popUpMenuFired = true;
                 if (currentGameState == GameState.Playing)
@@ -183,7 +183,7 @@ internal class StoneAge : Component
         }
         else
         {
-            if (Keyboard.GetState().IsKeyUp(Keys.P) && Keyboard.GetState().IsKeyUp(Keys.Escape))
+            if (isKeyboard_P_or_esc_released())
             {
                 this.popUpMenuFired = false;
             }
@@ -191,92 +191,119 @@ internal class StoneAge : Component
 
         if (currentGameState == GameState.Playing)
         {
-            if (player != null && gem != null && enemies != null)
+            if (player != null)
             {
-                backgroundSoundScenario1Instance.Play();
-                backgroundSoundScenario1Instance.Volume = 0.03f;
-
-                player.Update(gameTime, enemies, enemyProjectiles);
-                gem.Update(gameTime);
-                shopkeeper.Update(gameTime, player, currentKeyboardState, prevKeyboardState);
-
-                // Check collision with gem
-                if (gem != null && player.Bounds.Intersects(gem.Bounds))
+                if (gem != null && enemies != null)
                 {
-                    player.IncreaseScore(gem.PointValue);
-                    Console.WriteLine("Gem collected!");
+                    backgroundSoundScenario1Instance.Play();
+                    backgroundSoundScenario1Instance.Volume = 0.03f;
 
-                    gem.Collect();
-                }
-                foreach (var projectile in player.ActiveProjectiles.ToList())
-                {
+                    player.Update(gameTime, enemies, enemyProjectiles);
+                    gem.Update(gameTime);
+                    shopkeeper.Update(gameTime, player, currentKeyboardState, prevKeyboardState);
+
+                    // Check collision with gem
+                    if (player.Bounds.Intersects(gem.Bounds))
+                    {
+                        player.IncreaseScore(gem.PointValue);
+                        Console.WriteLine("Gem collected!");
+
+                        gem.Collect();
+                    }
+                    foreach (var projectile in player.ActiveProjectiles.ToList())
+                    {
+                        foreach (var enemy in enemies)
+                        {
+                            enemy.CheckProjectileCollision(projectile);
+                        }
+                        projectile.Update(gameTime);
+                    }
+
                     foreach (var enemy in enemies)
                     {
-                        enemy.CheckProjectileCollision(projectile);
+                        enemy.Update(gameTime, player);
+                        enemy.AttackPlayer(player);
                     }
-                    projectile.Update(gameTime);
                 }
-
-                foreach (var enemy in enemies)
+                else
                 {
-                    enemy.Update(gameTime, player);
-                    enemy.AttackPlayer(player);
+                    Console.WriteLine("The player or gem or enemy is null");
                 }
             }
-            else
+
+            if (isPlayerNotAliveAndPopupMenuNotTriggerd())
             {
-                Console.WriteLine("The player or gem or enemy is null");
+                isGameOverRendered = true;
+                gameOver.Update(gameTime);
+
+                backgroundSoundScenario1Instance.Stop();
             }
+
         }
         else if (currentGameState == GameState.Paused)
             pausePopupMenu.Update(gameTime);
 
-        if (player != null && !player.isAlive && !popUpMenuTriggerd)
-        {
-            isGameOverRendered = true;
-            gameOver.Update(gameTime);
-
-            backgroundSoundScenario1Instance.Stop();
-        }
-
 
     }
+
+    private bool isPlayerNotAliveAndPopupMenuNotTriggerd()
+    {
+        return !player.isAlive && !popUpMenuTriggerd;
+    }
+
+    private static bool isKeyboard_P_or_esc_released()
+    {
+        return Keyboard.GetState().IsKeyUp(Keys.P) && Keyboard.GetState().IsKeyUp(Keys.Escape);
+    }
+
+    private bool keyboard_P_or_esc_IsPressedAndGameOverRenderedNotTriggerd()
+    {
+        return Keyboard.GetState().IsKeyDown(Keys.P) && !isGameOverRendered || Keyboard.GetState().IsKeyDown(Keys.Escape) && !isGameOverRendered;
+    }
+
+    private bool noPopupMenuAndShopWindowVisible()
+    {
+        return !this.popUpMenuFired && !this.shopkeeper.shopWindow.isVisible;
+    }
+
     internal override void Draw(SpriteBatch spriteBatch)
     {
         if (currentGameState == GameState.Playing || !popUpMenuTriggerd)
         {
-            if (player != null && gem != null)
+            if (player != null)
             {
-                /* if(shopkeeper.isInteracting)
+
+                if (gem != null)
                 {
-                    shopWindow.Draw(spriteBatch);
-                }  */
-
-                player.Draw(spriteBatch);
-                gem.Draw(spriteBatch);
-                shopkeeper.Draw(spriteBatch, player);
-
-
-
-                foreach (var enemy in enemies)
-                {
-                    enemy.Draw(spriteBatch);
-                }
-
-                foreach (var projectile in player.ActiveProjectiles)
-                {
-                    if (projectile.IsActive)
+                    /* if(shopkeeper.isInteracting)
                     {
-                        projectile.Draw(spriteBatch);
+                        shopWindow.Draw(spriteBatch);
+                    }  */
+
+                    player.Draw(spriteBatch);
+                    gem.Draw(spriteBatch);
+                    shopkeeper.Draw(spriteBatch, player);
+
+                    foreach (var enemy in enemies)
+                    {
+                        enemy.Draw(spriteBatch);
+                    }
+
+                    foreach (var projectile in player.ActiveProjectiles)
+                    {
+                        if (projectile.IsActive)
+                        {
+                            projectile.Draw(spriteBatch);
+                        }
                     }
                 }
-            }
-        }
 
-        if (player != null && !player.isAlive && !popUpMenuTriggerd)
-        {
-            gameOver.Draw(spriteBatch);
-            //popUpMenuTriggerd = false;
+                if (isPlayerNotAliveAndPopupMenuNotTriggerd())
+                {
+                    gameOver.Draw(spriteBatch);
+                    //popUpMenuTriggerd = false;
+                }
+            }
         }
 
         if (currentGameState == GameState.Paused && popUpMenuTriggerd)
