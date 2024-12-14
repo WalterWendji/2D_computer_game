@@ -36,6 +36,7 @@ public class Player
     public bool damageTaken;
     public int health {get; private set;}
     public int maxHealth {get; private set;}
+    public int Score { get; private set; }
     public bool isAlive => health > 0;
     private readonly float shootCd = 2f;
     private float startShootCd = 0f;
@@ -59,9 +60,7 @@ public class Player
     private float footStepsRunSpeed;
     SoundEffect footStepsRunSoundEffect, jumpSoundEffect, attackSoundEffect, landSoundEffect, deathSoundEffect, damageSoundEffect;
     SoundEffectInstance footStepsRunSoundEffectInstance, jumpSoundEffectInstance, attackSoundEffectInstance, landSoundEffectInstance, deathSoundEffectInstance, damageSoundEffectInstance;
-    public int Score { get; private set; }
-
-
+    
     //zugriff aus die aktuelle position für enemy
     public Vector2 Position
     {
@@ -193,10 +192,12 @@ public class Player
        // Health = Math.Min(health + amount, currentMaxHealth)
     }
 
-    public void IncreaseScore(int points)
+    /* public void IncreaseScore(int points)
      {
             Score += points;
-     }
+     } */
+
+   
 
     public void LoadContent(ContentManager content)
     {
@@ -400,4 +401,10 @@ public class Player
             deathAnimation.Draw(spriteBatch, position, flipEffect);
         }
     }
+    
+
+public void IncreaseScore(int amount)
+{
+    Score += amount;
+}
 }

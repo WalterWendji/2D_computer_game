@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -39,6 +40,7 @@ internal class GameOver : Component
     private int levelIconMarginLeft;
     private int scoreFontMarginRight;
     private int scoreFontMarginTop;
+    private int finalScore;
 
     Viewport viewport;
 
@@ -48,6 +50,7 @@ internal class GameOver : Component
     {
         viewport = Game1._graphics.GraphicsDevice.Viewport;
 
+        finalScore=0;
         isResetButtonClicked = false;
 
         homeButtonMarginLeft = 90;
@@ -84,6 +87,8 @@ internal class GameOver : Component
         gameOverRectangle = new Rectangle((int)gameOverPosition.X, (int)gameOverPosition.Y, gameOverTexture.Width, gameOverTexture.Height);
         levelIconRectangle = new Rectangle((int)levelIconPosition.X, (int)levelIconPosition.Y, levelIcon.Width, levelIcon.Height);
         repeatIconRectangle = new Rectangle((int)repeatIconPosition.X, (int)repeatIconPosition.Y, repeatIcon.Width, repeatIcon.Height);
+    
+    
     }
 
     internal override void Update(GameTime gameTime)
@@ -114,7 +119,13 @@ internal class GameOver : Component
         spriteBatch.Draw(levelIcon, levelIconRectangle, Color.White);
         spriteBatch.Draw(repeatIcon, repeatIconRectangle, Color.White);
 
-        //TODO: The score should be set to "TBD"
-        spriteBatch.DrawString(scoreFontInGameOver, "TBD", scorePositionInGameOver, Color.White);
+        //shows the Final Score.
+        spriteBatch.DrawString(scoreFontInGameOver, $" {finalScore}", scorePositionInGameOver, Color.White);
+        
+         
+    }
+    public void SetFinalScore(int score)
+    {
+        finalScore = score;
     }
 }

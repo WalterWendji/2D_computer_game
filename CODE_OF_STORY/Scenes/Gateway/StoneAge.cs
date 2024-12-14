@@ -22,7 +22,9 @@ internal class StoneAge : Component
     private List<Enemy> enemies;
     private List<Projectile> enemyProjectiles;
     private Gem gem;
-    private Life life;
+    //private Life life;
+    private int score = 0;
+    private SpriteFont scoreFont;
 
     private Matrix _translation;
     private KeyboardState currentKeyboardState;
@@ -39,7 +41,6 @@ internal class StoneAge : Component
     public static Vector2 enemyEndPosition4;
     public static Vector2 shopkeeperPosition;
     private Vector2 gemStartPosition;
-
     private PausePopupMenu pausePopupMenu;
 
     private GameOver gameOver;
@@ -68,6 +69,7 @@ internal class StoneAge : Component
         pausePopupMenu = new PausePopupMenu();
         gameOver = new GameOver();
 
+        
         popUpMenuTriggerd = false;
         popUpMenuFired = false;
         isGameOverRendered = false;
@@ -76,6 +78,7 @@ internal class StoneAge : Component
         enemyProjectiles = new List<Projectile>();
 
     }
+
 
 
     internal override void LoadContent(ContentManager Content)
@@ -87,6 +90,7 @@ internal class StoneAge : Component
         Texture2D gemTexture = Content.Load<Texture2D>("Items/Gems/plate32x8");
         Texture2D arrowTexture = Content.Load<Texture2D>("Player_Level1/Warrior_1/arrow");
         gem = new Gem(gemTexture, new Vector2(300, 600));
+        scoreFont=Content.Load<SpriteFont>("SpriteFonts/scoreFont");
 
         player = new Player(playerStartPosition, 100);
         player.LoadContent(Content);
@@ -137,6 +141,7 @@ internal class StoneAge : Component
 
 
     }
+    
 
     public void Reset()
     {
@@ -208,7 +213,7 @@ internal class StoneAge : Component
                     {
                         player.IncreaseScore(gem.PointValue);
                         Console.WriteLine("Gem collected!");
-
+                        score+=10;
                         gem.Collect();
                     }
                     foreach (var projectile in player.ActiveProjectiles.ToList())
@@ -235,6 +240,7 @@ internal class StoneAge : Component
             if (isPlayerNotAliveAndPopupMenuNotTriggerd())
             {
                 isGameOverRendered = true;
+                gameOver.SetFinalScore(score);
                 gameOver.Update(gameTime);
 
                 backgroundSoundScenario1Instance.Stop();
@@ -277,6 +283,7 @@ internal class StoneAge : Component
 
     internal override void Draw(SpriteBatch spriteBatch)
     {
+        spriteBatch.DrawString(scoreFont,$"Score: {score}",new Vector2(1500, 10),Color.White);
         if (currentGameState == GameState.Playing || !popUpMenuTriggerd)
         {
             if (player != null)
