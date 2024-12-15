@@ -59,8 +59,10 @@
             "scaleInEditor": 1
         }
     },
+    "last.exportedFilePath": "H:/Hochschule_Unterlagen/Semester_5/Software Engineering 2/Gamespiel_Projekt/New/Gruppe-2/CODE_OF_STORY/Castle_tileset_F",
     "last.imagePath": "H:/Hochschule_Unterlagen/Semester_5/Software Engineering 2/Gamespiel_Projekt/New/Gruppe-2/CODE_OF_STORY/Castle_Tileset_Temp/opp5_castle_tiles/opp5_castle_tiles/mockups",
     "map.height": 28,
+    "map.lastUsedExportFilter": "CSV files (*.csv)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 32,
     "map.tileWidth": 32,
@@ -70,16 +72,6 @@
     ],
     "project": "Level_MiddleAge_Castle.tiled-project",
     "recentFiles": [
-        "Castle_tileset_F/castle02.tsx",
-        "Castle_tileset_F/Sprite_Sheet_2_v4.tsx",
-        "Castle_tileset_F/castle-tileset.tsx",
-        "Castle_tileset_F/Sprite_Sheet_2_v1.tsx",
-        "Castle_tileset_F/Sprite_Sheet_1.tsx",
-        "Castle_tileset_F/Castle_tileset_v1_1.tsx",
-        "Castle_tileset_F/Castle_tileset_v_1.tsx",
-        "Castle_tileset_F/Sprite_Sheet_11.tsx",
-        "Castle_tileset_F/Castle_tileset_v1.tsx",
-        "Castle_tileset_F/Background (1).tsx"
     ],
     "resizeMap.removeObjects": true,
     "tileset.lastUsedFormat": "tsx",

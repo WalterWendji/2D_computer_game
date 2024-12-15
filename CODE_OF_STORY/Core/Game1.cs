@@ -29,15 +29,17 @@ public class Game1 : Game
     public static Rectangle backButtonRectColored;
     private Vector2 backButtonPosition;
 
-        SoundEffect menuSong;
+    SoundEffect menuSong;
     SoundEffectInstance menuSongInstance;
 
+    private MiddleAge middleAge;
 
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+        middleAge = new MiddleAge();
     }
 
     protected override void Initialize()
@@ -49,32 +51,32 @@ public class Game1 : Game
 
         gameStateManager = new GameStateManager();
         gatewaysManager = new GatewaysManager();
-        
+
         ControlSettingsManager.LoadControls();
-        
+
         base.Initialize();
     }
 
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-    
+
         gameStateManager.LoadContent(Content);
         gatewaysManager.LoadContent(Content);
 
         Viewport viewport = _graphics.GraphicsDevice.Viewport;
 
-        backButtonPosition = new Vector2(viewport.Width-(viewport.Width-10), viewport.Height-60);
-        
+        backButtonPosition = new Vector2(viewport.Width - (viewport.Width - 10), viewport.Height - 60);
+
         xPosition = (int)backButtonPosition.X;
         yPosition = (int)backButtonPosition.Y;
 
         backButton = Content.Load<Texture2D>("Buttons/Back_Square_Button");
         backButtonColored = Content.Load<Texture2D>("Buttons/ColoredButtons/Back_col_Square_Button");
 
-        backButtonRect = new Rectangle(xPosition, yPosition, backButton.Width/4, backButton.Height/4);
-        backButtonRectColored = new Rectangle(xPosition ,yPosition, backButtonColored.Width/4, backButtonColored.Height/4);
-        
+        backButtonRect = new Rectangle(xPosition, yPosition, backButton.Width / 4, backButton.Height / 4);
+        backButtonRectColored = new Rectangle(xPosition, yPosition, backButtonColored.Width / 4, backButtonColored.Height / 4);
+
         menuSong = Content.Load<SoundEffect>("Audio/Happy_Trails_higher");
         menuSongInstance = menuSong.CreateInstance();
     }
@@ -85,26 +87,31 @@ public class Game1 : Game
         oldMouseState = currentMouseState;
         currentMouseState = Mouse.GetState();
         currentMouseStateRectangle = new Rectangle(currentMouseState.X, currentMouseState.Y, 1, 1);
-        
+
         if (Data.Exit)
             Exit();
 
         gameStateManager.Update(gameTime);
 
-        if (Data.currentState == Data.Scenes.StoneAge || Data.currentState == Data.Scenes.MiddleAge || Data.currentState == Data.Scenes.ModernAge || Data.currentState == Data.Scenes.Future)
+        if (getTheCurrentStateOfGateway())
         {
             gatewaysManager.Update(gameTime);
             menuSongInstance.Stop();
         }
-        
+
         if (!Player.checkIsAlive && PausePopupMenu.isClicked || !Player.checkIsAlive && GameOver.isResetButtonClicked)
         {
             gatewaysManager.RestartCurrentLevel();
             PausePopupMenu.isClicked = false;
             GameOver.isResetButtonClicked = false;
         }
-            
+
         base.Update(gameTime);
+    }
+
+    private static bool getTheCurrentStateOfGateway()
+    {
+        return Data.currentState == Data.Scenes.StoneAge || Data.currentState == Data.Scenes.MiddleAge || Data.currentState == Data.Scenes.ModernAge || Data.currentState == Data.Scenes.Future;
     }
 
     protected override void Draw(GameTime gameTime)
@@ -113,7 +120,7 @@ public class Game1 : Game
 
         _spriteBatch.Begin();
         gameStateManager.Draw(_spriteBatch);
-        if (Data.currentState == Data.Scenes.StoneAge || Data.currentState == Data.Scenes.MiddleAge || Data.currentState == Data.Scenes.ModernAge || Data.currentState == Data.Scenes.Future)
+        if (getTheCurrentStateOfGateway())
             gatewaysManager.Draw(_spriteBatch);
         _spriteBatch.End();
 

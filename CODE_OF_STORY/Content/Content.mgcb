@@ -10,6 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:../pipeline-references/MonoGame.Extended.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -511,6 +512,90 @@
 /processorParam:TextureFormat=Color
 /build:Buttons/Start_Button.png
 
+#begin Castle_Tileset_Temp/blank-sky.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Castle_Tileset_Temp/blank-sky.jpg
+
+#begin Castle_Tileset_Temp/opp5_castle_tiles/opp5_castle_tiles/db32.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Castle_Tileset_Temp/opp5_castle_tiles/opp5_castle_tiles/db32.png
+
+#begin Castle_Tileset_Temp/opp5_castle_tiles/opp5_castle_tiles/environment/tiles/castle/tile_castle_grey.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Castle_Tileset_Temp/opp5_castle_tiles/opp5_castle_tiles/environment/tiles/castle/tile_castle_grey.png
+
+#begin Castle_Tileset_Temp/opp5_castle_tiles/opp5_castle_tiles/environment/tiles/castle/tile_castle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Castle_Tileset_Temp/opp5_castle_tiles/opp5_castle_tiles/environment/tiles/castle/tile_castle.png
+
+#begin Castle_Tileset_Temp/opp5_castle_tiles/opp5_castle_tiles/environment/tiles/guide_castle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Castle_Tileset_Temp/opp5_castle_tiles/opp5_castle_tiles/environment/tiles/guide_castle.png
+
+#begin Castle_Tileset_Temp/opp5_castle_tiles/opp5_castle_tiles/mockups/castle01.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Castle_Tileset_Temp/opp5_castle_tiles/opp5_castle_tiles/mockups/castle01.png
+
+#begin Castle_Tileset_Temp/opp5_castle_tiles/opp5_castle_tiles/mockups/castle02.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Castle_Tileset_Temp/opp5_castle_tiles/opp5_castle_tiles/mockups/castle02.png
+
 #begin GameUI/GameOver.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -678,6 +763,26 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Items/ShopItem/sword.png
+
+#begin Maps/blank-sky.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/blank-sky.tsx
+
+#begin Maps/Castle_map.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/Castle_map.tmx
+
+#begin Maps/tile_castle_grey_v1.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/tile_castle_grey_v1.tsx
+
+#begin Maps/tile_castle_grey.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/tile_castle_grey.tsx
 
 #begin NPCs/Shopkeeper/Approval.png
 /importer:TextureImporter
