@@ -32,14 +32,12 @@ public class Game1 : Game
     SoundEffect menuSong;
     SoundEffectInstance menuSongInstance;
 
-    private MiddleAge middleAge;
 
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
-        middleAge = new MiddleAge();
     }
 
     protected override void Initialize()
