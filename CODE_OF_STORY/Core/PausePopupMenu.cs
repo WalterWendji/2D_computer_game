@@ -119,37 +119,6 @@ internal class PausePopupMenu : Component
                 Data.currentState = Data.Scenes.Gateways;
         }
 
-        /* if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[0]))
-        {
-            Data.currentGameState = Data.GameState.Playing;
-            StoneAge.popUpMenuTriggerd = false;
-        }
-        else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[1]))
-        {
-            isClicked = true;
-            currentGameState = GameState.Playing;
-            Data.currentState = Data.Scenes.StoneAge;
-        }
-        else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[2]))
-        {
-            Data.currentState = Data.Scenes.Menu;
-            StoneAge.popUpMenuTriggerd = false;
-        }
-        else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[3]))
-        {
-            Data.currentState = Data.Scenes.Settings;
-            StoneAge.popUpMenuTriggerd = false;
-        }
-        else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(btnRects[4]))
-            Data.Exit = true;
-        else if (currentMouseState.LeftButton == ButtonState.Pressed && currentMouseStateRectangle.Intersects(homeButtonRect))
-        {
-            Data.currentState = Data.Scenes.Gateways;
-            StoneAge.popUpMenuTriggerd = false;
-        } */
-
-        //Stop the game: StoneAge.popUpMenuTriggerd = false; Don't delete pls!
-
     }
     internal override void Draw(SpriteBatch spriteBatch)
     {
