@@ -27,9 +27,12 @@ internal class GatewaysScene : Component
 
     Color bgColor;
     Color stageRectangleColor;
+    Viewport viewport;
 
     public GatewaysScene()
     {
+        viewport = Game1._graphics.GraphicsDevice.Viewport;
+        pixel = new Texture2D(Game1._graphics.GraphicsDevice, 1, 1);
         byte redValue = 1;
         byte greenValue = 17;
         byte blueValue = 25;
@@ -53,7 +56,6 @@ internal class GatewaysScene : Component
         gatewaysTexture = Content.Load<Texture2D>("Items/gateways");
 
 
-        Viewport viewport = Game1._graphics.GraphicsDevice.Viewport;
         int screenWidth = viewport.Width;
         int screenHeight = viewport.Height;
 
@@ -61,7 +63,6 @@ internal class GatewaysScene : Component
         int yPosition = screenHeight / 16;
         gatewaysRectangle = new Rectangle(xPosition, 0, gatewaysTexture.Width, (int)(gatewaysTexture.Height / 1.18));
 
-        pixel = new Texture2D(Game1._graphics.GraphicsDevice, 1, 1);
         pixel.SetData(new[] { Color.White });
 
         for (int i = 0; i < yPositionStageRectangle.Length; i++)

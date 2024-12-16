@@ -37,7 +37,7 @@ public class Game1 : Game
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
-        IsMouseVisible = true;
+        IsMouseVisible = true;  
     }
 
     protected override void Initialize()
@@ -106,7 +106,11 @@ public class Game1 : Game
 
         base.Update(gameTime);
     }
-
+    
+    public GameWindow GetGameWindow()
+    {
+        return Window;
+    }
     private static bool getTheCurrentStateOfGateway()
     {
         return Data.currentState == Data.Scenes.StoneAge || Data.currentState == Data.Scenes.MiddleAge || Data.currentState == Data.Scenes.ModernAge || Data.currentState == Data.Scenes.Future;

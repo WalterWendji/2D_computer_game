@@ -24,9 +24,12 @@ internal class ControlsScene : Component
     private MouseState currentMousState, oldMouseState;
     private Rectangle currentMousRect;
     private int selectedAction = -1;
+     Viewport viewport;
 
     public ControlsScene()
     {
+        viewport = Game1._graphics.GraphicsDevice.Viewport;
+
         ControlSettingsManager.LoadControls();
         currentKeys = new Keys [PlayerControls.Settings.ActionsCount()];
         Array.Copy(PlayerControls.Settings.ToKeysArray(), currentKeys, currentKeys.Length);
@@ -64,7 +67,6 @@ internal class ControlsScene : Component
         BgRectangle = new Rectangle(0, 0, menuBackground.Width * 6, menuBackground.Height * 3);
 
 
-        Viewport viewport = Game1._graphics.GraphicsDevice.Viewport;
         int screenWidth = viewport.Width;
         int screenHeight = viewport.Height;
 

@@ -40,11 +40,14 @@ internal class GameOver : Component
     private int scoreFontMarginRight;
     private int scoreFontMarginTop;
 
+    Viewport viewport;
 
     SpriteFont scoreFontInGameOver;
 
     public GameOver()
     {
+        viewport = Game1._graphics.GraphicsDevice.Viewport;
+
         isResetButtonClicked = false;
 
         homeButtonMarginLeft = 90;
@@ -60,7 +63,6 @@ internal class GameOver : Component
     }
     internal override void LoadContent(ContentManager Content)
     {
-        Viewport viewport = Game1._graphics.GraphicsDevice.Viewport;
 
         gameOverTexture = Content.Load<Texture2D>("GameUI/GameOver");
         gearIcon = Content.Load<Texture2D>("Buttons/Gear");

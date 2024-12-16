@@ -25,6 +25,8 @@ internal class SettingsScene : Component
     private double timer;
     private const double Delay = 0.3;
 
+    Viewport viewport;
+
     public SettingsScene()
     {
         btns = new Texture2D[buttonNames.Length];
@@ -32,6 +34,7 @@ internal class SettingsScene : Component
         btnRects = new Rectangle[buttonNames.Length];
         BgRectangle = new Rectangle();
         timer = 0;
+        viewport = Game1._graphics.GraphicsDevice.Viewport;
     } 
     
     private void HandleButtonClick(int buttonIndex)
@@ -57,7 +60,6 @@ internal class SettingsScene : Component
         menuBackground = Content.Load<Texture2D>("Items/bg_desertM");
         BgRectangle = new Rectangle(0, 0, menuBackground.Width * 6, menuBackground.Height * 3);
 
-        Viewport viewport = Game1._graphics.GraphicsDevice.Viewport;
         int screenWidth = viewport.Width;
         int screenHeight = viewport.Height;
 

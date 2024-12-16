@@ -29,9 +29,12 @@ internal class MenuScene : Component
     private int yPosition;
     private double timer;
     private double delay;
+    Viewport viewport;
 
     public MenuScene()
     {
+        viewport = Game1._graphics.GraphicsDevice.Viewport;
+        
         btns = new Texture2D[buttonNames.Length];
         btnsColored = new Texture2D[buttonNamesColored.Length];
         btnRects = new Rectangle[buttonNames.Length];
@@ -45,7 +48,6 @@ internal class MenuScene : Component
         menuBackground = Content.Load<Texture2D>("Items/bg_desertM");
         BgRectangle = new Rectangle(0, 0, menuBackground.Width * 6, menuBackground.Height * 3);
 
-        Viewport viewport = Game1._graphics.GraphicsDevice.Viewport;
         int screenWidth = viewport.Width;
         int screenHeight = viewport.Height;
 

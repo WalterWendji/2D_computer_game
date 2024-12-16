@@ -25,6 +25,7 @@ internal class StoneAge : Component
     private Gem gem;
     private Life life;
 
+    private Matrix _translation;
     private KeyboardState currentKeyboardState;
     private KeyboardState prevKeyboardState;
 
@@ -154,6 +155,7 @@ internal class StoneAge : Component
     }
     internal override void Update(GameTime gameTime)
     {
+        CalculateTranslation();
         /*KeyboardState keyboardState = Keyboard.GetState();
         KeyboardState prevKeyboardState = Keyboard.GetState();
         */
@@ -244,6 +246,14 @@ internal class StoneAge : Component
             pausePopupMenu.Update(gameTime);
 
 
+    }
+
+    public void CalculateTranslation()
+    {
+        var dx = (Game1._graphics.PreferredBackBufferWidth/2) - player.Position.X;
+        
+        var dy = (Game1._graphics.PreferredBackBufferHeight/2) - player.Position.Y;
+        _translation = Matrix.CreateTranslation(dx, dy, 0f);
     }
 
     private bool isPlayerNotAliveAndPopupMenuNotTriggerd()

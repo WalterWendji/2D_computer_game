@@ -1,38 +1,73 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
+//using System.Collections.Generic;
+//using System.IO;
 using CODE_OF_STORY.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+//using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
+//using MonoGame.Extended.ViewportAdapters;
+
+
 namespace CODE_OF_STORY.Scenes.Gateway;
 
 internal class MiddleAge : Component
 {
-    
+
     TiledMap _tilemap;
     TiledMapRenderer _tileMapRenderer;
-   
+
+    GraphicsDevice graphicsDevice;
+    private float xPosition;
+    private float yPosition;
+    private Vector2 transformedPlayerPosition;
+    private Vector2 transformedMapPosition;
+
+    private Matrix _translation;
+
     public MiddleAge()
     {
-       
+
+        graphicsDevice = Game1._graphics.GraphicsDevice;
+        xPosition = Game1._graphics.PreferredBackBufferWidth;
+        yPosition = Game1._graphics.PreferredBackBufferHeight;
+
     }
+
     internal override void LoadContent(ContentManager Content)
     {
         _tilemap = Content.Load<TiledMap>("Maps/Castle_map");
-        _tileMapRenderer = new TiledMapRenderer(Game1._graphics.GraphicsDevice, _tilemap);
-      
+        _tileMapRenderer = new TiledMapRenderer(graphicsDevice, _tilemap);
+
     }
 
 
     internal override void Update(GameTime gameTime)
     {
         _tileMapRenderer.Update(gameTime);
+        /* CalculateTranslation();
+
+        transformedPlayerPosition = Vector2.Transform(player.Position, _translation);
+        transformedMapPosition = Vector2.Transform(Vector2.Zero, _translation); */
+
     }
+
+   /*  public void CalculateTranslation()
+    {
+        var dx = (xPosition / 2) - player.Position.X;
+        dx = MathHelper.Clamp(dx, _tilemap.Width + xPosition / 2, _tilemap.Width / 2);
+        var dy = (yPosition / 2) - player.Position.Y;
+        dy = MathHelper.Clamp(dy, -_tilemap.Width + yPosition, _tilemap.Height / 2);
+        _translation = Matrix.CreateTranslation(dx, dy, 0f);
+    } */
+
     internal override void Draw(SpriteBatch spriteBatch)
     {
-        _tileMapRenderer.Draw();
+
+        _tileMapRenderer.Draw(/* _translation */);
+        //player.Draw(spriteBatch, transformedPlayerPosition);
     }
 }

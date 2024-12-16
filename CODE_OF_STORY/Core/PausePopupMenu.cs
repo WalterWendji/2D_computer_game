@@ -37,6 +37,8 @@ internal class PausePopupMenu : Component
     private MouseState currentMouseState, oldMouseState;
     private Rectangle currentMouseStateRectangle;
 
+    Viewport viewport;
+
 
     public PausePopupMenu()
     {
@@ -45,11 +47,11 @@ internal class PausePopupMenu : Component
         btnRects = new Rectangle[buttonNames.Length];
         isClicked = false;
         isMouseStateRelease = false;
+        viewport = Game1._graphics.GraphicsDevice.Viewport;
     }
 
     internal override void LoadContent(ContentManager Content)
     {
-        Viewport viewport = Game1._graphics.GraphicsDevice.Viewport;
 
         int screenWidth = viewport.Width;
         int screenHeight = viewport.Height;
