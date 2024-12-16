@@ -80,16 +80,36 @@
             "dynamicWrapping": true,
             "scaleInDock": 1.5,
             "scaleInEditor": 1
+        },
+        "Content/Maps/Castle_map.tmx": {
+            "scale": 2,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 787,
+                "y": 467.25
+            }
+        },
+        "Content/Maps/rule1.tmx": {
+            "scale": 1,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 289.5,
+                "y": 266
+            }
+        },
+        "Content/Maps/tile_castle_grey_v1.tsx": {
+            "scaleInEditor": 1
         }
     },
+    "frame.defaultDuration": 200,
     "last.exportedFilePath": "H:/Hochschule_Unterlagen/Semester_5/Software Engineering 2/Gamespiel_Projekt/New/Gruppe-2/CODE_OF_STORY/Castle_tileset_F",
     "last.imagePath": "H:/Hochschule_Unterlagen/Semester_5/Software Engineering 2/Gamespiel_Projekt/New/Gruppe-2/CODE_OF_STORY/Castle_Tileset_Temp/opp5_castle_tiles/opp5_castle_tiles/mockups",
-    "map.height": 28,
+    "map.height": 4,
     "map.lastUsedExportFilter": "CSV files (*.csv)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 32,
     "map.tileWidth": 32,
-    "map.width": 50,
+    "map.width": 4,
     "openFiles": [
         "Castle_tileset_F/Castle_map.tmx",
         "Castle_tileset_F/tile_castle_grey.tsx",
@@ -98,6 +118,7 @@
     ],
     "project": "Level_MiddleAge_Castle.tiled-project",
     "recentFiles": [
+        "Content/Maps/tile_castle_grey_v1.tsx",
         "Castle_tileset_F/blank-sky.tsx",
         "Castle_tileset_F/tile_castle_grey_v1.tsx",
         "Castle_tileset_F/tile_castle_grey.tsx",

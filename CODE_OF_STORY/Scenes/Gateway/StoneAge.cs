@@ -12,7 +12,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using static CODE_OF_STORY.Core.Data;
-
 namespace CODE_OF_STORY.Scenes.Gateway;
 
 internal class StoneAge : Component

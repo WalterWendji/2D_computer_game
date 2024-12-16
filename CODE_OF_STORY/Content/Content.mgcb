@@ -14,6 +14,18 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Audio/10-Fight.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/10-Fight.mp3
+
+#begin Audio/11-Fight2.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/11-Fight2.mp3
+
 #begin Audio/25-Raid_FolkMetal2.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
@@ -25,18 +37,6 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/25-Raid_FolkMetal2W.wav
-
-#begin Audio/Happy_Trails_higher.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Happy_Trails_higher.wav
-
-#begin Audio/Happy_Trails_higherMP3.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Audio/Happy_Trails_higherMP3.mp3
 
 #begin Audio/Sound_animation/damage_1_sean.wav
 /importer:WavImporter
