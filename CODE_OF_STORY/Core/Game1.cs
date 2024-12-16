@@ -19,6 +19,7 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
     private GameStateManager gameStateManager;
     private GatewaysManager gatewaysManager;
+    private Camera _camera;
     public static MouseState currentMouseState, oldMouseState;
     public static Rectangle currentMouseStateRectangle;
     public static int xPosition;
@@ -32,6 +33,10 @@ public class Game1 : Game
     SoundEffect menuSong;
     SoundEffectInstance menuSongInstance;
 
+    private Rectangle _worldBounds = new Rectangle(0, 0, 3200, 896);
+    private Rectangle _viewportBounds;
+    GameTime gameTime1;
+
 
     public Game1()
     {
@@ -42,10 +47,13 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
+        gameTime1 = new GameTime();
         _graphics.PreferredBackBufferWidth = Data.screenW;
         _graphics.PreferredBackBufferHeight = Data.screenH;
-
         _graphics.ApplyChanges();
+
+        _viewportBounds = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+        _camera = new Camera(_worldBounds, _viewportBounds);
 
         gameStateManager = new GameStateManager();
         gatewaysManager = new GatewaysManager();
@@ -81,6 +89,24 @@ public class Game1 : Game
 
     protected override void Update(GameTime gameTime)
     {
+        switch(Data.currentState)
+        {
+            case Data.Scenes.StoneAge:
+                HandleStoneAgeInput();
+                break;
+            case Data.Scenes.MiddleAge:
+                HandleMiddleAgeInput();
+                _camera.Update(gameTime);
+                break;
+            case Data.Scenes.ModernAge:
+                HandleModernAgeInput();
+                break;
+            case Data.Scenes.Future:
+                HandleFutureInput();
+                break;
+        }       
+
+
         menuSongInstance.Play();
         oldMouseState = currentMouseState;
         currentMouseState = Mouse.GetState();
@@ -107,6 +133,53 @@ public class Game1 : Game
         base.Update(gameTime);
     }
     
+    private void HandleMenuInput()
+    {
+        // Example: Start Level 2 when a key is pressed
+        if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+        {
+            //_currentGameState = GameState.Level2;
+        }
+    }
+
+    private void HandleStoneAgeInput()
+    {
+        // Level 1 specific input handling
+    }
+
+    private void HandleMiddleAgeInput()
+    {
+        // Example: Move the camera with arrow keys in Level 2
+        var keyboardState = Keyboard.GetState();
+        float moveSpeed = (float)gameTime1.ElapsedGameTime.TotalSeconds * 200;
+        if (keyboardState.IsKeyDown(Keys.Right))
+        {
+            _camera.Move(new Vector2(moveSpeed, 0));
+        }
+        if (keyboardState.IsKeyDown(Keys.Left))
+        {
+            _camera.Move(new Vector2(-moveSpeed, 0));
+        }
+        if (keyboardState.IsKeyDown(Keys.Up))
+        {
+           _camera.Move(new Vector2(0, -moveSpeed));
+        }
+        if (keyboardState.IsKeyDown(Keys.Down))
+        {
+            _camera.Move(new Vector2(0, moveSpeed));
+        }
+    }
+
+    private void HandleModernAgeInput()
+    {
+        // Level 3 specific input handling
+    }
+
+    private void HandleFutureInput()
+    {
+        // Level 4 specific input handling
+    }
+
     public GameWindow GetGameWindow()
     {
         return Window;
@@ -120,7 +193,7 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        _spriteBatch.Begin();
+        _spriteBatch.Begin(/* transformMatrix:_camera.Transform */);
         gameStateManager.Draw(_spriteBatch);
         if (getTheCurrentStateOfGateway())
             gatewaysManager.Draw(_spriteBatch);
