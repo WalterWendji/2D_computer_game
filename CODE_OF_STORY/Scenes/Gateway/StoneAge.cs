@@ -156,6 +156,9 @@ internal class StoneAge : Component
 
         enemy.ResetEnemy();
 
+        
+        gameOver.ResetScore();
+        score = 0;
     }
     internal override void Update(GameTime gameTime)
     {

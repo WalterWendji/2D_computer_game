@@ -64,6 +64,11 @@ internal class GameOver : Component
         scoreFontMarginRight = 40;
         scoreFontMarginTop = 28;
     }
+
+    public void ResetScore()
+    {
+        SetFinalScore(0);
+    }
     internal override void LoadContent(ContentManager Content)
     {
 
